@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Dystrybux.View.RegisterPage">
+
+    <StackLayout>
+
+        <Frame BackgroundColor="#BF043055" HasShadow="False">
+            <StackLayout RadioButtonGroup.GroupName="Role"
+                         RadioButtonGroup.SelectedValue="{Binding SelectedRole}"
+                         Orientation="Horizontal">
+                <RadioButton Content="Klient" Value="Client" TextColor="White" HorizontalOptions="FillAndExpand" IsChecked="True"/>
+                <RadioButton Content="Firma" Value="Business" TextColor="White" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+        </Frame>
+
+        <Entry Text="{Binding Email}" Placeholder="E-mail" />
+        <Entry Text="{Binding Login}" Placeholder="Login" />
+        <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Hasło" />
+        <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Powtórz hasło" />
+        <Entry Text="{Binding Name}" Placeholder="Imię" />
+        <Entry Text="{Binding Surname}" Placeholder="Nazwisko" />
+        <!--<Label Text="{Binding Result}" TextColor="Red" />-->
+        <Button Text="Załóż konto" Command="{Binding CreateAccount}" />
+    </StackLayout>
+
+</ContentPage>

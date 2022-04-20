@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Dystrybux.View.ProductDetailPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="Szczegóły produktu" FontSize="20" TextColor="White" FontAttributes="Bold" />
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <StackLayout>
+        <!-- ikony zamiast napisow -->
+        <StackLayout>
+            <Label Text="usun" />
+            <Label Text="edytuj" />
+        </StackLayout>
+        
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Nazwa wyrobu:" FontSize="Medium" />
+            <Label Text="{Binding Name}" FontSize="Small"/>
+        
+            <Label Text="Opis:" FontSize="Medium" />
+            <Label Text="{Binding Description}" FontSize="Small"/>
+        
+            <Label Text="Cena:" FontSize="Medium" />
+            <Label Text="{Binding Cost}" FontSize="Small"/>
+
+            <Label Text="Ilość sztuk:" FontSize="Medium" />
+            <Label Text="{Binding Count}" FontSize="Small"/>
+        </StackLayout>
+    </StackLayout>
+    
+    
+
+</ContentPage>

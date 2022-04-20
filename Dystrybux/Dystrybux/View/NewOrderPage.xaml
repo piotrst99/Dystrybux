@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:Dystrybux.ViewModel" 
+             xmlns:model="clr-namespace:Dystrybux.Model"
+             x:Class="Dystrybux.View.NewOrderPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="Nowe zamówienie" FontSize="20" TextColor="White" FontAttributes="Bold" />
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Przeglądaj" Command="{Binding SearchProductCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Anuluj" Command="{Binding CancelCommand}" 
+                        BackgroundColor="Red" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Złóż" Command="{Binding SaveCommand}" 
+                        BackgroundColor="Green" HorizontalOptions="FillAndExpand"></Button>
+        </StackLayout>
+
+        <!-- WSTEPNIE -->
+        <StackLayout>
+            <Label Text="Data zlozenia" />
+            <Label Text="Data reaizacji" />
+            <Label Text="Całkowity koszt" />
+            <Label Text="Status" />
+
+            <Label Text="przewidywana data dostawy" />
+            <DatePicker />
+
+        </StackLayout>
+        
+        <ScrollView>
+            <RefreshView
+            x:DataType="local:NewOrderViewModel"
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding LoadItemsCommand}"
+            >
+                <CollectionView x:Name="ItemsListView"
+                        ItemsSource="{Binding AddedProducts}"
+                        SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10" x:DataType="model:Product">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView />
+                                    <Image Source="kremowka.jpg" 
+                                       Grid.Column="0"/>
+                                    <Frame Grid.Column="1" HasShadow="True">
+                                        <StackLayout>
+                                            <Label  Text="{Binding Name}" 
+                                                LineBreakMode="NoWrap" 
+                                                Style="{DynamicResource ListItemTextStyle}" 
+                                                FontSize="16" />
+                                            <Label Text="{Binding Description}" 
+                                                LineBreakMode="NoWrap"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="13" />
+                                            <Label Text="{Binding Cost}" 
+                                                LineBreakMode="NoWrap"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="13" />
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </ScrollView>
+
+    </StackLayout>
+    
+</ContentPage>
