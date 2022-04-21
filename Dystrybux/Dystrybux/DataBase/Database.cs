@@ -77,6 +77,14 @@ namespace Dystrybux.DataBase {
             return _database.InsertAsync(product);
         }
 
+        public Task<int> UpdateProductAsync(Product product) {
+            return _database.UpdateAsync(product);
+        }
+
+        public Task<int> DeleteProductAsync(Product product) {
+            return _database.DeleteAsync(product);
+        }
+
         #endregion
 
         //////

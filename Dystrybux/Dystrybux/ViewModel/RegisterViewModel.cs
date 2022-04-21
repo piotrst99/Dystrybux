@@ -39,9 +39,10 @@ namespace Dystrybux.ViewModel {
                             Role = _selectedRole
                         });
 
-                        /*Device.BeginInvokeOnMainThread(async () => {
-                            await App.Current.MainPage.DisplayAlert("Result", App.Database.GetCountOfUserAsync().ToString(), "OK");
-                        });*/
+                        Device.BeginInvokeOnMainThread(async () => {
+                            await App.Current.MainPage.DisplayAlert("Result", "Konto zostało założone", "OK");
+                            await App.Navigation.PopToRootAsync();
+                        });
                     }
                     else {
                         Device.BeginInvokeOnMainThread(async () => {

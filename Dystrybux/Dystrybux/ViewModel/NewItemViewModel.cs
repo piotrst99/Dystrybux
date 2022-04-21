@@ -88,3 +88,7 @@ namespace Dystrybux.ViewModel {
         public Command CancelCommand { protected set; get; }
     }
 }
+
+
+// https://docs.microsoft.com/pl-pl/xamarin/essentials/media-picker?tabs=android
+

@@ -20,20 +20,38 @@
             <Label Text="usun" />
             <Label Text="edytuj" />
         </StackLayout>
-        
-        <StackLayout Spacing="20" Padding="15">
+
+        <StackLayout Spacing="20" Padding="15" IsVisible="{Binding IsWatching}">
             <Label Text="Nazwa wyrobu:" FontSize="Medium" />
             <Label Text="{Binding Name}" FontSize="Small"/>
-        
+
             <Label Text="Opis:" FontSize="Medium" />
             <Label Text="{Binding Description}" FontSize="Small"/>
-        
+
             <Label Text="Cena:" FontSize="Medium" />
             <Label Text="{Binding Cost}" FontSize="Small"/>
 
             <Label Text="Ilość sztuk:" FontSize="Medium" />
             <Label Text="{Binding Count}" FontSize="Small"/>
         </StackLayout>
+
+        <StackLayout Spacing="20" Padding="15" IsVisible="{Binding IsEdit}">
+            <Label Text="Nazwa wyrobu:" FontSize="Medium" />
+            <Entry Text="{Binding Name}" FontSize="Medium"/>
+
+            <Label Text="Opis:" FontSize="Medium" />
+            <Entry Text="{Binding Description}" FontSize="Medium"/>
+
+            <Label Text="Cena:" FontSize="Medium" />
+            <Entry Text="{Binding Cost}" FontSize="Medium"/>
+
+            <Label Text="Ilość sztuk:" FontSize="Medium" />
+            <Entry Text="{Binding Count}" FontSize="Medium"/>
+
+            <Button Text="Zapisz" Command="{Binding SaveDataCommand}" />
+
+        </StackLayout>
+        
     </StackLayout>
     
     

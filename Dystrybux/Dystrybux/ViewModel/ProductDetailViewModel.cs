@@ -11,11 +11,37 @@ namespace Dystrybux.ViewModel {
         int _cost = 0;
         int _count = 0;
 
+        bool _isWatching = true;
+        bool _isEdit = false;
+
         public ProductDetailViewModel(Product product) {
 
-            DeleteItemCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Usuń produkt", "OK"));
-            EditItemCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Edytuj dane produktu", "OK"));
-            
+            DeleteItemCommand = new Command(async () => {
+                bool choice = await App.Current.MainPage.DisplayAlert("Uwaga", "Czy usunąć produkt?", "Tak", "Nie");
+                if (choice) {
+                    await App.Database.DeleteProductAsync(product);
+                    await App.Navigation.PopAsync();
+                }
+            });
+            //EditItemCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Edytuj dane produktu", "OK"));
+            EditItemCommand = new Command(() => {
+                IsEdit = true;
+                IsWatching = false;
+            });
+
+            SaveDataCommand = new Command(async () => {
+                IsEdit = false;
+                IsWatching = true;
+
+                product.Name = Name;
+                product.Description = Description;
+                product.Cost = Cost;
+                product.Count = Count;
+
+                await App.Database.UpdateProductAsync(product);
+
+            });
+
             Name = product.Name;
             Description = product.Description;
             Cost = product.Cost;
@@ -54,8 +80,26 @@ namespace Dystrybux.ViewModel {
             }
         }
 
+        public bool IsWatching {
+            get => _isWatching;
+            set {
+                _isWatching = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsEdit {
+            get => _isEdit;
+            set {
+                _isEdit = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public Command DeleteItemCommand { protected set; get; }
         public Command EditItemCommand { protected set; get; }
+        public Command SaveDataCommand { protected set; get; }
 
     }
 }
