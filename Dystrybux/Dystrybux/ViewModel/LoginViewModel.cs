@@ -30,6 +30,7 @@ namespace Dystrybux.ViewModel {
 
                 if (user !=null) {
                     LoginResult = "";
+                    App.User = user;
                     await App.Navigation.PushAsync(new MainMenu(user));
                 }
                 else {

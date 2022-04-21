@@ -15,5 +15,6 @@ namespace Dystrybux.View {
             InitializeComponent();
             this.BindingContext = new ProductDetailViewModel(product);
         }
+
     }
 }

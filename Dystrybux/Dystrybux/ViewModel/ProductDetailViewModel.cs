@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace Dystrybux.ViewModel {
     public class ProductDetailViewModel: BaseViewModel {
@@ -11,6 +12,10 @@ namespace Dystrybux.ViewModel {
         int _count = 0;
 
         public ProductDetailViewModel(Product product) {
+
+            DeleteItemCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Usuń produkt", "OK"));
+            EditItemCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Edytuj dane produktu", "OK"));
+            
             Name = product.Name;
             Description = product.Description;
             Cost = product.Cost;
@@ -48,6 +53,9 @@ namespace Dystrybux.ViewModel {
                 OnPropertyChanged();
             }
         }
+
+        public Command DeleteItemCommand { protected set; get; }
+        public Command EditItemCommand { protected set; get; }
 
     }
 }

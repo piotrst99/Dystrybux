@@ -17,9 +17,9 @@
 
     <StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Button Text="Anuluj" Command="{Binding CancelCommand}" 
+            <Button Text="Anuluj" Command="{Binding CancelOrderCommand}" 
                         BackgroundColor="Red" HorizontalOptions="FillAndExpand"></Button>
-            <Button Text="Złóż" Command="{Binding SaveCommand}" 
+            <Button Text="Złóż" Command="{Binding SubmitOrderCommand}" 
                         BackgroundColor="Green" HorizontalOptions="FillAndExpand"></Button>
         </StackLayout>
 

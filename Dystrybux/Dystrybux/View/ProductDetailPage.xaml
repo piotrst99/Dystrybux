@@ -9,6 +9,11 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Usun" Command="{Binding DeleteItemCommand}" />
+        <ToolbarItem Text="Edytuj" Command="{Binding EditItemCommand}" />
+    </ContentPage.ToolbarItems>
+    
     <StackLayout>
         <!-- ikony zamiast napisow -->
         <StackLayout>

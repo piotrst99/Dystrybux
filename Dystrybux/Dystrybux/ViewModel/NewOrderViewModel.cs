@@ -20,6 +20,8 @@ namespace Dystrybux.ViewModel {
             
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            CancelOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
+            SubmitOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Wyślij zamówienie", "OK"));
 
             var date = DateTime.Now;
 
@@ -30,12 +32,11 @@ namespace Dystrybux.ViewModel {
             _order = new Order {
                 Name = orderName + '_' + date.Year + "/" + date.Month + "/" + date.Day,
                 OrderedDate = null,
-                Products = new List<Product>() { }
+                Products = new List<Product>() { },
+                Status = "Nie złożono"
             };
 
             App.Database.SaveOrderAsync(_order);
-            
-
         }
 
         public NewOrderViewModel(Order order) {
@@ -43,11 +44,10 @@ namespace Dystrybux.ViewModel {
 
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            CancelOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
+            SubmitOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Wyślij zamówienie", "OK"));
 
             _order = order;
-
-            //App.Database.SaveOrderAsync(_order);
-
         }
 
         async Task ExecuteLoadItemsCommand() {
@@ -55,8 +55,6 @@ namespace Dystrybux.ViewModel {
             try {
                 AddedProducts.Clear();
                 
-                
-
                 //AddedProducts = products;
 
                 //var order = await OrderStore.GetItemAsync(3);
@@ -102,5 +100,7 @@ namespace Dystrybux.ViewModel {
 
         public Command SearchProductCommand { protected set; get; }
         public Command LoadItemsCommand { protected set; get; }
+        public Command CancelOrderCommand { protected set; get; }
+        public Command SubmitOrderCommand { protected set; get; }
     }
 }

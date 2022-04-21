@@ -1,4 +1,5 @@
 ﻿using Dystrybux.DataBase;
+using Dystrybux.Model;
 using Dystrybux.Service;
 using Dystrybux.View;
 using System;
@@ -12,6 +13,7 @@ namespace Dystrybux {
         public static INavigation Navigation = null;
 
         static Database database;
+        static User user;
 
         public static Database Database {
             get {
@@ -21,6 +23,11 @@ namespace Dystrybux {
                 }
                 return database;
             }
+        }
+
+        public static User User {
+            get => user;
+            set => user = value;
         }
 
         public App() {
