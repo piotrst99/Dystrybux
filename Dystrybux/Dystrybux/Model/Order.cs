@@ -14,6 +14,12 @@ namespace Dystrybux.Model {
         [Column("OrderedDate")]
         public string OrderedDate { get; set; }
 
+        [Column("FirstDate")]
+        public string FirstDate { get; set; }
+        
+        [Column("SecondDate")]
+        public string SecondDate { get; set; }
+
         [Column("CompleteDate")]
         public string CompleteDate { get; set; }
 

@@ -106,6 +106,10 @@ namespace Dystrybux.DataBase {
             return _database.InsertAsync(order);
         }
 
+        public Task<int> UpdateOrderAsync(Order order) {
+            return _database.UpdateAsync(order);
+        }
+
         #endregion
 
         //////

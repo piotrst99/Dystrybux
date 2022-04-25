@@ -19,6 +19,8 @@
         <StackLayout Orientation="Horizontal">
             <Button Text="Anuluj" Command="{Binding CancelOrderCommand}" 
                         BackgroundColor="Red" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Zapisz" Command="{Binding SaveOrderCommand}" 
+                        BackgroundColor="LightGreen" HorizontalOptions="FillAndExpand"></Button>
             <Button Text="Złóż" Command="{Binding SubmitOrderCommand}" 
                         BackgroundColor="Green" HorizontalOptions="FillAndExpand"></Button>
         </StackLayout>
@@ -31,7 +33,15 @@
             <Label Text="Status" />
 
             <Label Text="przewidywana data dostawy" />
-            <DatePicker />
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Najwcześniejsza data" HorizontalOptions="FillAndExpand" />
+                <DatePicker HorizontalOptions="FillAndExpand" Date="{Binding FirstDate}" Format="dd/MM/yyyy" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Najpóźniejsza data" HorizontalOptions="FillAndExpand" />
+                <DatePicker HorizontalOptions="FillAndExpand" Date="{Binding SecondDate}" Format="dd/MM/yyyy" />
+            </StackLayout>
 
         </StackLayout>
         

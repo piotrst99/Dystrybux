@@ -23,68 +23,42 @@ namespace Dystrybux.ViewModel
 
         public TestViewModel(){
             Products = new ObservableCollection<Product>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(null));
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ProductTapped = new Command<Product>(OnProductSelected);
-            SearchProductsCommand = new Command(async () => await ExecuteLoadItemsCommand(SearchProducts));
+            SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
         }
 
         public TestViewModel(bool isSearch, Order order) {
             Products = new ObservableCollection<Product>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(null));
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ProductTapped = new Command<Product>(OnProductSelected);
-            SearchProductsCommand = new Command(async () => await ExecuteLoadItemsCommand(SearchProducts));
+            SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
             _IsSearching = isSearch;
             _selectedOrder = order;
         }
 
-        async Task ExecuteLoadItemsCommand(string productName){
+        async Task ExecuteLoadItemsCommand(){
             IsRefreshing = true;
             try{
                 Products.Clear();
-                //var products = await ProductStore.GetItemsAsync(true);
                 var products = new List<Product>();
-                /*Device.BeginInvokeOnMainThread(async () => {
-                    await App.Current.MainPage.DisplayAlert("Result",  productName , "OK");
-                });*/
-                if (!string.IsNullOrEmpty(productName) && !string.IsNullOrWhiteSpace(productName)) {
-                    products = await App.Database.GetProductsAsync(productName);
-                }
-                else {
-                    products = await App.Database.GetProductsAsync();
-                }
-                foreach (var p in products){
-                    Products.Add(p);
-                }
+                products = await App.Database.GetProductsAsync();
+                foreach (var p in products){ Products.Add(p); }
             }
-            catch (Exception){
-                throw;
-            }
+            catch (Exception){ throw; }
             IsRefreshing = false;
-        }
-
-        async Task OnSearchedProductName(object sender, EventArgs e) {
-
         }
 
         async Task ExecuteLoadSearchedItems(string productName) {
-            IsRefreshing = true;
             try {
                 Products.Clear();
-                //var products = await ProductStore.GetItemsAsync(true);
                 var products = await App.Database.GetProductsAsync(productName);
-                foreach (var p in products) {
-                    Products.Add(p);
-                }
+                foreach (var p in products) { Products.Add(p); }
             }
-            catch (Exception) {
-
-                throw;
-            }
-            IsRefreshing = false;
+            catch (Exception) { throw; }
         }
 
-        public void OnAppearing()
-        {
+        public void OnAppearing(){
             IsRefreshing = true;
         }
 
