@@ -11,7 +11,7 @@ namespace Dystrybux.ViewModel {
         string _description = "";
         int _cost = 0;
         int _count = 0;
-        Image _image;
+        ImageSource _image;
 
         public NewItemViewModel() {
             SaveCommand = new Command(OnSave, ValidateSave);
@@ -52,16 +52,31 @@ namespace Dystrybux.ViewModel {
         }
 
         private async void TakePhoto() {
-            /*var result = await MediaPicker.CapturePhotoAsync();
+            var result = await MediaPicker.CapturePhotoAsync();
             if (result != null) {
                 var stream = await result.OpenReadAsync();
-                Image.Source = ImageSource.FromStream(() => stream);
-            }*/
+                //ImageCamera.Source = ImageSource.FromStream(() => stream);
+                ImageCamera = ImageSource.FromStream(() => stream);
+            }
 
-            var photo = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions() { });
+            /*var photo = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions() { });
 
             if (photo != null)
-                ImageCamera.Source = ImageSource.FromStream(() => { return photo.GetStream(); });
+                ImageCamera.Source = ImageSource.FromStream(() => { return photo.GetStream(); });*/
+
+            /*var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions {
+                Title = "Wybierz zdjęcie"
+            });
+
+            if(result != null) {
+                var stream = await result.OpenReadAsync();
+                ImageCamera = ImageSource.FromStream(() => stream);
+            }*/
+
+            /*var photo = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions() { });
+            if (photo != null) {
+                ImageCamera = ImageSource.FromStream(() => photo.GetStream());
+            }*/
 
         }
 
@@ -97,10 +112,10 @@ namespace Dystrybux.ViewModel {
             }
         }
 
-        public Image ImageCamera {
+        public ImageSource ImageCamera {
             get => _image;
             set {
-                _image = value;
+                if(_image == null) _image = value;
                 OnPropertyChanged();
             }
         }
