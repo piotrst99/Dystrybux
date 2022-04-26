@@ -33,6 +33,8 @@ namespace Dystrybux.ViewModel {
             _order = new Order {
                 Name = orderName + '_' + date.Year + "/" + date.Month + "/" + date.Day,
                 OrderedDate = null,
+                FirstDate = null,
+                SecondDate = null,
                 Products = new List<Product>() { },
                 Status = "Nie złożono"
             };
@@ -51,8 +53,15 @@ namespace Dystrybux.ViewModel {
 
             _order = order;
 
-            FirstDate = DateTime.Parse(order.FirstDate);
-            SecondDate = DateTime.Parse(order.SecondDate);
+            if(order.FirstDate == null || SecondDate == null) {
+                FirstDate = DateTime.Now;
+                SecondDate = DateTime.Now;
+            }
+            else {
+                FirstDate = DateTime.Parse(order.FirstDate);
+                SecondDate = DateTime.Parse(order.SecondDate);
+            }
+
 
             //FirstDate = DateTime.ParseExact(order.FirstDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             //SecondDate = DateTime.ParseExact(order.SecondDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);

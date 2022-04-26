@@ -19,6 +19,8 @@
             <Editor Text="{Binding Cost}" Keyboard="Numeric" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
             <Label Text="Ilość sztuk" FontSize="Medium" />
             <Editor Text="{Binding Count}" Keyboard="Numeric" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
+            <Button Text="Zrób zdjęcie" Command="{Binding TakePhotoCommand}" HorizontalOptions="FillAndExpand" />
+            <Image x:Name="zdjTest" Source="{Binding ImageCamera}" />
             <StackLayout Orientation="Horizontal">
                 <Button Text="Anuluj" Command="{Binding CancelCommand}" 
                         BackgroundColor="Red" HorizontalOptions="FillAndExpand"></Button>

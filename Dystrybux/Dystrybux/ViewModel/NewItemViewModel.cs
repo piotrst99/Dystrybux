@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Dystrybux.ViewModel {
@@ -10,10 +11,12 @@ namespace Dystrybux.ViewModel {
         string _description = "";
         int _cost = 0;
         int _count = 0;
+        Image _image;
 
         public NewItemViewModel() {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
+            TakePhotoCommand = new Command(TakePhoto);
             this.PropertyChanged += (_, __) => SaveCommand.ChangeCanExecute();
         }
 
@@ -48,7 +51,19 @@ namespace Dystrybux.ViewModel {
             //await App.Navigation.PopModalAsync();
         }
 
-        
+        private async void TakePhoto() {
+            /*var result = await MediaPicker.CapturePhotoAsync();
+            if (result != null) {
+                var stream = await result.OpenReadAsync();
+                Image.Source = ImageSource.FromStream(() => stream);
+            }*/
+
+            var photo = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions() { });
+
+            if (photo != null)
+                ImageCamera.Source = ImageSource.FromStream(() => { return photo.GetStream(); });
+
+        }
 
         public string Name {
             get => _name;
@@ -82,10 +97,17 @@ namespace Dystrybux.ViewModel {
             }
         }
 
-
+        public Image ImageCamera {
+            get => _image;
+            set {
+                _image = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Command SaveCommand { protected set;  get; }
         public Command CancelCommand { protected set; get; }
+        public Command TakePhotoCommand { protected set; get; }
     }
 }
 

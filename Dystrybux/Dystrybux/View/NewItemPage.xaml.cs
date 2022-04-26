@@ -13,9 +13,12 @@ namespace Dystrybux.View {
     public partial class NewItemPage : ContentPage {
         public Product Product { get; set; }
 
+        NewItemViewModel _newItemViewModel;
+
         public NewItemPage() {
             InitializeComponent();
-            this.BindingContext = new NewItemViewModel();
+            BindingContext = _newItemViewModel = new NewItemViewModel();
+            //this.BindingContext = new NewItemViewModel();
         }
     }
 }

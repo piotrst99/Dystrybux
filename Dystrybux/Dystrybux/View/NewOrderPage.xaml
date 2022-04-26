@@ -15,7 +15,7 @@
         <ToolbarItem Text="Przeglądaj" Command="{Binding SearchProductCommand}" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout>
+    <StackLayout >
         <StackLayout Orientation="Horizontal">
             <Button Text="Anuluj" Command="{Binding CancelOrderCommand}" 
                         BackgroundColor="Red" HorizontalOptions="FillAndExpand"></Button>

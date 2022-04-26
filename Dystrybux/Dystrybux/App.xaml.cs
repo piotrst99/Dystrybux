@@ -45,6 +45,6 @@ namespace Dystrybux {
 
         protected override void OnSleep() { }
 
-        protected override void OnResume() { }
+        protected override void OnResume() { /*App.Navigation.PopToRootAsync();*/ }
     }
 }
