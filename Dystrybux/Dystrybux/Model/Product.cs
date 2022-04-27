@@ -19,5 +19,10 @@ namespace Dystrybux.Model {
         
         [Column("Description")]
         public string Description { get; set; }
+    
+        [Column("ImagePatgh")]
+        public string ImagePath { get; set; }
+
     }
 }
+    

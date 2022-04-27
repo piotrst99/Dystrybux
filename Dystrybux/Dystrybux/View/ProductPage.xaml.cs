@@ -16,6 +16,14 @@ namespace Dystrybux.View {
             InitializeComponent();
             //this.BindingContext = new ProductViewModel();
             BindingContext = _productViewModel = new ProductViewModel();
+            
+            if (App.User.Role == "Business") {
+                var addProductToolBarItem = new ToolbarItem {
+                    Text = "Dodaj",
+                    Command = _productViewModel.AddItemCommand,
+                };
+                this.ToolbarItems.Add(addProductToolBarItem);
+            }
         }
 
         protected override void OnAppearing() {

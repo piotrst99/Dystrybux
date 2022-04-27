@@ -8,11 +8,11 @@
     <NavigationPage.TitleView>
         <Label Text="Produkty" FontSize="20" TextColor="White" FontAttributes="Bold" />
     </NavigationPage.TitleView>
-    
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Dodaj" Command="{Binding AddItemCommand}" />
+        <!--<ToolbarItem Text="Dodaj" Command="{Binding AddItemCommand}" />-->
     </ContentPage.ToolbarItems>
-    
+   
 
     <!--<RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <CollectionView x:Name="ItemsListView"

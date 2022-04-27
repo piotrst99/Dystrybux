@@ -1,6 +1,7 @@
 ﻿using Dystrybux.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -12,6 +13,7 @@ namespace Dystrybux.ViewModel {
         int _cost = 0;
         int _count = 0;
         ImageSource _image;
+        string _imagePath = "";
 
         public NewItemViewModel() {
             SaveCommand = new Command(OnSave, ValidateSave);
@@ -31,12 +33,23 @@ namespace Dystrybux.ViewModel {
         }
 
         private async void OnSave() {
+
+            string file = _name + new Random().Next(1, 10000).ToString() + ".png";
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), file);
+
+            using (var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write)) {
+                //ima.CopyTo(fileStream);
+                
+            }
+
+
             Product newProduct = new Product() {
                 ID = 1,
                 Name = Name,
                 Cost = Cost,
                 Count = Count,
-                Description = Description
+                Description = Description,
+                ImagePath = ""
             };
 
             await App.Database.SaveProductAsync(newProduct);

@@ -16,18 +16,15 @@ namespace Dystrybux.ViewModel {
 
         public ProductViewModel() {
             Products = new ObservableCollection<Product>();
-    
-            AddItemCommand = new Command(async () => {
-                await App.Navigation.PushAsync(new NewItemPage());
-            });
 
+            AddItemCommand = new Command(async () => { await App.Navigation.PushAsync(new NewItemPage()); });
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
             ProductTapped = new Command<Product>(OnProductSelected);
         }
 
         async Task ExecuteLoadItemsCommand() {
             IsRefreshing = true;
+            
             try {
                 Products.Clear();
                 //var products = await ProductStore.GetItemsAsync(true);
@@ -38,10 +35,8 @@ namespace Dystrybux.ViewModel {
                     Products.Add(p);
                 }
             }
-            catch (Exception) {
+            catch (Exception) { throw; }
 
-                throw;
-            }
             IsRefreshing = false;
         }
 

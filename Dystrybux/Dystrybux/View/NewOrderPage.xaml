@@ -63,7 +63,7 @@
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="4*" />
                                     </Grid.ColumnDefinitions>
                                     <BoxView />
                                     <Image Source="kremowka.jpg" 
