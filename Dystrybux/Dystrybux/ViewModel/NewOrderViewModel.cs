@@ -25,7 +25,7 @@ namespace Dystrybux.ViewModel {
         public NewOrderViewModel(string orderName) {
             AddedProducts = new ObservableCollection<Product>();
             
-            SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage(true, _order)));
+            SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new ProductPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             CancelOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
             SubmitOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Wyślij zamówienie", "OK"));
@@ -50,7 +50,7 @@ namespace Dystrybux.ViewModel {
             else { IsBusiness = false; IsClient = true; }
             AddedProducts = new ObservableCollection<Product>();
 
-            SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage(true, _order)));
+            SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new ProductPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             CancelOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
             SubmitOrderCommand = new Command(() => SubmitOrder());

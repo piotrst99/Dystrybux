@@ -16,8 +16,6 @@ namespace Dystrybux.ViewModel {
 
             OrderListCommand = new Command(async () => await App.Navigation.PushAsync(new OrderPage()));
 
-            TestCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage()));
-
             SettingsCommand = new Command(async () => await App.Navigation.PushAsync(new SettingsPage()));
         }
 
@@ -35,7 +33,6 @@ namespace Dystrybux.ViewModel {
 
         public Command ProductListCommand { protected set; get; }
         public Command OrderListCommand { protected set; get; }
-        public Command TestCommand { protected set; get; }
         public Command SettingsCommand { protected set; get; }
 
     }

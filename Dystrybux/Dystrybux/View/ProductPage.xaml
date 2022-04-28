@@ -2,77 +2,97 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:Dystrybux.ViewModel" 
-             xmlns:model="clr-namespace:Dystrybux.Model" 
+             xmlns:model="clr-namespace:Dystrybux.Model"
              x:Class="Dystrybux.View.ProductPage">
 
     <NavigationPage.TitleView>
         <Label Text="Produkty" FontSize="20" TextColor="White" FontAttributes="Bold" />
     </NavigationPage.TitleView>
 
-    <ContentPage.ToolbarItems>
-        <!--<ToolbarItem Text="Dodaj" Command="{Binding AddItemCommand}" />-->
-    </ContentPage.ToolbarItems>
-   
+    <ContentPage.ToolbarItems></ContentPage.ToolbarItems>
+    
+    <StackLayout>
+        <StackLayout>
+            <Entry Text="{Binding SearchProducts}" Placeholder="Wyszukaj wyrób" />
+            <Button Text="Wyszukaj" Command="{Binding SearchProductsCommand}" />
+        </StackLayout>
 
-    <!--<RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="ItemsListView"
-                ItemsSource="{Binding Items}"
-                SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Item">
-                        <Label Text="{Binding Text}" 
-                            LineBreakMode="NoWrap" 
-                            Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" />
-                        <Label Text="{Binding Description}" 
-                            LineBreakMode="NoWrap"
-                            Style="{DynamicResource ListItemDetailTextStyle}"
-                            FontSize="13" />
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                NumberOfTapsRequired="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
-                                CommandParameter="{Binding .}">
-                            </TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>-->
+        <!--<SearchBar 
+            Placeholder="Wyszukaj wyrób"
+            SearchCommandParameter="{Binding SearchProducts}"
+            SearchCommand="{Binding SearchProductsCommand}"
+            TextColor="Black"
+            />-->
 
-    <RefreshView
-        x:DataType="local:ProductViewModel"
-        IsRefreshing="{Binding IsRefreshing}"
-        Command="{Binding LoadItemsCommand}"
-        >
-        <CollectionView x:Name="ItemsListView"
+        <ScrollView>
+
+            <RefreshView
+                x:DataType="local:ProductViewModel"
+                IsRefreshing="{Binding IsRefreshing}"
+                Command="{Binding LoadItemsCommand}"
+                >
+
+                <CollectionView x:Name="ItemsListView"
                     ItemsSource="{Binding Products}"
                     SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Product">
-                        <Label Text="{Binding Name}" 
-                                LineBreakMode="NoWrap" 
-                                Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
-                        <Label Text="{Binding Description}" 
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="13" />
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                NumberOfTapsRequired="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ProductViewModel}}, Path=ProductTapped}"		
-                                CommandParameter="{Binding .}">
-                            </TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
-    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10" x:DataType="model:Product">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="4*" />
+                                    </Grid.ColumnDefinitions>
+                                    <BoxView />
+                                    <Image Source="kremowka.jpg" 
+                                    Grid.Column="0"/>
+                                    <Frame Grid.Column="1" HasShadow="True">
+                                        <StackLayout>
+                                            <Label  Text="{Binding Name}" 
+                                            LineBreakMode="NoWrap" 
+                                            Style="{DynamicResource ListItemTextStyle}" 
+                                            FontSize="16" />
+                                            <Label Text="{Binding Description}" 
+                                            LineBreakMode="NoWrap"
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="13" />
+                                            <Label Text="{Binding Cost}" 
+                                            LineBreakMode="NoWrap"
+                                            Style="{DynamicResource ListItemDetailTextStyle}"
+                                            FontSize="13" />
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={
+                                                RelativeSource AncestorType={x:Type local:ProductViewModel}}, 
+                                                Path=ProductTapped}"		
+                                        CommandParameter="{Binding .}">
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+        </ScrollView>
+        
+        <AbsoluteLayout IsVisible="{Binding IsBusiness}">
+            <Button Text="+" 
+                BackgroundColor="LightBlue"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds=".95,.95,80,80"
+                Command="{Binding AddItemCommand}"/>
+        </AbsoluteLayout>
+        
+    </StackLayout>
+
+
 
 </ContentPage>

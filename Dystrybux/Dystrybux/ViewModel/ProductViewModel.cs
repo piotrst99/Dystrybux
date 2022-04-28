@@ -7,40 +7,65 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace Dystrybux.ViewModel {
-    public class ProductViewModel : BaseViewModel {
+namespace Dystrybux.ViewModel
+{
+    public class ProductViewModel: BaseViewModel{
         private Product _selectedProduct;
+        private Order _selectedOrder;
         private bool _IsRefreshing = false;
+        private bool _IsSearching = false;
+        private string _SearchProductsName = "";
+        private bool _IsBusiness = false;
 
         public ObservableCollection<Product> Products { get; }
 
-        public ProductViewModel() {
-            Products = new ObservableCollection<Product>();
+        // search bar
+        // https://docs.microsoft.com/pl-pl/xamarin/xamarin-forms/user-interface/searchbar
 
+        public ProductViewModel(){
+            Products = new ObservableCollection<Product>();
             AddItemCommand = new Command(async () => { await App.Navigation.PushAsync(new NewItemPage()); });
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ProductTapped = new Command<Product>(OnProductSelected);
+            SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
+
+            IsBusiness = App.User.Role == "Business" ? true : false;
         }
 
-        async Task ExecuteLoadItemsCommand() {
+        public ProductViewModel(bool isSearch, Order order) {
+            Products = new ObservableCollection<Product>();
+            AddItemCommand = new Command(async () => { await App.Navigation.PushAsync(new NewItemPage()); });
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            ProductTapped = new Command<Product>(OnProductSelected);
+            SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
+
+            IsBusiness = App.User.Role == "Business" ? true : false;
+            _IsSearching = isSearch;
+            _selectedOrder = order;
+        }
+
+        async Task ExecuteLoadItemsCommand(){
             IsRefreshing = true;
-            
-            try {
+            try{
                 Products.Clear();
-                //var products = await ProductStore.GetItemsAsync(true);
-
-                var products = await App.Database.GetProductsAsync();
-
-                foreach (var p in products) {
-                    Products.Add(p);
-                }
+                var products = new List<Product>();
+                products = await App.Database.GetProductsAsync();
+                foreach (var p in products){ Products.Add(p); }
             }
-            catch (Exception) { throw; }
-
+            catch (Exception){ throw; }
             IsRefreshing = false;
         }
 
-        public void OnAppearing() {
+        async Task ExecuteLoadSearchedItems(string productName) {
+            try {
+                Products.Clear();
+                var products = await App.Database.GetProductsAsync(productName);
+                foreach (var p in products) { Products.Add(p); }
+            }
+            catch (Exception) { throw; }
+        }
+
+        public void OnAppearing(){
             IsRefreshing = true;
         }
 
@@ -52,15 +77,57 @@ namespace Dystrybux.ViewModel {
             }
         }
 
+        public string SearchProducts {
+            get => _SearchProductsName;
+            set {
+                _SearchProductsName = value;
+            }
+        }
+
+        public bool IsBusiness
+        {
+            get => _IsBusiness;
+            set => _IsBusiness = value;
+        }
+
         private async void OnProductSelected(Product product) {
             if (product == null)
                 return;
 
-            await App.Navigation.PushAsync(new ProductDetailPage(product));
+            if (_IsSearching) {
+                //bool choice;
+                Device.BeginInvokeOnMainThread(async () => {
+                    bool choice = await App.Current.MainPage.DisplayAlert("", "Czy dodać produkt do zamówienia?", "Tak", "Nie");
+                    if (choice) {
+                        //var order = await OrderStore.GetItemAsync(3);
+                        //var order = await OrderStore.GetItemAsync(3);
+
+                        //var order = await App.Database.GetOrderAsync(1);
+
+                        //order.Products = new List<Product>() { product };
+
+                        await App.Database.SaveProductOrderAsync(_selectedOrder, product);
+
+                        //order.Products = new List<Product>(){ product };
+
+                        await App.Navigation.PopAsync();
+                    }
+                    
+                    //await App.Navigation.PopAsync();
+                });
+
+
+            }
+            else {
+                await App.Navigation.PushAsync(new ProductDetailPage(product));
+            }
         }
 
-        public bool IsRefreshing {
-            set{ 
+
+        public bool IsRefreshing
+        {
+            set
+            {
                 _IsRefreshing = value;
                 OnPropertyChanged();
             }
@@ -70,5 +137,6 @@ namespace Dystrybux.ViewModel {
         public Command AddItemCommand { protected set; get; }
         public Command LoadItemsCommand { protected set; get; }
         public Command<Product> ProductTapped { protected set; get; }
+        public Command SearchProductsCommand { protected set; get; }
     }
 }
