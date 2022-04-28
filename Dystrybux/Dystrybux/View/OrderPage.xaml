@@ -4,9 +4,13 @@
              xmlns:local="clr-namespace:Dystrybux.ViewModel" 
              xmlns:model="clr-namespace:Dystrybux.Model"
              x:Class="Dystrybux.View.OrderPage">
-    
+
+    <NavigationPage.TitleView>
+        <Label Text="Zamówienia" FontSize="20" TextColor="White" FontAttributes="Bold" />
+    </NavigationPage.TitleView>
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Stwórz zamówienie" Command="{Binding CreateOrderCommand}" />
+        <!--<ToolbarItem Text="Stwórz zamówienie" Command="{Binding CreateOrderCommand}" />-->
     </ContentPage.ToolbarItems>
 
     <RefreshView

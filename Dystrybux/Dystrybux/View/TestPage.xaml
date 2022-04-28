@@ -5,6 +5,12 @@
              xmlns:model="clr-namespace:Dystrybux.Model"
              x:Class="Dystrybux.View.TestPage">
 
+    <NavigationPage.TitleView>
+        <Label Text="Produkty" FontSize="20" TextColor="White" FontAttributes="Bold" />
+    </NavigationPage.TitleView>
+
+    <ContentPage.ToolbarItems></ContentPage.ToolbarItems>
+    
     <StackLayout>
         <StackLayout>
             <Entry Text="{Binding SearchProducts}" Placeholder="Wyszukaj wyrób" />

@@ -12,11 +12,18 @@
     </NavigationPage.TitleView>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Przeglądaj" Command="{Binding SearchProductCommand}" />
+        <!--<ToolbarItem Text="Przeglądaj" Command="{Binding SearchProductCommand}" />-->
     </ContentPage.ToolbarItems>
 
-    <StackLayout >
-        <StackLayout Orientation="Horizontal">
+    <StackLayout>
+        <StackLayout Orientation="Horizontal" IsVisible="{Binding IsBusiness}">
+            <Button Text="Odrzuć" Command="{Binding DiscardOrderCommand}" 
+                        BackgroundColor="Red" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Akceptuj" Command="{Binding AcceptOrderCommand}" 
+                        BackgroundColor="Green" HorizontalOptions="FillAndExpand"></Button>
+        </StackLayout>
+        
+        <StackLayout Orientation="Horizontal" IsVisible="{Binding IsClient}">
             <Button Text="Anuluj" Command="{Binding CancelOrderCommand}" 
                         BackgroundColor="Red" HorizontalOptions="FillAndExpand"></Button>
             <Button Text="Zapisz" Command="{Binding SaveOrderCommand}" 
@@ -24,6 +31,7 @@
             <Button Text="Złóż" Command="{Binding SubmitOrderCommand}" 
                         BackgroundColor="Green" HorizontalOptions="FillAndExpand"></Button>
         </StackLayout>
+
 
         <!-- WSTEPNIE -->
         <StackLayout>

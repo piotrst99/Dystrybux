@@ -18,12 +18,28 @@ namespace Dystrybux.View {
             InitializeComponent();
             //this.BindingContext = new NewOrderViewModel();
             BindingContext = _newOrderViewModel = new NewOrderViewModel(orderName);
+
+            if (App.User.Role == "Client") {
+                var searchProductToolBarItem = new ToolbarItem {
+                    Text = "Przeglądaj",
+                    Command = _newOrderViewModel.SearchProductCommand,
+                };
+                this.ToolbarItems.Add(searchProductToolBarItem);
+            }
         }
 
         public NewOrderPage(Order order) {
             InitializeComponent();
             //this.BindingContext = new NewOrderViewModel(order);
             BindingContext = _newOrderViewModel = new NewOrderViewModel(order);
+
+            if (App.User.Role == "Client") {
+                var searchProductToolBarItem = new ToolbarItem {
+                    Text = "Przeglądaj",
+                    Command = _newOrderViewModel.SearchProductCommand,
+                };
+                this.ToolbarItems.Add(searchProductToolBarItem);
+            }
         }
 
         protected override void OnAppearing() {

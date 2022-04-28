@@ -14,6 +14,9 @@ namespace Dystrybux.ViewModel {
         private Product _addedProduct;
         private bool _IsRefreshing = false;
 
+        private bool _IsClient = true;
+        private bool _IsBusiness = true;
+
         private DateTime _firstDate = DateTime.Now;
         private DateTime _secondDate = DateTime.Now;
 
@@ -43,13 +46,18 @@ namespace Dystrybux.ViewModel {
         }
 
         public NewOrderViewModel(Order order) {
+            if(App.User.Role == "Business") { IsBusiness = true; IsClient = false; }
+            else { IsBusiness = false; IsClient = true; }
             AddedProducts = new ObservableCollection<Product>();
 
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             CancelOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
-            SubmitOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Wyślij zamówienie", "OK"));
+            SubmitOrderCommand = new Command(() => SubmitOrder());
             SaveOrderCommand = new Command(async () => await SaveOrder());
+
+            DiscardOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Odrzuć zamówienie", "OK"));
+            AcceptOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Przyjąć zamówienie", "OK"));
 
             _order = order;
 
@@ -105,6 +113,19 @@ namespace Dystrybux.ViewModel {
             catch (Exception) { throw; }
         }
 
+        void SubmitOrder() {
+            Device.BeginInvokeOnMainThread(async () => {
+                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy złożyć zamówienie?", "Tak", "Nie");
+                if (choice) {
+                    try {
+                        _order.Status = "Złożono";
+                        await App.Database.UpdateOrderAsync(_order);
+                    }
+                    catch (Exception) { throw; }
+                }
+            });
+        }
+
         public Product AddedProduct {
             get => _addedProduct;
             set { _addedProduct = value; }
@@ -118,6 +139,16 @@ namespace Dystrybux.ViewModel {
         public DateTime SecondDate {
             get => _secondDate;
             set => _secondDate = value;
+        }
+
+        public bool IsClient {
+            get => _IsClient;
+            set => _IsClient = value;
+        }
+
+        public bool IsBusiness {
+            get => _IsBusiness;
+            set => _IsBusiness = value;
         }
 
         public void OnAppearing() { IsRefreshing = true; }
@@ -135,5 +166,8 @@ namespace Dystrybux.ViewModel {
         public Command CancelOrderCommand { protected set; get; }
         public Command SubmitOrderCommand { protected set; get; }
         public Command SaveOrderCommand { protected set; get; }
+        public Command DiscardOrderCommand { protected set; get; }
+        public Command AcceptOrderCommand { protected set; get; }
+        
     }
 }

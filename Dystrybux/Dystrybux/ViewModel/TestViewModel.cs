@@ -23,6 +23,7 @@ namespace Dystrybux.ViewModel
 
         public TestViewModel(){
             Products = new ObservableCollection<Product>();
+            AddItemCommand = new Command(async () => { await App.Navigation.PushAsync(new NewItemPage()); });
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ProductTapped = new Command<Product>(OnProductSelected);
             SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
@@ -30,6 +31,7 @@ namespace Dystrybux.ViewModel
 
         public TestViewModel(bool isSearch, Order order) {
             Products = new ObservableCollection<Product>();
+            AddItemCommand = new Command(async () => { await App.Navigation.PushAsync(new NewItemPage()); });
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ProductTapped = new Command<Product>(OnProductSelected);
             SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
@@ -121,6 +123,7 @@ namespace Dystrybux.ViewModel
             get => _IsRefreshing;
         }
 
+        public Command AddItemCommand { protected set; get; }
         public Command LoadItemsCommand { protected set; get; }
         public Command<Product> ProductTapped { protected set; get; }
         public Command SearchProductsCommand { protected set; get; }

@@ -26,7 +26,14 @@ namespace Dystrybux.ViewModel {
             try {
                 Orders.Clear();
                 //var orders = await OrderStore.GetItemsAsync(true);
-                var orders = await App.Database.GetOrdersAsync();
+                List<Order> orders = null;
+                //var orders = await App.Database.GetOrdersAsync();
+                
+                if(App.User.Role == "Client")
+                    orders = await App.Database.GetOrdersAsync();
+                else
+                    orders = await App.Database.GetOrdersAsync("Nie złożono");
+                
                 foreach (var o in orders) {
                     Orders.Add(o);
                 }
