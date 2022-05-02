@@ -17,6 +17,8 @@ namespace Dystrybux.ViewModel {
             OrderListCommand = new Command(async () => await App.Navigation.PushAsync(new OrderPage()));
 
             SettingsCommand = new Command(async () => await App.Navigation.PushAsync(new SettingsPage()));
+            
+            TestCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage()));
         }
 
         public string UserName {
@@ -34,6 +36,7 @@ namespace Dystrybux.ViewModel {
         public Command ProductListCommand { protected set; get; }
         public Command OrderListCommand { protected set; get; }
         public Command SettingsCommand { protected set; get; }
+        public Command TestCommand { protected set; get; }
 
     }
 }
