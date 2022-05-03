@@ -47,5 +47,8 @@ namespace Dystrybux.View {
             _newOrderViewModel.OnAppearing();
         }
 
+        private void CountChanged(object sender, TextChangedEventArgs e) {
+            _newOrderViewModel.SetCountCommand(int.Parse(e.NewTextValue));
+        }
     }
 }

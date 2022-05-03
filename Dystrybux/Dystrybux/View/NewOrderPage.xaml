@@ -64,20 +64,20 @@
                         SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Padding="10" x:DataType="model:Product">
+                            <StackLayout Padding="10" >
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="100" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="4*" />
+                                        <ColumnDefinition Width="3*" />
                                     </Grid.ColumnDefinitions>
                                     <BoxView />
                                     <Image Source="kremowka.jpg" 
                                        Grid.Column="0"/>
                                     <Frame Grid.Column="1" HasShadow="True">
-                                        <StackLayout>
+                                        <StackLayout x:DataType="model:Product">
                                             <Label  Text="{Binding Name}" 
                                                 LineBreakMode="NoWrap" 
                                                 Style="{DynamicResource ListItemTextStyle}" 
@@ -90,6 +90,12 @@
                                                 LineBreakMode="NoWrap"
                                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                                 FontSize="13" />
+                                        </StackLayout>
+                                    </Frame>
+                                    <Frame Grid.Row="1" Grid.Column="0" >
+                                        <StackLayout>
+                                            <Entry Keyboard="Numeric" TextChanged="CountChanged"></Entry>
+                                            <Label Text="{Binding TotalCostProduct}"></Label>
                                         </StackLayout>
                                     </Frame>
                                 </Grid>

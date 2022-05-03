@@ -26,6 +26,9 @@ namespace Dystrybux.Model {
         [Column("Status")]
         public string Status { get; set; }
 
+        [Column("TotalCost")]
+        public int TotalCost { get; set; }
+
         [SQLite.Ignore]
         public virtual IEnumerable<Product> Products { get; set; }
         

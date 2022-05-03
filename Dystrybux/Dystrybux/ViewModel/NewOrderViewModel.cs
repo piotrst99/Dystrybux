@@ -20,6 +20,8 @@ namespace Dystrybux.ViewModel {
         private DateTime _firstDate = DateTime.Now;
         private DateTime _secondDate = DateTime.Now;
 
+        private int _totalCostProduct = 0;
+
         public ObservableCollection<Product> AddedProducts { get; }
 
         public NewOrderViewModel(string orderName) {
@@ -30,6 +32,7 @@ namespace Dystrybux.ViewModel {
             CancelOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
             SubmitOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Wyślij zamówienie", "OK"));
             SaveOrderCommand = new Command(async () => await SaveOrder());
+            //SetCountCommand = new Command(() => { });
 
             var date = DateTime.Now;
 
@@ -126,6 +129,10 @@ namespace Dystrybux.ViewModel {
             });
         }
 
+        public void SetCountCommand(int val) {
+            TotalCostProduct = val * AddedProducts[0].Cost;
+        }
+
         public Product AddedProduct {
             get => _addedProduct;
             set { _addedProduct = value; }
@@ -151,6 +158,11 @@ namespace Dystrybux.ViewModel {
             set => _IsBusiness = value;
         }
 
+        public int TotalCostProduct {
+            get => _totalCostProduct;
+            set => _totalCostProduct = value;
+        }
+
         public void OnAppearing() { IsRefreshing = true; }
 
         public bool IsRefreshing {
@@ -168,6 +180,7 @@ namespace Dystrybux.ViewModel {
         public Command SaveOrderCommand { protected set; get; }
         public Command DiscardOrderCommand { protected set; get; }
         public Command AcceptOrderCommand { protected set; get; }
+        //public Command SetCountCommand { protected set; get; }
         
     }
 }
