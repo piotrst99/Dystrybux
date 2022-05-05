@@ -49,6 +49,7 @@ namespace Dystrybux.View {
 
         private void CountChanged(object sender, TextChangedEventArgs e) {
             _newOrderViewModel.SetCountCommand(int.Parse(e.NewTextValue));
+
         }
     }
 }

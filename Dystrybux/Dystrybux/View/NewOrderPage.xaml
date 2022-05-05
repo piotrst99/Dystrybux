@@ -94,7 +94,7 @@
                                     </Frame>
                                     <Frame Grid.Row="1" Grid.Column="0" >
                                         <StackLayout>
-                                            <Entry Keyboard="Numeric" TextChanged="CountChanged"></Entry>
+                                            <Entry Keyboard="Numeric" Text="{Binding CountOfProduct}"></Entry>
                                             <Label Text="{Binding TotalCostProduct}"></Label>
                                         </StackLayout>
                                     </Frame>

@@ -21,6 +21,7 @@ namespace Dystrybux.ViewModel {
         private DateTime _secondDate = DateTime.Now;
 
         private int _totalCostProduct = 0;
+        private int _countOfProduct = 0;
 
         public ObservableCollection<Product> AddedProducts { get; }
 
@@ -32,7 +33,7 @@ namespace Dystrybux.ViewModel {
             CancelOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
             SubmitOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Wyślij zamówienie", "OK"));
             SaveOrderCommand = new Command(async () => await SaveOrder());
-            //SetCountCommand = new Command(() => { });
+            //SetCount = new Command(() => { TotalCostProduct = 1 * AddedProducts[0].Cost; });
 
             var date = DateTime.Now;
 
@@ -131,6 +132,9 @@ namespace Dystrybux.ViewModel {
 
         public void SetCountCommand(int val) {
             TotalCostProduct = val * AddedProducts[0].Cost;
+            /*Device.BeginInvokeOnMainThread(async () => {
+                await App.Current.MainPage.DisplayAlert("Result", "test", "OK");
+            });*/
         }
 
         public Product AddedProduct {
@@ -163,6 +167,14 @@ namespace Dystrybux.ViewModel {
             set => _totalCostProduct = value;
         }
 
+        public int CountOfProduct {
+            get => _countOfProduct;
+            set {
+                _countOfProduct = value;
+                SetCountCommand(_countOfProduct);
+            }
+        }
+
         public void OnAppearing() { IsRefreshing = true; }
 
         public bool IsRefreshing {
@@ -180,7 +192,7 @@ namespace Dystrybux.ViewModel {
         public Command SaveOrderCommand { protected set; get; }
         public Command DiscardOrderCommand { protected set; get; }
         public Command AcceptOrderCommand { protected set; get; }
-        //public Command SetCountCommand { protected set; get; }
+        public Command SetCount { protected set; get; }
         
     }
 }
