@@ -15,5 +15,7 @@ namespace Dystrybux.View {
             InitializeComponent();
             BindingContext = _testViewModel = new TestViewModel();
         }
+
+        
     }
 }
