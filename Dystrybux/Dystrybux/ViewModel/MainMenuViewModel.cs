@@ -13,12 +13,20 @@ namespace Dystrybux.ViewModel {
             UserName = string.Format("{0} {1}", user.Name, user.Surname);
 
             ProductListCommand = new Command(async () =>  await App.Navigation.PushAsync(new ProductPage()));
-
             OrderListCommand = new Command(async () => await App.Navigation.PushAsync(new OrderPage()));
-
             SettingsCommand = new Command(async () => await App.Navigation.PushAsync(new SettingsPage()));
-            
             TestCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage()));
+            DetailsOrderCommand = new Command(async () => {
+                var order = await App.Database.GetUndoneOrderAsync("Nie złożono");
+                if (order != null) {
+                    await App.Navigation.PushAsync(new NewOrderPage(order));
+                }
+                else {
+                    Device.BeginInvokeOnMainThread(async () => {
+                        await App.Current.MainPage.DisplayAlert("Result", "Zamówienei nie istnieje, dodaj produkt, aby utworzyć", "OK");
+                    });
+                }
+            });
         }
 
         public string UserName {
@@ -37,6 +45,7 @@ namespace Dystrybux.ViewModel {
         public Command OrderListCommand { protected set; get; }
         public Command SettingsCommand { protected set; get; }
         public Command TestCommand { protected set; get; }
+        public Command DetailsOrderCommand { protected set; get; }
 
     }
 }

@@ -45,7 +45,7 @@ namespace Dystrybux.ViewModel {
                 Products = new List<Product>() { },
                 Status = "Nie złożono"
             };
-
+            
             App.Database.SaveOrderAsync(_order);
         }
 

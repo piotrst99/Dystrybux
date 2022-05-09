@@ -29,6 +29,12 @@ namespace Dystrybux.ViewModel
             ProductTapped = new Command<Product>(OnProductSelected);
             SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
 
+            DetailsOrderCommand = new Command(() => {
+                Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", "zamówienie", "OK");
+                });
+            });
+
             IsBusiness = App.User.Role == "Business" ? true : false;
         }
 
@@ -38,6 +44,12 @@ namespace Dystrybux.ViewModel
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ProductTapped = new Command<Product>(OnProductSelected);
             SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
+
+            DetailsOrderCommand = new Command(() => {
+                Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", "zamówienie", "OK");
+                });
+            });
 
             IsBusiness = App.User.Role == "Business" ? true : false;
             _IsSearching = isSearch;
@@ -138,5 +150,6 @@ namespace Dystrybux.ViewModel
         public Command LoadItemsCommand { protected set; get; }
         public Command<Product> ProductTapped { protected set; get; }
         public Command SearchProductsCommand { protected set; get; }
+        public Command DetailsOrderCommand { protected set; get; }
     }
 }

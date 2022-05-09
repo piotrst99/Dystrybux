@@ -106,6 +106,10 @@ namespace Dystrybux.DataBase {
             return _database.Table<Order>().Where(q => q.Status != status).ToListAsync();
         }
 
+        public Task<Order> GetUndoneOrderAsync(string status) {
+            return _database.Table<Order>().Where(q => q.Status == status).FirstOrDefaultAsync();
+        }
+
         public Task<int> SaveOrderAsync(Order order) {
             return _database.InsertAsync(order);
         }

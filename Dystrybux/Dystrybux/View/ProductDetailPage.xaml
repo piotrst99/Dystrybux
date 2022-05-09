@@ -16,10 +16,13 @@
     
     <StackLayout>
         <!-- ikony zamiast napisow -->
-        <StackLayout>
+        <!--<StackLayout>
             <Label Text="usun" />
             <Label Text="edytuj" />
-        </StackLayout>
+        </StackLayout>-->
+
+        <Button Text="Dodaj do zamówienia" HorizontalOptions="FillAndExpand" BackgroundColor="LightGreen" IsVisible="{Binding IsClient}"
+                Command="{Binding AddProductToOrderCommand}"/>
 
         <StackLayout Spacing="20" Padding="15" IsVisible="{Binding IsWatching}">
             <Label Text="Nazwa wyrobu:" FontSize="Medium" />

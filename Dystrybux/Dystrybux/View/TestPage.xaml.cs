@@ -11,6 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace Dystrybux.View {
     public partial class TestPage : ContentPage {
         TestViewModel _testViewModel;
+
         public TestPage() {
             InitializeComponent();
             BindingContext = _testViewModel = new TestViewModel();

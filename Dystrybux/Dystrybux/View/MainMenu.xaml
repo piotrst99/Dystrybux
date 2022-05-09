@@ -9,6 +9,8 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
+    <ContentPage.ToolbarItems></ContentPage.ToolbarItems>
+    
     <StackLayout>
         <Label FontSize="20" Padding="0,20,0,0" TextColor="Black">Menu główne</Label>
         <Button Text="Lista produktów" Command="{Binding ProductListCommand}" />

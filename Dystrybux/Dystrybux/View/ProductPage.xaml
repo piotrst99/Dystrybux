@@ -9,7 +9,9 @@
         <Label Text="Produkty" FontSize="20" TextColor="White" FontAttributes="Bold" />
     </NavigationPage.TitleView>
 
-    <ContentPage.ToolbarItems></ContentPage.ToolbarItems>
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem IconImageSource="Cart.png" Command="{Binding CreateOrderCommand}" />-->
+    </ContentPage.ToolbarItems>
     
     <StackLayout>
         <StackLayout>
@@ -85,6 +87,7 @@
         
         <AbsoluteLayout IsVisible="{Binding IsBusiness}">
             <Button Text="+" 
+                FontSize="30"
                 BackgroundColor="LightBlue"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 AbsoluteLayout.LayoutBounds=".95,.95,80,80"
