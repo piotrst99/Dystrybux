@@ -118,6 +118,10 @@ namespace Dystrybux.DataBase {
             return _database.UpdateAsync(order);
         }
 
+        public Task<int> DeleteOrderAsync(Order order) {
+            return _database.DeleteAsync(order);
+        }
+
         #endregion
 
         //////

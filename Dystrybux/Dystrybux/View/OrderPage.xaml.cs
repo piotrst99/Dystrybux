@@ -16,13 +16,13 @@ namespace Dystrybux.View {
             InitializeComponent();
             BindingContext = _orderViewModell = new OrderViewModel();
 
-            if (App.User.Role == "Client") {
+            /*if (App.User.Role == "Client") {
                 var searchProductToolBarItem = new ToolbarItem {
                     Text = "Stwórz zamówienie",
                     Command = _orderViewModell.CreateOrderCommand,
                 };
                 this.ToolbarItems.Add(searchProductToolBarItem);
-            }
+            }*/
 
         }
 

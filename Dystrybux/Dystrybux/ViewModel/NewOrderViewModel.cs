@@ -56,7 +56,7 @@ namespace Dystrybux.ViewModel {
 
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new ProductPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            CancelOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
+            CancelOrderCommand = new Command(() => CancelOrder());
             SubmitOrderCommand = new Command(() => SubmitOrder());
             SaveOrderCommand = new Command(async () => await SaveOrder());
 
@@ -119,11 +119,26 @@ namespace Dystrybux.ViewModel {
 
         void SubmitOrder() {
             Device.BeginInvokeOnMainThread(async () => {
-                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy złożyć zamówienie?", "Tak", "Nie");
+                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy złożyć zamówienie do realizacji?", "Tak", "Nie");
                 if (choice) {
                     try {
+                        _order.Name = new Random().Next(10000, 99999).ToString() + new Random().Next(10000, 99999).ToString();
                         _order.Status = "Złożono";
+                        _order.OrderedDate = DateTime.Now.ToString();
                         await App.Database.UpdateOrderAsync(_order);
+                    }
+                    catch (Exception) { throw; }
+                }
+            });
+        }
+
+        void CancelOrder() {
+            Device.BeginInvokeOnMainThread(async () => {
+                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy anulować zamówienie?", "Tak", "Nie");
+                if (choice) {
+                    try {
+                        await App.Database.DeleteOrderAsync(_order);
+                        await App.Navigation.PopAsync();
                     }
                     catch (Exception) { throw; }
                 }

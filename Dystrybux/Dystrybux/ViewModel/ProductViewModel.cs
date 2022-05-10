@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Dystrybux.ViewModel
 {
-    public class ProductViewModel: BaseViewModel{
+    public class ProductViewModel : BaseViewModel{
         private Product _selectedProduct;
         private Order _selectedOrder;
         private bool _IsRefreshing = false;
@@ -28,12 +28,7 @@ namespace Dystrybux.ViewModel
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ProductTapped = new Command<Product>(OnProductSelected);
             SearchProductsCommand = new Command(async () => await ExecuteLoadSearchedItems(SearchProducts));
-
-            DetailsOrderCommand = new Command(() => {
-                Device.BeginInvokeOnMainThread(async () => {
-                    await App.Current.MainPage.DisplayAlert("Result", "zamówienie", "OK");
-                });
-            });
+            DetailsOrderCommand = new Command(async () => await DetailsOrder());
 
             IsBusiness = App.User.Role == "Business" ? true : false;
         }
@@ -75,6 +70,18 @@ namespace Dystrybux.ViewModel
                 foreach (var p in products) { Products.Add(p); }
             }
             catch (Exception) { throw; }
+        }
+
+        async Task DetailsOrder() {
+            var order = await App.Database.GetUndoneOrderAsync("Nie złożono");
+            if (order != null) {
+                await App.Navigation.PushAsync(new NewOrderPage(order));
+            }
+            else {
+                Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", "Zamówienei nie istnieje, dodaj produkt, aby utworzyć", "OK");
+                });
+            }
         }
 
         public void OnAppearing(){

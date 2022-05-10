@@ -29,10 +29,10 @@ namespace Dystrybux.ViewModel {
                 List<Order> orders = null;
                 //var orders = await App.Database.GetOrdersAsync();
                 
-                if(App.User.Role == "Client")
+                /*if(App.User.Role == "Client")
                     orders = await App.Database.GetOrdersAsync();
-                else
-                    orders = await App.Database.GetOrdersAsync("Nie złożono");
+                else*/
+                orders = await App.Database.GetOrdersAsync("Nie złożono");
                 
                 foreach (var o in orders) {
                     Orders.Add(o);
