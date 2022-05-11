@@ -13,8 +13,8 @@ namespace Dystrybux.DataBase {
             _database = new SQLiteAsyncConnection(dbPath);
             //_database.DropTableAsync<User>().Wait();
             //_database.DropTableAsync<Product>().Wait();
-            _database.DropTableAsync<Order>().Wait();
-            _database.DropTableAsync<OrderProduct>().Wait();
+            //_database.DropTableAsync<Order>().Wait();
+            //_database.DropTableAsync<OrderProduct>().Wait();
 
             _database.CreateTableAsync<User>().Wait();
             _database.CreateTableAsync<Product>().Wait();
