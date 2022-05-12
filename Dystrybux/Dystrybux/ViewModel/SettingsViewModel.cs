@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dystrybux.View;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -13,9 +14,13 @@ namespace Dystrybux.ViewModel {
                     App.User = null;
                 }
             });
+
+            UserDataCommand = new Command(async () => await App.Navigation.PushAsync(new UserDataPage()));
+
         }
 
 
         public Command LogOut { protected set; get; }
+        public Command UserDataCommand { protected set; get; }
     }
 }

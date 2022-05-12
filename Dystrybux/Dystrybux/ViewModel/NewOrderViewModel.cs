@@ -26,7 +26,12 @@ namespace Dystrybux.ViewModel {
         //private int _countOfProduct = 0;
 
         public ObservableCollection<Product> AddedProducts { get; }
-        public ObservableCollection<OrderProduct> AddedProductsFromOrder { get; }
+        //public ObservableCollection<OrderProduct> AddedProductsFromOrder { get; }
+        public ObservableCollection<OrderProduct> AddedProductsFromOrder {
+            get => _AddedProductsFromOrder;
+            set => _AddedProductsFromOrder = value;
+        }
+        public static ObservableCollection<OrderProduct> _AddedProductsFromOrder;
 
         public NewOrderViewModel(string orderName) {
             AddedProducts = new ObservableCollection<Product>();
@@ -69,10 +74,15 @@ namespace Dystrybux.ViewModel {
 
             IncrementCountCommand = new Command(async (key) => {
 
-                Device.BeginInvokeOnMainThread(async () => {
+                /*Device.BeginInvokeOnMainThread(async () => {
                     await App.Current.MainPage.DisplayAlert("Result", key.ToString(), "OK");
+                });*/
+                OrderProduct orderProduct = key as OrderProduct;
+
+                Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", orderProduct.ID.ToString(), "OK");
                 });
-                //OrderProduct orderProduct = key as OrderProduct;
+
                 //orderProduct.CountOfProducts += 1;
             }
 

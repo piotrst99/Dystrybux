@@ -10,7 +10,7 @@
     </NavigationPage.TitleView>
 
     <StackLayout>
-        <Button Text="Dane osobowe"/>
+        <Button Text="Dane osobowe" Command="{Binding UserDataCommand}" />
         <Button Text="Zmiana hasła" />
         <Button Text="Powiadomienia"/>
         <Button Text="Wyloguj" Command="{Binding LogOut}" />
