@@ -146,9 +146,10 @@ namespace Dystrybux.DataBase {
         }
 
         public Task<int> SaveProductOrderAsync(Order order, Product product) {
-            return _database.InsertAsync(new OrderProduct() { 
+            return _database.InsertAsync(new OrderProduct() {
                 OrderID = order.ID,
                 ProductID = product.ID,
+                CountOfProducts = 1,
                 Order = order,
                 Product = product
             });

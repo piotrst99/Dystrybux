@@ -14,8 +14,8 @@ namespace Dystrybux.Model {
         [Column("ProductID")]
         public int ProductID { get; set; }
 
-        [Column("CountOfProduct")]
-        public int CountOfProduct { get; set; }
+        [Column("CountOfProducts")]
+        public int CountOfProducts { get; set; }
 
         [SQLite.Ignore]
         public virtual Order Order { get; set; }

@@ -23,7 +23,10 @@ namespace Dystrybux.ViewModel {
         private int _totalCostProduct = 0;
         private int _countOfProduct = 0;
 
+        //private int _countOfProduct = 0;
+
         public ObservableCollection<Product> AddedProducts { get; }
+        public ObservableCollection<OrderProduct> AddedProductsFromOrder { get; }
 
         public NewOrderViewModel(string orderName) {
             AddedProducts = new ObservableCollection<Product>();
@@ -53,6 +56,7 @@ namespace Dystrybux.ViewModel {
             if(App.User.Role == "Business") { IsBusiness = true; IsClient = false; }
             else { IsBusiness = false; IsClient = true; }
             AddedProducts = new ObservableCollection<Product>();
+            AddedProductsFromOrder = new ObservableCollection<OrderProduct>();
 
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new ProductPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
@@ -62,6 +66,18 @@ namespace Dystrybux.ViewModel {
 
             DiscardOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Odrzuć zamówienie", "OK"));
             AcceptOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Przyjąć zamówienie", "OK"));
+
+            IncrementCountCommand = new Command(async (key) => {
+
+                Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", key.ToString(), "OK");
+                });
+                //OrderProduct orderProduct = key as OrderProduct;
+                //orderProduct.CountOfProducts += 1;
+            }
+
+            /*IncrementCount()*/);
+            DecrementCountCommand = new Command(() => DecrementCount());
 
             _order = order;
 
@@ -94,12 +110,15 @@ namespace Dystrybux.ViewModel {
             IsRefreshing = true;
             try {
                 AddedProducts.Clear();
+                AddedProductsFromOrder.Clear();
 
                 var items = await App.Database.GetOrderProductsAsync(_order.ID);
 
                 foreach (var p in items) {
                     //AddedProducts.Add(await App.Database.GetProductAsync(p.ProductID));
                     AddedProducts.Add(p.Product);
+                    //p.Product = App.Database.GetProductAsync(p.ProductID).Result;
+                    AddedProductsFromOrder.Add(p);
                 }
             }
             catch (Exception) { throw; }
@@ -152,6 +171,21 @@ namespace Dystrybux.ViewModel {
             });*/
         }
 
+        void IncrementCount() {
+            CountOfProduct += 1;
+            
+            Device.BeginInvokeOnMainThread(async () => {
+                await App.Current.MainPage.DisplayAlert("Result", CountOfProduct.ToString(), "OK");
+            });
+        }
+
+        void DecrementCount() {
+            CountOfProduct -= 1;
+            /*Device.BeginInvokeOnMainThread(async () => {
+                await App.Current.MainPage.DisplayAlert("Result", CountOfProduct.ToString(), "OK");
+            });*/
+        }
+
         public Product AddedProduct {
             get => _addedProduct;
             set { _addedProduct = value; }
@@ -186,7 +220,7 @@ namespace Dystrybux.ViewModel {
             get => _countOfProduct;
             set {
                 _countOfProduct = value;
-                SetCountCommand(_countOfProduct);
+                //SetCountCommand(_countOfProduct);
             }
         }
 
@@ -208,6 +242,8 @@ namespace Dystrybux.ViewModel {
         public Command DiscardOrderCommand { protected set; get; }
         public Command AcceptOrderCommand { protected set; get; }
         public Command SetCount { protected set; get; }
+        public Command IncrementCountCommand { protected set; get; }
+        public Command DecrementCountCommand { protected set; get; }
         
     }
 }

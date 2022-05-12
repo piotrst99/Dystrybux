@@ -60,11 +60,11 @@
             Command="{Binding LoadItemsCommand}"
             >
                 <CollectionView x:Name="ItemsListView"
-                        ItemsSource="{Binding AddedProducts}"
+                        ItemsSource="{Binding AddedProductsFromOrder}"
                         SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Padding="10" >
+                            <StackLayout Padding="10">
 
                                 <Frame Padding="0,0,0,0">
                                     <Grid >
@@ -81,21 +81,39 @@
                                         <Image Source="kremowka.jpg" 
                                            Grid.Column="0" />
                                         <Frame Grid.Column="1" HasShadow="True" BackgroundColor="LightBlue" Padding="0,0,0,0">
-                                            <StackLayout x:DataType="model:Product" BackgroundColor="LightCoral" Padding="0, 0, 0, 0">
-                                                <Label  Text="{Binding Name}" 
+                                            <StackLayout  BackgroundColor="LightCoral" Padding="0, 0, 0, 0">
+                                                <Label x:DataType="model:OrderProduct"  Text="{Binding Product.Name}" 
                                                     LineBreakMode="NoWrap" 
                                                     Style="{DynamicResource ListItemTextStyle}" 
-                                                    FontSize="16" />
-                                                <StackLayout Orientation="Horizontal" Padding="0,0,0,0">
-                                                    <Button Text="-" WidthRequest="50" HeightRequest="30" Padding="5, 0, 5, 0" HorizontalOptions="CenterAndExpand" BackgroundColor="LightGoldenrodYellow" />
-                                                    <Label Text="1"  WidthRequest="70" HorizontalOptions="Center" BackgroundColor="LightGoldenrodYellow" />
-                                                    <Button Text="+" WidthRequest="50" HeightRequest="30" Padding="5, 0, 5, 0" HorizontalOptions="CenterAndExpand" BackgroundColor="LightGoldenrodYellow" />
+                                                    FontSize="20" />
+                                                <StackLayout Orientation="Horizontal" Padding="0,10,0,10">
+                                                    <Button Text="-" WidthRequest="50" HeightRequest="40" Padding="5, 0, 5, 0" HorizontalOptions="CenterAndExpand" 
+                                                           Command="{Binding DecrementCountCommand}" CommandParameter="{Binding .}" 
+                                                           Clicked="IncrementCount" />
+                                                    <Label x:DataType="model:OrderProduct" Text="{Binding CountOfProducts}" 
+                                                           LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
+                                                           WidthRequest="70" HorizontalOptions="Center" FontSize="30" BackgroundColor="AliceBlue" 
+                                                           VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+
+                                                    <!--<Button Text="+" WidthRequest="50" HeightRequest="40" Padding="5, 0, 5, 0" HorizontalOptions="CenterAndExpand" 
+                                                            Command="{Binding IncrementCountCommand}" CommandParameter="{Binding .}" 
+                                                            Clicked="IncrementCount"        
+                                                             
+                                                            />-->
+
+                                                    <Button Text="+" WidthRequest="50" HeightRequest="40" Padding="5, 0, 5, 0" HorizontalOptions="CenterAndExpand" 
+                                                            Command="{Binding Source={x:Reference ItemsListView}, Path=BindingContext.IncrementCountCommand}" 
+                                                            CommandParameter="{Binding .}" 
+                                                                    
+                                                             
+                                                            />
+                                                    
                                                 </StackLayout>
                                                 <!-- Text="{Binding Description}" 
                                                     LineBreakMode="NoWrap"
                                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                                     FontSize="13" />-->
-                                                <Label Text="{Binding Cost}" 
+                                                <Label x:DataType="model:OrderProduct" Text="{Binding Product.Cost}" 
                                                     LineBreakMode="NoWrap"
                                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                                     FontSize="13" />
