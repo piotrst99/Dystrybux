@@ -155,6 +155,10 @@ namespace Dystrybux.DataBase {
             });
         }
 
+        public Task<int> UpdateProductOrderAsync(OrderProduct orderProduct) {
+            return _database.UpdateAsync(orderProduct);
+        }
+
         #endregion
 
     }

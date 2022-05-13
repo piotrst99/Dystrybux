@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -27,19 +28,22 @@ namespace Dystrybux.ViewModel {
 
         public ObservableCollection<Product> AddedProducts { get; }
         //public ObservableCollection<OrderProduct> AddedProductsFromOrder { get; }
-        public ObservableCollection<OrderProduct> AddedProductsFromOrder {
+        /*public ObservableCollection<OrderProduct> AddedProductsFromOrder {
             get => _AddedProductsFromOrder;
             set => _AddedProductsFromOrder = value;
-        }
-        public static ObservableCollection<OrderProduct> _AddedProductsFromOrder;
+        }*/
+
+        public ObservableCollection<OrderProduct> AddedProductsFromOrder { get; set; }
+
+        //public static ObservableCollection<OrderProduct> _AddedProductsFromOrder;
 
         public NewOrderViewModel(string orderName) {
-            AddedProducts = new ObservableCollection<Product>();
+            /*AddedProducts = new ObservableCollection<Product>();
             
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new ProductPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            CancelOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
-            SubmitOrderCommand = new Command(async() => await App.Current.MainPage.DisplayAlert("Result", "Wyślij zamówienie", "OK"));
+            CancelOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Anuluj zamówienie", "OK"));
+            SubmitOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Wyślij zamówienie", "OK"));
             SaveOrderCommand = new Command(async () => await SaveOrder());
             //SetCount = new Command(() => { TotalCostProduct = 1 * AddedProducts[0].Cost; });
 
@@ -54,7 +58,7 @@ namespace Dystrybux.ViewModel {
                 Status = "Nie złożono"
             };
             
-            App.Database.SaveOrderAsync(_order);
+            App.Database.SaveOrderAsync(_order);*/
         }
 
         public NewOrderViewModel(Order order) {
@@ -72,22 +76,15 @@ namespace Dystrybux.ViewModel {
             DiscardOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Odrzuć zamówienie", "OK"));
             AcceptOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Przyjąć zamówienie", "OK"));
 
-            IncrementCountCommand = new Command(async (key) => {
-
-                /*Device.BeginInvokeOnMainThread(async () => {
-                    await App.Current.MainPage.DisplayAlert("Result", key.ToString(), "OK");
-                });*/
-                OrderProduct orderProduct = key as OrderProduct;
-
+            IncrementCountCommand = new Command(obj => IncrementCount((int)obj));
+            /*IncrementCountCommand = new Command(()=>{
                 Device.BeginInvokeOnMainThread(async () => {
-                    await App.Current.MainPage.DisplayAlert("Result", orderProduct.ID.ToString(), "OK");
+                    await App.Current.MainPage.DisplayAlert("Result", 1.ToString(), "OK");
                 });
+            });*/
 
-                //orderProduct.CountOfProducts += 1;
-            }
-
-            /*IncrementCount()*/);
-            DecrementCountCommand = new Command(() => DecrementCount());
+            //DecrementCountCommand = new Command(() => DecrementCount());
+            DecrementCountCommand = new Command(obj => DecrementCount((int)obj));
 
             _order = order;
 
@@ -181,19 +178,33 @@ namespace Dystrybux.ViewModel {
             });*/
         }
 
-        void IncrementCount() {
-            CountOfProduct += 1;
-            
-            Device.BeginInvokeOnMainThread(async () => {
-                await App.Current.MainPage.DisplayAlert("Result", CountOfProduct.ToString(), "OK");
-            });
+        void IncrementCount(int ID) {
+
+            var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
+            item.CountOfProducts += 1;
+            /*Device.BeginInvokeOnMainThread(async () => {
+                await App.Current.MainPage.DisplayAlert("Result", item.CountOfProducts.ToString(), "OK");
+            });*/
+
+            AddedProductsFromOrder[ID-1] = item;
+            App.Database.UpdateProductOrderAsync(item);
+            //OnPropertyChanged();
+            //_ = ExecuteLoadItemsCommand();
         }
 
-        void DecrementCount() {
-            CountOfProduct -= 1;
-            /*Device.BeginInvokeOnMainThread(async () => {
-                await App.Current.MainPage.DisplayAlert("Result", CountOfProduct.ToString(), "OK");
-            });*/
+        void DecrementCount(int ID) {
+            var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
+            if(item.CountOfProducts > 1) {
+                item.CountOfProducts -= 1;
+                /*Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", item.CountOfProducts.ToString(), "OK");
+                });*/
+
+                App.Database.UpdateProductOrderAsync(item);
+                AddedProductsFromOrder[ID-1] = item;
+                //_ = ExecuteLoadItemsCommand();
+                //OnPropertyChanged();
+            }
         }
 
         public Product AddedProduct {

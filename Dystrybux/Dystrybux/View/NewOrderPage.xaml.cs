@@ -79,3 +79,7 @@ namespace Dystrybux.View {
 
 // https://stackoverflow.com/questions/61749959/xamarin-observablecollection-doest-automatically-update-listview
 
+// https://stackoverflow.com/questions/57559700/how-to-create-listview-navigation-in-shell-tab-bar-using-xamarin-form-cross-plat
+
+// https://stackoverflow.com/questions/56705645/xamarin-forms-listview-binding-update-row-ui
+
