@@ -17,6 +17,9 @@ namespace Dystrybux.Model {
         [Column("CountOfProducts")]
         public int CountOfProducts { get; set; }
 
+        [Column("TotalCostForProduct")]
+        public double TotalCostForProduct { get; set; }
+
         [SQLite.Ignore]
         public virtual Order Order { get; set; }
         [SQLite.Ignore]

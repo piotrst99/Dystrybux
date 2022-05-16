@@ -151,7 +151,8 @@ namespace Dystrybux.DataBase {
                 ProductID = product.ID,
                 CountOfProducts = 1,
                 Order = order,
-                Product = product
+                Product = product,
+                TotalCostForProduct = product.Cost * 1.0
             });
         }
 

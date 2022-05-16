@@ -1,5 +1,7 @@
 ﻿using Dystrybux.Model;
 using Dystrybux.View;
+using Rg.Plugins.Popup.Services;
+using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +23,7 @@ namespace Dystrybux.ViewModel {
         private DateTime _firstDate = DateTime.Now;
         private DateTime _secondDate = DateTime.Now;
 
-        private int _totalCostProduct = 0;
+        private double _totalCostProduct = 0.0;
         private int _countOfProduct = 0;
 
         //private int _countOfProduct = 0;
@@ -76,7 +78,7 @@ namespace Dystrybux.ViewModel {
             DiscardOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Odrzuć zamówienie", "OK"));
             AcceptOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Przyjąć zamówienie", "OK"));
 
-            IncrementCountCommand = new Command(obj => IncrementCount((int)obj));
+            IncrementCountCommand = new Command(async (obj) => await IncrementCount((int)obj));
             /*IncrementCountCommand = new Command(()=>{
                 Device.BeginInvokeOnMainThread(async () => {
                     await App.Current.MainPage.DisplayAlert("Result", 1.ToString(), "OK");
@@ -85,6 +87,15 @@ namespace Dystrybux.ViewModel {
 
             //DecrementCountCommand = new Command(() => DecrementCount());
             DecrementCountCommand = new Command(obj => DecrementCount((int)obj));
+            
+            ThreeDottedIconPopup = new Command( () =>{
+                /*ViewCell viewCell = new ViewCell {
+                    View = 
+                }*/
+                Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", "Czy usunac" + "", "OK");
+                });
+            } /*await PopupNavigation.Instance.PushAsync()*/);
 
             _order = order;
 
@@ -126,7 +137,9 @@ namespace Dystrybux.ViewModel {
                     AddedProducts.Add(p.Product);
                     //p.Product = App.Database.GetProductAsync(p.ProductID).Result;
                     AddedProductsFromOrder.Add(p);
+                    //TotalCostProduct = p.CountOfProducts * p.Product.Cost;
                 }
+                TotalCostProduct = AddedProductsFromOrder.Sum(q => q.TotalCostForProduct);
             }
             catch (Exception) { throw; }
             IsRefreshing = false;
@@ -178,16 +191,32 @@ namespace Dystrybux.ViewModel {
             });*/
         }
 
-        void IncrementCount(int ID) {
+        async Task IncrementCount(int ID) {
 
             var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
             item.CountOfProducts += 1;
+            item.TotalCostForProduct = item.CountOfProducts * item.Product.Cost *1.0;
             /*Device.BeginInvokeOnMainThread(async () => {
                 await App.Current.MainPage.DisplayAlert("Result", item.CountOfProducts.ToString(), "OK");
             });*/
 
             AddedProductsFromOrder[ID-1] = item;
-            App.Database.UpdateProductOrderAsync(item);
+            await App.Database.UpdateProductOrderAsync(item);
+
+            TotalCostProduct = AddedProductsFromOrder.Sum(q => q.TotalCostForProduct);
+
+            /*AddedProducts.Clear();
+            AddedProductsFromOrder.Clear();
+
+            var items = await App.Database.GetOrderProductsAsync(_order.ID);
+
+            foreach (var p in items) {
+                //AddedProducts.Add(await App.Database.GetProductAsync(p.ProductID));
+                AddedProducts.Add(p.Product);
+                //p.Product = App.Database.GetProductAsync(p.ProductID).Result;
+                AddedProductsFromOrder.Add(p);
+            }*/
+
             //OnPropertyChanged();
             //_ = ExecuteLoadItemsCommand();
         }
@@ -199,11 +228,12 @@ namespace Dystrybux.ViewModel {
                 /*Device.BeginInvokeOnMainThread(async () => {
                     await App.Current.MainPage.DisplayAlert("Result", item.CountOfProducts.ToString(), "OK");
                 });*/
-
+                item.TotalCostForProduct = item.CountOfProducts * item.Product.Cost * 1.0;
                 App.Database.UpdateProductOrderAsync(item);
                 AddedProductsFromOrder[ID-1] = item;
                 //_ = ExecuteLoadItemsCommand();
                 //OnPropertyChanged();
+                TotalCostProduct = AddedProductsFromOrder.Sum(q=>q.TotalCostForProduct);
             }
         }
 
@@ -232,9 +262,12 @@ namespace Dystrybux.ViewModel {
             set => _IsBusiness = value;
         }
 
-        public int TotalCostProduct {
+        public double TotalCostProduct {
             get => _totalCostProduct;
-            set => _totalCostProduct = value;
+            set {
+                _totalCostProduct = value;
+                OnPropertyChanged();
+            }
         }
 
         public int CountOfProduct {
@@ -265,6 +298,7 @@ namespace Dystrybux.ViewModel {
         public Command SetCount { protected set; get; }
         public Command IncrementCountCommand { protected set; get; }
         public Command DecrementCountCommand { protected set; get; }
+        public Command ThreeDottedIconPopup { protected set; get; }
         
     }
 }
