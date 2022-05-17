@@ -87,15 +87,8 @@ namespace Dystrybux.ViewModel {
 
             //DecrementCountCommand = new Command(() => DecrementCount());
             DecrementCountCommand = new Command(obj => DecrementCount((int)obj));
-            
-            ThreeDottedIconPopup = new Command( () =>{
-                /*ViewCell viewCell = new ViewCell {
-                    View = 
-                }*/
-                Device.BeginInvokeOnMainThread(async () => {
-                    await App.Current.MainPage.DisplayAlert("Result", "Czy usunac" + "", "OK");
-                });
-            } /*await PopupNavigation.Instance.PushAsync()*/);
+
+            RemoveItemFromOrderCommand = new Command((obj) => RemoveItemFromOrder((int)obj));
 
             _order = order;
 
@@ -237,6 +230,22 @@ namespace Dystrybux.ViewModel {
             }
         }
 
+        void RemoveItemFromOrder(int ID) {
+            Device.BeginInvokeOnMainThread(async () => {
+                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy usunąć produkt z zamówienia?", "Tak", "Nie");
+                if (choice) {
+                    try {
+                        // usuwanie produktu z zamowienia
+                        var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
+                        AddedProductsFromOrder.Remove(item);
+                        TotalCostProduct = AddedProductsFromOrder.Sum(q => q.TotalCostForProduct);
+                        //await App.Current.MainPage.DisplayAlert("", "Usunieto produkt"+ ID.ToString(), "Ok");
+                    }
+                    catch (Exception) { throw; }
+                }
+            });
+        }
+
         public Product AddedProduct {
             get => _addedProduct;
             set { _addedProduct = value; }
@@ -298,7 +307,7 @@ namespace Dystrybux.ViewModel {
         public Command SetCount { protected set; get; }
         public Command IncrementCountCommand { protected set; get; }
         public Command DecrementCountCommand { protected set; get; }
-        public Command ThreeDottedIconPopup { protected set; get; }
+        public Command RemoveItemFromOrderCommand { protected set; get; }
         
     }
 }

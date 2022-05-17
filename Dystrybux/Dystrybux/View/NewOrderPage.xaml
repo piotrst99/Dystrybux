@@ -89,11 +89,23 @@
                                                         LineBreakMode="NoWrap" 
                                                         Style="{DynamicResource ListItemTextStyle}" 
                                                         FontSize="20" HorizontalOptions="StartAndExpand" />
-                                                    <Image Source="threeDot.png" HorizontalOptions="End" WidthRequest="20" HeightRequest="20">
+                                                    <!--<Image Source="deleteItem.png" HorizontalOptions="End" WidthRequest="20" HeightRequest="20" >
                                                         <Image.GestureRecognizers>
-                                                            <TapGestureRecognizer Command="{Binding ThreeDottedIconPopup}" />
+                                                            <TapGestureRecognizer Command="{Binding RemoveItemFromOrderCommand, Source={x:Reference ItemsListView}}"
+                                                                NumberOfTapsRequired="1" x:DataType="model:OrderProduct" CommandParameter="{Binding ID}"/>
                                                         </Image.GestureRecognizers>
-                                                    </Image>
+                                                    </Image>-->
+
+                                                    <!--
+                                                    
+                                                    <ImageButton Source="deleteItem.png" HorizontalOptions="End" WidthRequest="25" HeightRequest="25"
+                                                        Command="{Binding RemoveItemFromOrderCommand, Source={x:Reference ItemsListView}}"
+                                                        x:DataType="model:OrderProduct" CommandParameter="{Binding ID}">
+
+                                                    </ImageButton>
+                                                    
+                                                    -->
+                                                    
                                                 </StackLayout>
 
                                                 <StackLayout Orientation="Horizontal" Padding="0,0,0,0">
@@ -119,6 +131,12 @@
                                                             Command="{Binding BindingContext.IncrementCountCommand, Source={x:Reference ItemsListView}}" 
                                                             x:DataType="model:OrderProduct" CommandParameter="{Binding ID}"         
                                                             />
+                                                    
+                                                    <ImageButton Source="deleteItem.png" HorizontalOptions="End" WidthRequest="30" HeightRequest="30"
+                                                        Command="{Binding BindingContext.RemoveItemFromOrderCommand, Source={x:Reference ItemsListView}}"
+                                                        x:DataType="model:OrderProduct" CommandParameter="{Binding ID}">
+
+                                                    </ImageButton>
 
                                                 </StackLayout>
 
@@ -167,8 +185,10 @@
             </RefreshView>
         </ScrollView>
 
-        <StackLayout VerticalOptions="End">
-            <Label Text="{Binding TotalCostProduct}" FontSize="20"/>
+        <StackLayout VerticalOptions="End" Orientation="Horizontal" HeightRequest="25">
+            <Label Text="Łączna wartość zamówienia " FontSize="20" HorizontalOptions="Start"/>
+            <Label Text="{Binding TotalCostProduct}" FontSize="20" HorizontalOptions="EndAndExpand"/>
+            <Label Text=" zł" FontSize="20" HorizontalOptions="End" Padding="10,0,10,0"/>
         </StackLayout>
         
     </StackLayout>

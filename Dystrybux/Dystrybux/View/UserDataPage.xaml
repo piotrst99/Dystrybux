@@ -10,12 +10,25 @@
     </ContentPage.ToolbarItems>
     
     <StackLayout>
-        <StackLayout >
+        <!--<StackLayout >
             <Label Text="Imię" FontSize="25"/>
             <Label  Text="{Binding Name}" FontSize="20" />
             <Label Text="Nazwisko" FontSize="25"/>
             <Label  Text="{Binding Surname}" FontSize="20" />
             <Entry Text="{Binding Name}"/>
+        </StackLayout>-->
+
+        <StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Imię" FontSize="25" HorizontalOptions="Start"/>
+                <Label Text="{Binding Name}" FontSize="25" HorizontalOptions="StartAndExpand" />
+                <ImageButton Source="editIcon.jpg" HorizontalOptions="End" WidthRequest="30" 
+                    Command="{Binding BindingContext.EditUserNameCommand}" />
+
+                <Entry Text="{Binding Name}" FontSize="25" HorizontalOptions="StartAndExpand" IsVisible="{Binding UserDataIsEdit}" />
+                <Button Text="Zapisz" WidthRequest="50" HorizontalOptions="End" IsVisible="{Binding UserDataIsEdit}" />
+
+            </StackLayout>
         </StackLayout>
 
         <StackLayout >
