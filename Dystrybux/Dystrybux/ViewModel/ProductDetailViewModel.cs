@@ -61,16 +61,34 @@ namespace Dystrybux.ViewModel {
                             Status = "Nie złożono"
                         };
 
+                        _product.Count -= 1;
+                        await App.Database.UpdateProductAsync(_product);
+
                         await App.Database.SaveOrderAsync(newOrder);
                         await App.Database.SaveProductOrderAsync(newOrder, _product);
                     }
                     else{
                         // add to undone order
-                        Device.BeginInvokeOnMainThread(async () => {
-                            await App.Current.MainPage.DisplayAlert("Result", "nowe zamowienie juz istnieje", "OK");
-                        });
 
-                        await App.Database.SaveProductOrderAsync(order, _product);
+                        var productFromOrder = await App.Database.GetProductFromOrderAsync(order.ID, _product.ID);
+
+                        if(productFromOrder == null) {
+                            _product.Count -= 1;
+                            await App.Database.UpdateProductAsync(_product);
+                            await App.Database.SaveProductOrderAsync(order, _product);
+                        }
+                        else {
+                            Device.BeginInvokeOnMainThread(async () => {
+                                await App.Current.MainPage.DisplayAlert("Result", "Produkt został dodany do zamówienia", "OK");
+                            });
+                        }
+
+                        
+
+
+                        /*_product.Count -= 1;
+                        await App.Database.UpdateProductAsync(_product);
+                        await App.Database.SaveProductOrderAsync(order, _product);*/
 
                     }
                     

@@ -86,7 +86,7 @@ namespace Dystrybux.ViewModel {
             });*/
 
             //DecrementCountCommand = new Command(() => DecrementCount());
-            DecrementCountCommand = new Command(obj => DecrementCount((int)obj));
+            DecrementCountCommand = new Command(async(obj) => await DecrementCount((int)obj));
 
             RemoveItemFromOrderCommand = new Command((obj) => RemoveItemFromOrder((int)obj));
 
@@ -188,13 +188,19 @@ namespace Dystrybux.ViewModel {
 
             var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
             item.CountOfProducts += 1;
+            //var product = await App.Database.GetProductAsync(item.ProductID);
+            var product = item.Product;
+
+            product.Count -= 1;
             item.TotalCostForProduct = item.CountOfProducts * item.Product.Cost *1.0;
             /*Device.BeginInvokeOnMainThread(async () => {
                 await App.Current.MainPage.DisplayAlert("Result", item.CountOfProducts.ToString(), "OK");
             });*/
 
-            AddedProductsFromOrder[ID-1] = item;
+            await App.Database.UpdateProductAsync(product);
+
             await App.Database.UpdateProductOrderAsync(item);
+            AddedProductsFromOrder[ID-1] = item;
 
             TotalCostProduct = AddedProductsFromOrder.Sum(q => q.TotalCostForProduct);
 
@@ -214,15 +220,20 @@ namespace Dystrybux.ViewModel {
             //_ = ExecuteLoadItemsCommand();
         }
 
-        void DecrementCount(int ID) {
+        async Task DecrementCount(int ID) {
             var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
             if(item.CountOfProducts > 1) {
                 item.CountOfProducts -= 1;
+                //var product = await App.Database.GetProductAsync(item.ProductID);
+                var product = item.Product;
+                product.Count += 1;
                 /*Device.BeginInvokeOnMainThread(async () => {
                     await App.Current.MainPage.DisplayAlert("Result", item.CountOfProducts.ToString(), "OK");
                 });*/
                 item.TotalCostForProduct = item.CountOfProducts * item.Product.Cost * 1.0;
-                App.Database.UpdateProductOrderAsync(item);
+
+                await App.Database.UpdateProductAsync(product);
+                await App.Database.UpdateProductOrderAsync(item);
                 AddedProductsFromOrder[ID-1] = item;
                 //_ = ExecuteLoadItemsCommand();
                 //OnPropertyChanged();

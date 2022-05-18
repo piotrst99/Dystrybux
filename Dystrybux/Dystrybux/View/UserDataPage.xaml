@@ -18,20 +18,72 @@
             <Entry Text="{Binding Name}"/>
         </StackLayout>-->
 
+        <!--<ImageButton Source="editIcon.jpg" HorizontalOptions="End" WidthRequest="30" HeightRequest="30" 
+                    Command="{Binding BindingContext.EditUserNameCommand}" />-->
+
         <StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Imię" FontSize="25" HorizontalOptions="Start"/>
-                <Label Text="{Binding Name}" FontSize="25" HorizontalOptions="StartAndExpand" />
-                <ImageButton Source="editIcon.jpg" HorizontalOptions="End" WidthRequest="30" 
-                    Command="{Binding BindingContext.EditUserNameCommand}" />
+            <!-- Imie -->
+            <StackLayout Orientation="Horizontal" HeightRequest="40">
+                <Label Text="Imię" FontSize="25" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
 
-                <Entry Text="{Binding Name}" FontSize="25" HorizontalOptions="StartAndExpand" IsVisible="{Binding UserDataIsEdit}" />
-                <Button Text="Zapisz" WidthRequest="50" HorizontalOptions="End" IsVisible="{Binding UserDataIsEdit}" />
+                <StackLayout IsVisible="{Binding UserNameIsShow}" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                    <Label Text="{Binding Name}" FontSize="25" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+                    <ImageButton Source="editIcon.jpg" HorizontalOptions="End" WidthRequest="30" HeightRequest="30" 
+                        Command="{Binding EditUserNameCommand}" VerticalOptions="Center" />
 
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding UserNameIsEdit}" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                    <Entry Text="{Binding Name}" FontSize="25" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
+                    <ImageButton Source="saveIcon.jpg" HorizontalOptions="End" WidthRequest="30" HeightRequest="30" 
+                        Command="{Binding SaveUserNameCommand}" VerticalOptions="Center" />
+                </StackLayout>
+
+            </StackLayout>
+
+            <!-- Nazwisko -->
+            <StackLayout Orientation="Horizontal" HeightRequest="40">
+                <Label Text="Nazwisko" FontSize="25" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+
+                <StackLayout IsVisible="{Binding UserSurnameIsShow}" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                    <Label Text="{Binding Surname}" FontSize="25" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+                    <ImageButton Source="editIcon.jpg" HorizontalOptions="End" WidthRequest="30" HeightRequest="30" 
+                        Command="{Binding EditUserSurnameCommand}" VerticalOptions="Center" />
+
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding UserSurnameIsEdit}" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                    <Entry Text="{Binding Surname}" FontSize="25" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
+                    <ImageButton Source="saveIcon.jpg" HorizontalOptions="End" WidthRequest="30" HeightRequest="30" 
+                        Command="{Binding SaveUserSurnameCommand}" VerticalOptions="Center" />
+                </StackLayout>
+
+            </StackLayout>
+
+        </StackLayout>
+
+        <!-- Dane osobowe 2 wersja -->
+        
+        <StackLayout>
+            <!-- Imie -->
+            <StackLayout Orientation="Horizontal" HeightRequest="40">
+                <Label Text="Imię" FontSize="25" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                <Label Text="{Binding Name}" IsVisible="{Binding UserDataAreShowing}" 
+                       FontSize="25" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+                <Entry Text="{Binding Name}" IsVisible="{Binding UserDataAreEditing}" 
+                       FontSize="25" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+            <!-- Nazwisko -->
+            <StackLayout Orientation="Horizontal" HeightRequest="40">
+                <Label Text="Nazwisko" FontSize="25" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                <Label Text="{Binding Surname}" IsVisible="{Binding UserDataAreShowing}" 
+                       FontSize="25" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+                <Entry Text="{Binding Surname}" IsVisible="{Binding UserDataAreEditing}" 
+                       FontSize="25" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
             </StackLayout>
         </StackLayout>
 
-        <StackLayout >
+        <!--<StackLayout >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
@@ -50,7 +102,10 @@
                 <Label Text="{Binding Surname}" Grid.Column="1" Grid.Row="1"/>
 
             </Grid>
-        </StackLayout>
+        </StackLayout>-->
+        
+        
+        
     </StackLayout>
     
 

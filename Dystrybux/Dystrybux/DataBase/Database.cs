@@ -145,6 +145,11 @@ namespace Dystrybux.DataBase {
 
         }
 
+        public Task<OrderProduct> GetProductFromOrderAsync(int orderID, int productID) {
+            return _database.Table<OrderProduct>()
+                .Where(q => q.OrderID == orderID && q.ProductID == productID).FirstOrDefaultAsync();
+        }
+
         public Task<int> SaveProductOrderAsync(Order order, Product product) {
             return _database.InsertAsync(new OrderProduct() {
                 OrderID = order.ID,

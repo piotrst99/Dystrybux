@@ -125,6 +125,8 @@ namespace Dystrybux.ViewModel
 
                         //order.Products = new List<Product>() { product };
 
+                        //product.Count -= 1;
+                        //await App.Database.UpdateProductAsync(product);
                         await App.Database.SaveProductOrderAsync(_selectedOrder, product);
 
                         //order.Products = new List<Product>(){ product };
