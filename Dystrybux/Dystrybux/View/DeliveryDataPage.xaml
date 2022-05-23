@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Dystrybux.ViewModel"
+             xmlns:model="clr-namespace:Dystrybux.Model" 
+             x:DataType="local:DeliveryDataViewModel"
+             x:Class="Dystrybux.View.DeliveryDataPage"
+             >
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="Dane dostawy" FontSize="20" TextColor="White" FontAttributes="Bold" />
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
+    <StackLayout>
+        <ScrollView>
+            <StackLayout>
+
+                <!-- Nazwa firmy -->
+                <Label Text="Firma" FontSize="35"/>
+                <Label Text="Nazwa firmy" FontSize="25" />
+                <Entry Text="{Binding Delivery.CompanyName}" FontSize="20" />
+
+                <!-- Adres -->
+                <Label Text="Adres" FontSize="35"/>
+
+                <!-- Ulica -->
+                <Label Text="Ulica" FontSize="25"/>
+                <Entry Text="{Binding Delivery.Street}" FontSize="20" />
+
+                <!-- numer budynku -->
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Nr budynku" FontSize="25" HorizontalOptions="Start"/>
+                    <Entry Text="{Binding Delivery.Number}" FontSize="20" WidthRequest="60" HorizontalOptions="StartAndExpand" />
+                    <Label Text="Nr lokalu" FontSize="25" HorizontalOptions="Start"/>
+                    <Entry Text="{Binding Delivery.LocalNumber}" FontSize="20" WidthRequest="60" HorizontalOptions="StartAndExpand" />
+                </StackLayout>
+
+                <Label Text="Data dostawy" FontSize="35"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Najwcześniejszy termin" FontSize="25" HorizontalOptions="Start"/>
+                    <DatePicker FontSize="20" HorizontalOptions="StartAndExpand" Date="{Binding Delivery.EarliestDate}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Najpóźniejszy termin" FontSize="25" HorizontalOptions="Start"/>
+                    <DatePicker FontSize="20" HorizontalOptions="StartAndExpand" Date="{Binding Delivery.LatestDate}" />
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+        <StackLayout BackgroundColor="Transparent"  Margin="0, 10, 0, 10">
+            <Button BackgroundColor="LightGreen" Text="Podsumowanie zamówienia" CornerRadius="20" WidthRequest="200" HeightRequest="40"
+                        HorizontalOptions="Center" Command="{Binding OrderSummaryCommand}" />
+        </StackLayout>
+
+    </StackLayout>
+    
+</ContentPage>

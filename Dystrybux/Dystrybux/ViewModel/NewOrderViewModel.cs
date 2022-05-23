@@ -72,7 +72,7 @@ namespace Dystrybux.ViewModel {
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new ProductPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             CancelOrderCommand = new Command(() => CancelOrder());
-            SubmitOrderCommand = new Command(() => SubmitOrder());
+            SubmitOrderCommand = new Command(async () => await SubmitOrder());
             SaveOrderCommand = new Command(async () => await SaveOrder());
 
             DiscardOrderCommand = new Command(async () => await App.Current.MainPage.DisplayAlert("Result", "Odrzuć zamówienie", "OK"));
@@ -149,19 +149,21 @@ namespace Dystrybux.ViewModel {
             catch (Exception) { throw; }
         }
 
-        void SubmitOrder() {
-            Device.BeginInvokeOnMainThread(async () => {
+        async Task SubmitOrder() {
+            /*Device.BeginInvokeOnMainThread(async () => {
                 bool choice = await App.Current.MainPage.DisplayAlert("", "Czy złożyć zamówienie do realizacji?", "Tak", "Nie");
                 if (choice) {
-                    try {
+                    /*try {
                         _order.Name = new Random().Next(10000, 99999).ToString() + new Random().Next(10000, 99999).ToString();
                         _order.Status = "Złożono";
                         _order.OrderedDate = DateTime.Now.ToString();
                         await App.Database.UpdateOrderAsync(_order);
                     }
                     catch (Exception) { throw; }
+                    await App.Navigation.PushAsync(new DeliveryDataPage());
                 }
-            });
+            });*/
+            await App.Navigation.PushAsync(new DeliveryDataPage());
         }
 
         void CancelOrder() {
@@ -185,59 +187,41 @@ namespace Dystrybux.ViewModel {
         }
 
         async Task IncrementCount(int ID) {
-
             var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
-            item.CountOfProducts += 1;
-            //var product = await App.Database.GetProductAsync(item.ProductID);
+            int index = AddedProductsFromOrder.IndexOf(item);
             var product = item.Product;
+            if(product.Count >= 1) {
+                item.CountOfProducts += 1;
+                product.Count -= 1;
+                item.TotalCostForProduct = item.CountOfProducts * item.Product.Cost *1.0;
 
-            product.Count -= 1;
-            item.TotalCostForProduct = item.CountOfProducts * item.Product.Cost *1.0;
-            /*Device.BeginInvokeOnMainThread(async () => {
-                await App.Current.MainPage.DisplayAlert("Result", item.CountOfProducts.ToString(), "OK");
-            });*/
+                await App.Database.UpdateProductAsync(product);
+                await App.Database.UpdateProductOrderAsync(item);
+                AddedProductsFromOrder[index] = item;
 
-            await App.Database.UpdateProductAsync(product);
-
-            await App.Database.UpdateProductOrderAsync(item);
-            AddedProductsFromOrder[ID-1] = item;
-
-            TotalCostProduct = AddedProductsFromOrder.Sum(q => q.TotalCostForProduct);
-
-            /*AddedProducts.Clear();
-            AddedProductsFromOrder.Clear();
-
-            var items = await App.Database.GetOrderProductsAsync(_order.ID);
-
-            foreach (var p in items) {
-                //AddedProducts.Add(await App.Database.GetProductAsync(p.ProductID));
-                AddedProducts.Add(p.Product);
-                //p.Product = App.Database.GetProductAsync(p.ProductID).Result;
-                AddedProductsFromOrder.Add(p);
-            }*/
-
-            //OnPropertyChanged();
-            //_ = ExecuteLoadItemsCommand();
+                TotalCostProduct = AddedProductsFromOrder.Sum(q => q.TotalCostForProduct);
+            }
+            else {
+                //Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", "Nie ma produktów na stanie", "OK");
+                //});
+            }
         }
 
         async Task DecrementCount(int ID) {
             var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
-            if(item.CountOfProducts > 1) {
+            int index = AddedProductsFromOrder.IndexOf(item);
+            if (item.CountOfProducts > 1) {
                 item.CountOfProducts -= 1;
-                //var product = await App.Database.GetProductAsync(item.ProductID);
                 var product = item.Product;
                 product.Count += 1;
-                /*Device.BeginInvokeOnMainThread(async () => {
-                    await App.Current.MainPage.DisplayAlert("Result", item.CountOfProducts.ToString(), "OK");
-                });*/
                 item.TotalCostForProduct = item.CountOfProducts * item.Product.Cost * 1.0;
 
                 await App.Database.UpdateProductAsync(product);
                 await App.Database.UpdateProductOrderAsync(item);
-                AddedProductsFromOrder[ID-1] = item;
-                //_ = ExecuteLoadItemsCommand();
-                //OnPropertyChanged();
-                TotalCostProduct = AddedProductsFromOrder.Sum(q=>q.TotalCostForProduct);
+                AddedProductsFromOrder[index] = item;
+
+                TotalCostProduct = AddedProductsFromOrder.Sum(q => q.TotalCostForProduct);
             }
         }
 
@@ -246,11 +230,15 @@ namespace Dystrybux.ViewModel {
                 bool choice = await App.Current.MainPage.DisplayAlert("", "Czy usunąć produkt z zamówienia?", "Tak", "Nie");
                 if (choice) {
                     try {
-                        // usuwanie produktu z zamowienia
                         var item = AddedProductsFromOrder.Where(q => q.ID == ID).FirstOrDefault();
+                        var product = item.Product;
+                        product.Count += item.CountOfProducts;
+
                         AddedProductsFromOrder.Remove(item);
+                        await App.Database.UpdateProductAsync(product);
+                        await App.Database.RemoveProductFromOrderAsync(item);
+
                         TotalCostProduct = AddedProductsFromOrder.Sum(q => q.TotalCostForProduct);
-                        //await App.Current.MainPage.DisplayAlert("", "Usunieto produkt"+ ID.ToString(), "Ok");
                     }
                     catch (Exception) { throw; }
                 }

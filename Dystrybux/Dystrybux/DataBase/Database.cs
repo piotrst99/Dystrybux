@@ -15,11 +15,13 @@ namespace Dystrybux.DataBase {
             //_database.DropTableAsync<Product>().Wait();
             //_database.DropTableAsync<Order>().Wait();
             //_database.DropTableAsync<OrderProduct>().Wait();
+            //_database.DropTableAsync<Delivery>().Wait();
 
             _database.CreateTableAsync<User>().Wait();
             _database.CreateTableAsync<Product>().Wait();
             _database.CreateTableAsync<Order>().Wait();
             _database.CreateTableAsync<OrderProduct>().Wait();
+            _database.CreateTableAsync<Delivery>().Wait();
         }
 
         //////
@@ -163,6 +165,34 @@ namespace Dystrybux.DataBase {
 
         public Task<int> UpdateProductOrderAsync(OrderProduct orderProduct) {
             return _database.UpdateAsync(orderProduct);
+        }
+
+        public Task<int> RemoveProductFromOrderAsync(OrderProduct orderProduct) {
+            return _database.DeleteAsync(orderProduct);
+        }
+
+        #endregion
+
+        //////
+        /// DOSTAWA
+        /// DELIVERY
+        //////
+
+        #region DELIVERY
+
+        public Task<Delivery> GetDeliveryFromOrderAsync(int deliveryID) {
+            return _database.Table<Delivery>().Where(q => q.ID == deliveryID).FirstOrDefaultAsync();
+        }
+
+        public Task<int> SaveDeliveryAsync(Delivery delivery) {
+            _database.InsertAsync(delivery);
+            var order = GetUndoneOrderAsync("Nie złożono").Result;
+            order.DeliveryID = _database.Table<Delivery>().OrderByDescending(q => q.ID).FirstAsync().Result.ID;
+            return UpdateOrderAsync(order);
+        }
+
+        public Task<int> UpdateDeliveryAsync(Delivery delivery) {
+            return _database.UpdateAsync(delivery);
         }
 
         #endregion

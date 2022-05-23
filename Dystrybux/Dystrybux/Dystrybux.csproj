@@ -18,12 +18,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="View\DeliveryDataPage.xaml.cs">
+      <DependentUpon>DeliveryDataPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\OrderSummaryPage.xaml.cs">
+      <DependentUpon>OrderSummaryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="View\ProductPage.xaml.cs">
       <DependentUpon>ProductPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="View\DeliveryDataPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="View\OrderSummaryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="View\NewOrderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
