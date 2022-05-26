@@ -58,7 +58,8 @@ namespace Dystrybux.ViewModel {
                             FirstDate = null,
                             SecondDate = null,
                             Products = new List<Product>() { },
-                            Status = "Nie złożono"
+                            Status = "Nie złożono",
+                            UserID = App.User.ID
                         };
 
                         _product.Count -= 1;

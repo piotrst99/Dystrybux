@@ -104,12 +104,16 @@ namespace Dystrybux.DataBase {
             return _database.Table<Order>().ToListAsync();
         }
 
-        public Task<List<Order>> GetOrdersAsync(string status) {
+        public Task<List<Order>> GetOrdersForUserAsync(string status) {
+            return _database.Table<Order>().Where(q => q.Status != status && q.UserID == App.User.ID).ToListAsync();
+        }
+
+        public Task<List<Order>> GetOrdersForEmployeeAsync(string status){
             return _database.Table<Order>().Where(q => q.Status != status).ToListAsync();
         }
 
         public Task<Order> GetUndoneOrderAsync(string status) {
-            return _database.Table<Order>().Where(q => q.Status == status).FirstOrDefaultAsync();
+            return _database.Table<Order>().Where(q => q.Status == status && q.UserID == App.User.ID).FirstOrDefaultAsync();
         }
 
         public Task<int> SaveOrderAsync(Order order) {

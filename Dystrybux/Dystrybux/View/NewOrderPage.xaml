@@ -71,7 +71,7 @@
                                 <Frame Padding="0,0,0,0" >
                                     <Grid Margin="0,5,0,5">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="100" />
+                                            <RowDefinition Height="110" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="2*" />

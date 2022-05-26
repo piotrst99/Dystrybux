@@ -5,7 +5,7 @@
             xmlns:local="clr-namespace:Dystrybux.View"
             >
     <!--Pages can be added as references or inline-->
-    <local:ProductPage Title="Produkty"/>
+    <local:ProductPage Title="Produkty" />
     <!--<local:NewOrderPage Title="Koszyk" />-->
     <local:OrderPage Title="Zamówienia"/>
     <local:SettingsPage Title="Ustawienia"/>

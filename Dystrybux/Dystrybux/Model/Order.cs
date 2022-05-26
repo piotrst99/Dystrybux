@@ -34,6 +34,12 @@ namespace Dystrybux.Model {
         [Column("DeliveryID")]
         public int DeliveryID { get; set; }
 
+        [Column("UserID")]
+        public int UserID { get; set; }
+
+        [SQLite.Ignore]
+        public virtual User User { get; set; }
+
         [SQLite.Ignore]
         public virtual Delivery Delivery { get; set; }
 

@@ -17,7 +17,7 @@ namespace Dystrybux.ViewModel {
 
         public OrderSummaryViewModel() {
             SetData();
-            SubmitOrderCommand = new Command(async () => await SubmitOrder());
+            SubmitOrderCommand = new Command(() => SubmitOrder());
         }
 
         void SetData() {
@@ -39,7 +39,7 @@ namespace Dystrybux.ViewModel {
             catch (Exception) { throw; }
         }
 
-        async Task SubmitOrder() {
+        void SubmitOrder() {
             Device.BeginInvokeOnMainThread(async () => {
             bool choice = await App.Current.MainPage.DisplayAlert("", "Czy wysłać zamówienie do realizacji?", "Tak", "Nie");
             if (choice) {
@@ -51,11 +51,11 @@ namespace Dystrybux.ViewModel {
                     }
                     catch (Exception) { throw; }
                 }
+                App.Navigation.RemovePage(App.Navigation.NavigationStack[App.Navigation.NavigationStack.Count - 2]);
+                await App.Navigation.PopAsync(false);
+                await App.Navigation.PopAsync(false);
+                //await App.Navigation.PopAsync(false);
             });
-            App.Navigation.RemovePage(App.Navigation.NavigationStack[App.Navigation.NavigationStack.Count - 2]);
-            await App.Navigation.PopAsync(false);
-            await App.Navigation.PopAsync(false);
-            //await App.Navigation.PopAsync(false);
         }
 
         public Order Order {

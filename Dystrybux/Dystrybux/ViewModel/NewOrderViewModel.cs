@@ -71,7 +71,7 @@ namespace Dystrybux.ViewModel {
 
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new ProductPage(true, _order)));
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            CancelOrderCommand = new Command(() => CancelOrder());
+            //CancelOrderCommand = new Command(() => CancelOrder());
             SubmitOrderCommand = new Command(async () => await SubmitOrder());
             SaveOrderCommand = new Command(async () => await SaveOrder());
 

@@ -32,8 +32,13 @@ namespace Dystrybux.ViewModel {
                 /*if(App.User.Role == "Client")
                     orders = await App.Database.GetOrdersAsync();
                 else*/
-                orders = await App.Database.GetOrdersAsync("Nie złożono");
-                
+                if(App.User.Role == "Client"){
+                    orders = await App.Database.GetOrdersForUserAsync("Nie złożono");
+                }
+                else{
+                    orders = await App.Database.GetOrdersForEmployeeAsync("Nie złożono");
+                }
+
                 foreach (var o in orders) {
                     Orders.Add(o);
                 }
