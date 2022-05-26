@@ -16,7 +16,8 @@ namespace Dystrybux.ViewModel {
             ProductListCommand = new Command(async () =>  await App.Navigation.PushAsync(new ProductPage()));
             OrderListCommand = new Command(async () => await App.Navigation.PushAsync(new OrderPage()));
             SettingsCommand = new Command(async () => await App.Navigation.PushAsync(new SettingsPage()));
-            TestCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage()));
+            //TestCommand = new Command(async () => await App.Navigation.PushAsync(new TestPage()));
+            TestCommand = new Command(async () => await App.Navigation.PushAsync(new Testowe()));
             DetailsOrderCommand = new Command(async () => await DetailsOrder());
         }
 

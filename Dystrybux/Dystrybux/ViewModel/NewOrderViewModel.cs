@@ -28,7 +28,7 @@ namespace Dystrybux.ViewModel {
 
         //private int _countOfProduct = 0;
 
-        public ObservableCollection<Product> AddedProducts { get; }
+        //public ObservableCollection<Product> AddedProducts { get; }
         //public ObservableCollection<OrderProduct> AddedProductsFromOrder { get; }
         /*public ObservableCollection<OrderProduct> AddedProductsFromOrder {
             get => _AddedProductsFromOrder;
@@ -66,7 +66,7 @@ namespace Dystrybux.ViewModel {
         public NewOrderViewModel(Order order) {
             if(App.User.Role == "Business") { IsBusiness = true; IsClient = false; }
             else { IsBusiness = false; IsClient = true; }
-            AddedProducts = new ObservableCollection<Product>();
+            //AddedProducts = new ObservableCollection<Product>();
             AddedProductsFromOrder = new ObservableCollection<OrderProduct>();
 
             SearchProductCommand = new Command(async () => await App.Navigation.PushAsync(new ProductPage(true, _order)));
@@ -120,14 +120,14 @@ namespace Dystrybux.ViewModel {
         async Task ExecuteLoadItemsCommand() {
             IsRefreshing = true;
             try {
-                AddedProducts.Clear();
+                //AddedProducts.Clear();
                 AddedProductsFromOrder.Clear();
 
                 var items = await App.Database.GetOrderProductsAsync(_order.ID);
 
                 foreach (var p in items) {
                     //AddedProducts.Add(await App.Database.GetProductAsync(p.ProductID));
-                    AddedProducts.Add(p.Product);
+                    //AddedProducts.Add(p.Product);
                     //p.Product = App.Database.GetProductAsync(p.ProductID).Result;
                     AddedProductsFromOrder.Add(p);
                     //TotalCostProduct = p.CountOfProducts * p.Product.Cost;
@@ -180,7 +180,7 @@ namespace Dystrybux.ViewModel {
         }
 
         public void SetCountCommand(int val) {
-            TotalCostProduct = val * AddedProducts[0].Cost;
+            //TotalCostProduct = val * AddedProducts[0].Cost;
             /*Device.BeginInvokeOnMainThread(async () => {
                 await App.Current.MainPage.DisplayAlert("Result", "test", "OK");
             });*/

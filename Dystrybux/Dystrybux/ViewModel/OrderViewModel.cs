@@ -52,6 +52,8 @@ namespace Dystrybux.ViewModel {
                 orderName = await App.Current.MainPage.DisplayPromptAsync("Nazwa zamówienia", "Podaj nazwę zamówienia");
                 if (!string.IsNullOrEmpty(orderName) && !string.IsNullOrWhiteSpace(orderName)) {
                     await App.Navigation.PushAsync(new NewOrderPage(orderName));
+                    // Przejscie do zlozonego zamowienia
+                    //await App.Navigation.PushAsync(new NewOrderPage(orderName));
                 }
             });
 

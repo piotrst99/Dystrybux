@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodel="clr-namespace:Dystrybux.ViewModel" xmlns:model="clr-namespace:Dystrybux.Model" x:DataType="viewmodel:OrderSummaryViewModel"
              x:Class="Dystrybux.View.OrderSummaryPage">
 
     <NavigationPage.TitleView>
@@ -13,17 +14,98 @@
         <StackLayout Orientation="Vertical">
             <StackLayout VerticalOptions="StartAndExpand">
                 <Label Text="dane dostawy" />
+                <StackLayout>
+                    <Label Text="Nazwa firmy" />
+                    <Label Text="{Binding Delivery.CompanyName}" />
+                    <Label Text="Adres" />
+                    <Label Text="{Binding Delivery.Street}" />
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Nr budynku"  HorizontalOptions="Start"/>
+                        <Entry Text="{Binding Delivery.Number}"  WidthRequest="60" HorizontalOptions="StartAndExpand" />
+                        <Label Text="Nr lokalu"  HorizontalOptions="Start"/>
+                        <Entry Text="{Binding Delivery.LocalNumber}"  WidthRequest="60" HorizontalOptions="StartAndExpand" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Najwcześniejszy termin" HorizontalOptions="Start"/>
+                        <DatePicker HorizontalOptions="StartAndExpand" Date="{Binding Delivery.EarliestDate}" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Najpóźniejszy termin"  HorizontalOptions="Start"/>
+                        <DatePicker HorizontalOptions="StartAndExpand" Date="{Binding Delivery.LatestDate}" />
+                    </StackLayout>
+                </StackLayout>
                 <Label Text="łaczna cena"/>
+                <Label Text="{Binding TotalCostProduct}" />
                 <Label Text="lista produkrow -> ukryj/pokaz" />
                 
-                <!-- Lista wyrobów -->
                 <ScrollView>
-                    
+
+                    <CollectionView x:Name="ItemsListView"
+                            ItemsSource="{Binding AddedProductsFromOrder}" 
+                            SelectionMode="None">
+                        <CollectionView.ItemTemplate >
+                            <DataTemplate>
+
+                                <Frame Padding="0,0,0,0" >
+                                    <Grid Margin="0,5,0,5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="100" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="4*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <BoxView />
+                                        <Image Source="kremowka.jpg" 
+                                            Grid.Column="0" />
+                                        <Frame Grid.Column="1" HasShadow="True" BackgroundColor="LightBlue" Padding="0,0,0,0">
+                                            <StackLayout  BackgroundColor="LightCoral" Padding="0, 0, 0, 0">
+                                                <StackLayout Padding="0, 0, 0, 0" Orientation="Horizontal">
+                                                    <Label x:DataType="model:OrderProduct"  Text="{Binding Product.Name}" 
+                                                        LineBreakMode="NoWrap" 
+                                                        Style="{DynamicResource ListItemTextStyle}" 
+                                                        FontSize="20" HorizontalOptions="StartAndExpand" />
+
+                                                </StackLayout>
+
+                                                <StackLayout Orientation="Horizontal" Padding="0,0,0,0">
+                                                    <Label x:DataType="model:OrderProduct" Text="{Binding CountOfProducts}" 
+                                                            LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
+                                                            WidthRequest="55" HorizontalOptions="Center" FontSize="25" BackgroundColor="AliceBlue" 
+                                                            VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+
+                                                </StackLayout>
+
+                                                <StackLayout Orientation="Horizontal" Padding="10,0,10,0">
+                                                    <Label x:DataType="model:OrderProduct" Text="{Binding TotalCostForProduct}" 
+                                                    LineBreakMode="NoWrap"
+                                                    FontSize="25"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                                           />
+                                                    <Label Text=" zł" 
+                                                    LineBreakMode="NoWrap"
+                                                    FontSize="25"
+                                                    HorizontalOptions="End"
+                                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                                           />
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+
+                                    </Grid>
+                                </Frame>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
                 </ScrollView>
             </StackLayout>
-            <StackLayout BackgroundColor="Transparent"  Margin="0, 10, 0, 10" VerticalOptions="EndAndExpand">
+            <StackLayout Margin="0, 10, 0, 10" VerticalOptions="EndAndExpand">
                 <Button BackgroundColor="LightGreen" Text="Wyślij zamówienie" CornerRadius="20" WidthRequest="200" HeightRequest="40"
-                            HorizontalOptions="Center" />
+                            HorizontalOptions="Center" Command="{Binding SubmitOrderCommand}" />
             </StackLayout>
         </StackLayout>
     </StackLayout>
