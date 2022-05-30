@@ -39,6 +39,10 @@ namespace Dystrybux.DataBase {
             return _database.Table<User>().Where(q => q.Login == login && q.Password == password && q.Role == role).FirstOrDefaultAsync();
         }
 
+        public Task<User> GetUserAsync(int userID) {
+            return _database.Table<User>().Where(q => q.ID == userID).FirstOrDefaultAsync();
+        }
+
         public Task<User> GetUserAsync(string login) {
             return _database.Table<User>().Where(q => q.Login == login).FirstOrDefaultAsync();
         }

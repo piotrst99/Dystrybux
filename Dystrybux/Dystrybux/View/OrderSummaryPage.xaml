@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:viewmodel="clr-namespace:Dystrybux.ViewModel" xmlns:model="clr-namespace:Dystrybux.Model" x:DataType="viewmodel:OrderSummaryViewModel"
+             xmlns:viewmodel="clr-namespace:Dystrybux.ViewModel" 
+             xmlns:model="clr-namespace:Dystrybux.Model" 
+             x:DataType="viewmodel:OrderSummaryViewModel"
              x:Class="Dystrybux.View.OrderSummaryPage">
 
     <NavigationPage.TitleView>
@@ -10,104 +12,114 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
-    <StackLayout>
-        <StackLayout Orientation="Vertical">
-            <StackLayout VerticalOptions="StartAndExpand">
-                <Label Text="dane dostawy" />
+    <ContentPage Title="Dane dostawy">
+
+        <StackLayout>
+            <Label Text="Dane dostawy" FontSize="25" TextColor="Black" />
+            <StackLayout >
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Nazwa firmy: " FontSize="20" />
+                    <Label Text="{Binding Delivery.CompanyName}" FontSize="20" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Adres: " FontSize="20" />
+                    <Label Text="{Binding Delivery.Street} " FontSize="20" />
+                    <Label Text="{Binding Delivery.Number} "  WidthRequest="60" FontSize="20" />
+                    <Label Text="{Binding Delivery.LocalNumber}"  WidthRequest="60" FontSize="20" />
+                </StackLayout>
+
+                <Label Text="Termin" FontSize="25" TextColor="Black" />
                 <StackLayout>
-                    <Label Text="Nazwa firmy" />
-                    <Label Text="{Binding Delivery.CompanyName}" />
-                    <Label Text="Adres" />
-                    <Label Text="{Binding Delivery.Street}" />
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Nr budynku"  HorizontalOptions="Start"/>
-                        <Entry Text="{Binding Delivery.Number}"  WidthRequest="60" HorizontalOptions="StartAndExpand" />
-                        <Label Text="Nr lokalu"  HorizontalOptions="Start"/>
-                        <Entry Text="{Binding Delivery.LocalNumber}"  WidthRequest="60" HorizontalOptions="StartAndExpand" />
+                        <Label Text="Najwcześniejszy termin" HorizontalOptions="Start" FontSize="20" />
+                        <Label  HorizontalOptions="StartAndExpand" Text="{Binding Delivery.EarliestDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="20" />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Najwcześniejszy termin" HorizontalOptions="Start"/>
-                        <DatePicker HorizontalOptions="StartAndExpand" Date="{Binding Delivery.EarliestDate}" />
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Najpóźniejszy termin"  HorizontalOptions="Start"/>
-                        <DatePicker HorizontalOptions="StartAndExpand" Date="{Binding Delivery.LatestDate}" />
+                        <Label Text="Najpóźniejszy termin"  HorizontalOptions="Start" FontSize="20" />
+                        <Label HorizontalOptions="StartAndExpand" Text="{Binding Delivery.LatestDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="20" />
                     </StackLayout>
                 </StackLayout>
-                <Label Text="łaczna cena"/>
-                <Label Text="{Binding TotalCostProduct}" />
-                <Label Text="lista produkrow -> ukryj/pokaz" />
-                
-                <ScrollView>
 
-                    <CollectionView x:Name="ItemsListView"
-                            ItemsSource="{Binding AddedProductsFromOrder}" 
-                            SelectionMode="None">
-                        <CollectionView.ItemTemplate >
-                            <DataTemplate>
-
-                                <Frame Padding="0,0,0,0" >
-                                    <Grid Margin="0,5,0,5">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="100" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*" />
-                                            <ColumnDefinition Width="4*" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <BoxView />
-                                        <Image Source="kremowka.jpg" 
-                                            Grid.Column="0" />
-                                        <Frame Grid.Column="1" HasShadow="True" BackgroundColor="LightBlue" Padding="0,0,0,0">
-                                            <StackLayout  BackgroundColor="LightCoral" Padding="0, 0, 0, 0">
-                                                <StackLayout Padding="0, 0, 0, 0" Orientation="Horizontal">
-                                                    <Label x:DataType="model:OrderProduct"  Text="{Binding Product.Name}" 
-                                                        LineBreakMode="NoWrap" 
-                                                        Style="{DynamicResource ListItemTextStyle}" 
-                                                        FontSize="20" HorizontalOptions="StartAndExpand" />
-
-                                                </StackLayout>
-
-                                                <StackLayout Orientation="Horizontal" Padding="0,0,0,0">
-                                                    <Label x:DataType="model:OrderProduct" Text="{Binding CountOfProducts}" 
-                                                            LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
-                                                            WidthRequest="55" HorizontalOptions="Center" FontSize="25" BackgroundColor="AliceBlue" 
-                                                            VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
-
-                                                </StackLayout>
-
-                                                <StackLayout Orientation="Horizontal" Padding="10,0,10,0">
-                                                    <Label x:DataType="model:OrderProduct" Text="{Binding TotalCostForProduct}" 
-                                                    LineBreakMode="NoWrap"
-                                                    FontSize="25"
-                                                    HorizontalOptions="EndAndExpand"
-                                                    Style="{DynamicResource ListItemDetailTextStyle}"
-                                                           />
-                                                    <Label Text=" zł" 
-                                                    LineBreakMode="NoWrap"
-                                                    FontSize="25"
-                                                    HorizontalOptions="End"
-                                                    Style="{DynamicResource ListItemDetailTextStyle}"
-                                                           />
-                                                </StackLayout>
-                                            </StackLayout>
-                                        </Frame>
-
-                                    </Grid>
-                                </Frame>
-
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-
-                </ScrollView>
             </StackLayout>
+
+            <Label Text="Łączna cena za zamówienie" FontSize="25" TextColor="Black" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Koszt: " FontSize="20" />
+                <Label Text="{Binding TotalCostProduct} " FontSize="20" />
+                <Label Text="zł" FontSize="20" />
+            </StackLayout>
+
             <StackLayout Margin="0, 10, 0, 10" VerticalOptions="EndAndExpand">
                 <Button BackgroundColor="LightGreen" Text="Wyślij zamówienie" CornerRadius="20" WidthRequest="200" HeightRequest="40"
                             HorizontalOptions="Center" Command="{Binding SubmitOrderCommand}" />
             </StackLayout>
+            
         </StackLayout>
-    </StackLayout>
-    
-</ContentPage>
+
+    </ContentPage>
+
+    <ContentPage Title="Produkty">
+        <CollectionView x:Name="ItemsListView"
+                            ItemsSource="{Binding AddedProductsFromOrder}" 
+                            SelectionMode="None">
+            <CollectionView.ItemTemplate >
+                <DataTemplate>
+                    <StackLayout Padding="0,5,0,5">
+                        <Frame Padding="0,0,0,0" >
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="70" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="4*" />
+                                </Grid.ColumnDefinitions>
+
+                                <BoxView />
+                                <Image Source="kremowka.jpg" 
+                                Grid.Column="0"/>
+
+                                <Frame Grid.Column="1" HasShadow="True" Padding="0,0,0,0">
+                                    <StackLayout Padding="0,0,0,0" VerticalOptions="Center">
+                                        <Label x:DataType="model:OrderProduct" Text="{Binding Product.Name}" 
+                                        LineBreakMode="NoWrap" HorizontalOptions="StartAndExpand"
+                                        Style="{DynamicResource ListItemTextStyle}"     
+                                        FontSize="18" TextColor="Black"  />
+
+                                        <StackLayout Orientation="Horizontal" >
+                                            <StackLayout  HorizontalOptions="StartAndExpand" Orientation="Horizontal">
+                                                <Label x:DataType="model:OrderProduct" Text="{Binding CountOfProducts}" 
+                                                LineBreakMode="NoWrap" HorizontalOptions="Start"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="16" />
+                                                <Label Text=" szt." 
+                                                LineBreakMode="NoWrap" HorizontalOptions="Start"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="16" />
+                                            </StackLayout>
+                                            <StackLayout  HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,0,10,0">
+                                                <Label x:DataType="model:OrderProduct" Text="{Binding TotalCostForProduct}" 
+                                                LineBreakMode="NoWrap" HorizontalOptions="End"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="16" />
+                                                <Label Text=" zł" 
+                                                LineBreakMode="NoWrap" HorizontalOptions="End"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="16" />
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                    </StackLayout>
+                                </Frame>
+
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                    
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage>
+
+</TabbedPage>

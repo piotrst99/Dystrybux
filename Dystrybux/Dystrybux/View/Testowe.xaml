@@ -10,6 +10,7 @@
     <local:OrderPage Title="Zamówienia"/>
     <local:SettingsPage Title="Ustawienia"/>
 
+
 </TabbedPage>
 
 <!-- https://youtu.be/AVF1950xL1Y?t=205 -->

@@ -9,7 +9,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Dystrybux.View {
-    public partial class OrderSummaryPage : ContentPage {
+    public partial class OrderSummaryPage : TabbedPage {
         OrderSummaryViewModel _orderSummaryViewModel;
 
         public OrderSummaryPage() {

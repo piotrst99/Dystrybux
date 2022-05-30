@@ -1,8 +1,151 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Dystrybux.View.PlacedOrderPage">
-    
-    
-    
-</ContentPage>
+             xmlns:local="clr-namespace:Dystrybux.ViewModel"
+             xmlns:model="clr-namespace:Dystrybux.Model" 
+             x:DataType="local:PlacedOrderViewModel"
+             x:Class="Dystrybux.View.PlacedOrderPage"
+             >
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="Zamówienie" FontSize="20" TextColor="White" FontAttributes="Bold" />
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <ContentPage Title="Dane dostawy">
+        <StackLayout>
+
+            <!-- Klient -->
+            <StackLayout>
+                <Label Text="Klient" FontSize="25" TextColor="Black" />
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Klient: " FontSize="20" HorizontalOptions="Start" />
+                    <Label Text="{Binding User.Name} " FontSize="20"  />
+                    <Label Text="{Binding User.Surname}" FontSize="20"  />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Telefon: " FontSize="20"  />
+                    <Label Text="123 456 789" FontSize="20"  />
+                </StackLayout>
+            </StackLayout>
+
+            <!-- Dane dostawy -->
+            <StackLayout>
+                <Label Text="Dane dostawy" FontSize="25" TextColor="Black" />
+                <StackLayout >
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Nazwa firmy: " FontSize="20" />
+                        <Label Text="{Binding Delivery.CompanyName}" FontSize="20" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Adres: " FontSize="20" />
+                        <Label Text="{Binding Delivery.Street} " FontSize="20" />
+                        <Label Text="{Binding Delivery.Number} "  WidthRequest="60" FontSize="20" />
+                        <Label Text="{Binding Delivery.LocalNumber}"  WidthRequest="60" FontSize="20" />
+                    </StackLayout>
+
+                    <Label Text="Termin" FontSize="25" TextColor="Black" />
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Najwcześniejszy termin" HorizontalOptions="Start" FontSize="20" />
+                            <Label  HorizontalOptions="StartAndExpand" Text="{Binding Delivery.EarliestDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="20" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Najpóźniejszy termin"  HorizontalOptions="Start" FontSize="20" />
+                            <Label HorizontalOptions="StartAndExpand" Text="{Binding Delivery.LatestDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="20" />
+                        </StackLayout>
+                    </StackLayout>
+
+                </StackLayout>
+
+                <Label Text="Łączna cena za zamówienie" FontSize="25" TextColor="Black" />
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Koszt: " FontSize="20" />
+                    <Label Text="{Binding TotalCostProduct} " FontSize="20" />
+                    <Label Text="zł" FontSize="20" />
+                </StackLayout>
+                
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="EndAndExpand" 
+                Margin="0, 0, 0, 10" IsVisible="{Binding IsEmployee}">
+                <Button Text="Przyjmij" WidthRequest="150" BackgroundColor="LightGreen" Command="{Binding AcceptOrderCommand}" />
+                <Button Text="Odrzuć" WidthRequest="150" BackgroundColor="Red" Command="{Binding RejectOrderCommand}" />
+            </StackLayout>
+            
+        </StackLayout>
+        
+    </ContentPage>
+
+    <ContentPage Title="Produkty">
+        <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding ProductsFromOrder}"
+                SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="0, 5, 0, 5"   >
+                        <Frame Padding="0, 0, 0, 0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="70" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="4*" />
+                                </Grid.ColumnDefinitions>
+
+                                <BoxView />
+                                <Image Source="kremowka.jpg" 
+                                Grid.Column="0"/>
+
+                                <Frame Grid.Column="1" HasShadow="True" Padding="0,0,0,0">
+                                    <StackLayout Padding="0,0,0,0" VerticalOptions="Center">
+                                        <Label x:DataType="model:OrderProduct" Text="{Binding Product.Name}" 
+                                        LineBreakMode="NoWrap" HorizontalOptions="StartAndExpand"
+                                        Style="{DynamicResource ListItemTextStyle}"     
+                                        FontSize="18" TextColor="Black"  />
+
+                                        <StackLayout Orientation="Horizontal" >
+                                            <StackLayout  HorizontalOptions="StartAndExpand" Orientation="Horizontal">
+                                                <Label x:DataType="model:OrderProduct" Text="{Binding CountOfProducts}" 
+                                                LineBreakMode="NoWrap" HorizontalOptions="Start"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="16" />
+                                                <Label Text=" szt." 
+                                                LineBreakMode="NoWrap" HorizontalOptions="Start"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="16" />
+                                            </StackLayout>
+                                            <StackLayout  HorizontalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,0,10,0">
+                                                <Label x:DataType="model:OrderProduct" Text="{Binding TotalCostForProduct}" 
+                                                LineBreakMode="NoWrap" HorizontalOptions="End"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="16" />
+                                                <Label Text=" zł" 
+                                                LineBreakMode="NoWrap" HorizontalOptions="End"
+                                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                                FontSize="16" />
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                    </StackLayout>
+                                </Frame>
+                            </Grid>
+                        </Frame>
+                        <!--<StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding Source={
+                                            RelativeSource AncestorType={x:Type local:ProductViewModel}}, 
+                                            Path=ProductTapped}"		
+                                    CommandParameter="{Binding .}">
+                            </TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>-->
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage>
+
+</TabbedPage>

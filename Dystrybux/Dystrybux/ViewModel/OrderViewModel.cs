@@ -81,7 +81,8 @@ namespace Dystrybux.ViewModel {
             if (order == null)
                 return;
 
-            await App.Navigation.PushAsync(new NewOrderPage(order));
+            //await App.Navigation.PushAsync(new NewOrderPage(order));
+            await App.Navigation.PushAsync(new PlacedOrderPage(order));
         }
 
         public void OnAppearing() {

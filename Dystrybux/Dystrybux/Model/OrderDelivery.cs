@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Dystrybux.Model {
-    public class OrderDelivery_cs {
+    public class OrderDelivery {
         [PrimaryKey, AutoIncrement, Column("ID")]
         public int ID { get; set; }
 

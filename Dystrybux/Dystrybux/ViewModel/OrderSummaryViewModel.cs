@@ -13,6 +13,7 @@ namespace Dystrybux.ViewModel {
         private Order _order = null;
         private Delivery _delivery = null;
         private double _totalCostProduct = 0.0;
+
         public ObservableCollection<OrderProduct> AddedProductsFromOrder { get; set; }
 
         public OrderSummaryViewModel() {

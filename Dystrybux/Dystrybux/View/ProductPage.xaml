@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:Dystrybux.ViewModel" 
              xmlns:model="clr-namespace:Dystrybux.Model"
-             x:Class="Dystrybux.View.ProductPage">
+             x:Class="Dystrybux.View.ProductPage"
+             >
 
     <NavigationPage.TitleView>
         <Label Text="Produkty" FontSize="20" TextColor="White" FontAttributes="Bold" />
@@ -26,7 +27,7 @@
             TextColor="Black"
             />-->
 
-        <ScrollView>
+        <!--<ScrollView>-->
 
             <RefreshView
                 x:DataType="local:ProductViewModel"
@@ -83,7 +84,7 @@
                 </CollectionView>
             </RefreshView>
 
-        </ScrollView>
+        <!--</ScrollView>-->
         
         <AbsoluteLayout IsVisible="{Binding IsBusiness}">
             <Button Text="+" 
