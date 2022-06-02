@@ -41,13 +41,23 @@ namespace Dystrybux.ViewModel {
 
         void AcceptOrder() {
             Device.BeginInvokeOnMainThread(async () => {
-                await App.Current.MainPage.DisplayAlert("Result", "Akceptuj zamówienei?", "OK");
+                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy przyjmujesz zamówienie do realizacji?", "Tak", "Nie");
+                if (choice){
+                    Order.Status = "W realizacji";
+                    await App.Database.UpdateOrderAsync(Order);
+                    await App.Navigation.PopAsync();
+                }
             });
         }
 
         void RejectOrder() {
             Device.BeginInvokeOnMainThread(async () => {
-                await App.Current.MainPage.DisplayAlert("Result", "Odrzuć zamówienie?", "OK");
+                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy odrzucić zamówienie?", "Tak", "Nie");
+                if (choice){
+                    Order.Status = "Anulowane";
+                    await App.Database.UpdateOrderAsync(Order);
+                    await App.Navigation.PopAsync();
+                }
             });
         }
 

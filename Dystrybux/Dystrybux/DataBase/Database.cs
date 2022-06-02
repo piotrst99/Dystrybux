@@ -109,11 +109,11 @@ namespace Dystrybux.DataBase {
         }
 
         public Task<List<Order>> GetOrdersForUserAsync(string status) {
-            return _database.Table<Order>().Where(q => q.Status != status && q.UserID == App.User.ID).ToListAsync();
+            return _database.Table<Order>().Where(q => q.Status == status && q.UserID == App.User.ID).ToListAsync();
         }
 
         public Task<List<Order>> GetOrdersForEmployeeAsync(string status){
-            return _database.Table<Order>().Where(q => q.Status != status).ToListAsync();
+            return _database.Table<Order>().Where(q => q.Status == status).ToListAsync();
         }
 
         public Task<Order> GetUndoneOrderAsync(string status) {
