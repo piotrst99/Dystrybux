@@ -108,8 +108,16 @@ namespace Dystrybux.DataBase {
             return _database.Table<Order>().ToListAsync();
         }
 
+        public Task<List<Order>> GetOrdersForUserAsync() {
+            return _database.Table<Order>().Where(q => q.UserID == App.User.ID).ToListAsync();
+        }
+
         public Task<List<Order>> GetOrdersForUserAsync(string status) {
             return _database.Table<Order>().Where(q => q.Status == status && q.UserID == App.User.ID).ToListAsync();
+        }
+
+        public Task<List<Order>> GetOrdersForEmployeeAsync() {
+            return _database.Table<Order>().ToListAsync();
         }
 
         public Task<List<Order>> GetOrdersForEmployeeAsync(string status){

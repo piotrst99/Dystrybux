@@ -3,6 +3,7 @@ using Dystrybux.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 
@@ -30,12 +31,23 @@ namespace Dystrybux.ViewModel {
         void SetOrdersToLists(){
             List<Order> orders = new List<Order>();
             if (App.User.Role == "Client"){
-                orders = App.Database.GetOrdersForUserAsync("Złożono").Result;
+                orders = App.Database.GetOrdersForUserAsync().Result;
                 foreach (var o in orders){
-                    Orders.Add(o);
+                    o.User = App.Database.GetUserAsync(o.UserID).Result;
+                    o.Delivery = App.Database.GetDeliveryFromOrderAsync(o.DeliveryID).Result;
+                    o.TotalCost = (int)App.Database.GetOrderProductsAsync(o.ID).Result.Sum(q => q.TotalCostForProduct);
+                    //Orders.Add(o);
                 }
 
-                orders = App.Database.GetOrdersForUserAsync("W realizacji").Result;
+                foreach (var o in orders) {
+                    if (o.Status == "Złożono") Orders.Add(o);
+                    else if (o.Status == "W realizacji") OrdersInProgress.Add(o);
+                    else if (o.Status == "W dostawie") OrdersInDelivery.Add(o);
+                    else if (o.Status == "Zakończono") OrdersDone.Add(o);
+                    else if (o.Status == "Anulowane") OrdersDenied.Add(o);
+                }
+
+                /*orders = App.Database.GetOrdersForUserAsync("W realizacji").Result;
                 foreach (var o in orders){
                     OrdersInProgress.Add(o);
                 }
@@ -53,11 +65,26 @@ namespace Dystrybux.ViewModel {
                 orders = App.Database.GetOrdersForUserAsync("Anulowane").Result;
                 foreach (var o in orders){
                     OrdersDenied.Add(o);
-                }
+                }*/
 
             }
             else{
-                orders = App.Database.GetOrdersForEmployeeAsync("Złożono").Result;
+                orders = App.Database.GetOrdersForEmployeeAsync().Result;
+                foreach (var o in orders) {
+                    o.User = App.Database.GetUserAsync(o.UserID).Result;
+                    o.Delivery = App.Database.GetDeliveryFromOrderAsync(o.DeliveryID).Result;
+                    o.TotalCost = (int)App.Database.GetOrderProductsAsync(o.ID).Result.Sum(q => q.TotalCostForProduct);
+                    //Orders.Add(o);
+                }
+
+                foreach (var o in orders) {
+                    if (o.Status == "Złożono") Orders.Add(o);
+                    else if (o.Status == "W realizacji") OrdersInProgress.Add(o);
+                    else if (o.Status == "W dostawie") OrdersInDelivery.Add(o);
+                    else if (o.Status == "Zakończono") OrdersDone.Add(o);
+                    else if (o.Status == "Anulowane") OrdersDenied.Add(o);
+                }
+                /*orders = App.Database.GetOrdersForEmployeeAsync("Złożono").Result;
                 foreach (var o in orders){
                     Orders.Add(o);
                 }
@@ -80,7 +107,7 @@ namespace Dystrybux.ViewModel {
                 orders = App.Database.GetOrdersForEmployeeAsync("Anulowane").Result;
                 foreach (var o in orders){
                     OrdersDenied.Add(o);
-                }
+                }*/
 
             }
         }

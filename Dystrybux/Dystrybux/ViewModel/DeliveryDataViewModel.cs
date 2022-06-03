@@ -10,10 +10,11 @@ namespace Dystrybux.ViewModel {
     public class DeliveryDataViewModel : BaseViewModel {
 
         Delivery _delivery;
+        bool _earliestDateIsNotCorrect = false;
+        bool _latestDateIsNotCorrect = false;
 
         public DeliveryDataViewModel() {
             SetData();
-            
             OrderSummaryCommand = new Command(async () => await OrderSummary());
         }
 
@@ -34,21 +35,58 @@ namespace Dystrybux.ViewModel {
             else {
                 Delivery = App.Database.GetDeliveryFromOrderAsync(order.DeliveryID).Result;
             }
+
+            EarliestDateIsNotCorrect = false;
+            LatestDateIsNotCorrect = false;
         }
 
         async Task OrderSummary() {
-            if(Delivery.ID == 0) {
-                await App.Database.SaveDeliveryAsync(Delivery);
+            CheckDates();
+            if (!EarliestDateIsNotCorrect && !LatestDateIsNotCorrect) {
+                if(Delivery.ID == 0) {
+                    await App.Database.SaveDeliveryAsync(Delivery);
+                }
+                else {
+                    await App.Database.UpdateDeliveryAsync(Delivery);
+                }
+                EarliestDateIsNotCorrect = false;
+                LatestDateIsNotCorrect = false;
+                await App.Navigation.PushAsync(new OrderSummaryPage());
             }
-            else {
-                await App.Database.UpdateDeliveryAsync(Delivery);
-            }
-            await App.Navigation.PushAsync(new OrderSummaryPage());
+            //else
+                //await App.Current.MainPage.DisplayAlert("Result", "Najwcześniejszy termin musi być przymnjmniej 2 dni od złożonego zamówienia", "OK");
+        }
+
+        void CheckDates() {
+            if (Delivery.EarliestDate.Date <= DateTime.Today.Date)
+                EarliestDateIsNotCorrect = true;
+            else
+                EarliestDateIsNotCorrect = false;
+            if (Delivery.LatestDate.Date <= DateTime.Today.Date || Delivery.LatestDate.Date <= Delivery.EarliestDate.Date)
+                LatestDateIsNotCorrect = true;
+            else
+                LatestDateIsNotCorrect = false;
         }
 
         public Delivery Delivery {
             get => _delivery;
             set => _delivery = value;
+        }
+
+        public bool EarliestDateIsNotCorrect {
+            get => _earliestDateIsNotCorrect;
+            set {
+                _earliestDateIsNotCorrect = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public bool LatestDateIsNotCorrect {
+            get => _latestDateIsNotCorrect;
+            set {
+                _latestDateIsNotCorrect = value;
+                OnPropertyChanged();
+            }
         }
 
         public Command OrderSummaryCommand { protected set; get; }
