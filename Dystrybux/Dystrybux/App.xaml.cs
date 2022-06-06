@@ -33,6 +33,8 @@ namespace Dystrybux {
         public App() {
             InitializeComponent();
 
+            Plugin.Media.CrossMedia.Current.Initialize();
+
             DependencyService.Register<ProductDataStore>();
             DependencyService.Register<OrderDataStore>();
             

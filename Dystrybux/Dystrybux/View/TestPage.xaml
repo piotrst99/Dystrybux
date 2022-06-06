@@ -4,7 +4,6 @@
             xmlns:model="clr-namespace:Dystrybux.Model"
             xmlns:local="clr-namespace:Dystrybux.ViewModel"
             x:Class="Dystrybux.View.TestPage"
-            
             >
 
 
@@ -15,7 +14,8 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
-    <ContentPage Title="Złożone">
+    
+    <ContentPage Title="Złożone" x:Name="test123">
 
         <CollectionView x:Name="ItemsListView"
                     ItemsSource="{Binding Orders}"

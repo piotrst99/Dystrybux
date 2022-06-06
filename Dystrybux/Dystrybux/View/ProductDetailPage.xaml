@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodel="clr-namespace:Dystrybux.ViewModel" 
+             x:DataType="viewmodel:ProductDetailViewModel"
              x:Class="Dystrybux.View.ProductDetailPage">
 
     <NavigationPage.TitleView>
@@ -21,39 +23,85 @@
             <Label Text="edytuj" />
         </StackLayout>-->
 
-        <Button Text="Dodaj do zamówienia" HorizontalOptions="FillAndExpand" BackgroundColor="LightGreen" IsVisible="{Binding IsClient}"
-                Command="{Binding AddProductToOrderCommand}"/>
+        
 
-        <StackLayout Spacing="20" Padding="15" IsVisible="{Binding IsWatching}">
-            <Label Text="Nazwa wyrobu:" FontSize="Medium" />
-            <Label Text="{Binding Name}" FontSize="Small"/>
+        <ScrollView IsVisible="{Binding IsWatching}">
+            <StackLayout Spacing="20" Padding="15" >
+                <StackLayout>
+                    <Label Text="Nazwa wyrobu:" FontSize="25" TextColor="Black" />
+                    <Label Text="{Binding Name}" FontSize="20"/>
+                </StackLayout>
 
-            <Label Text="Opis:" FontSize="Medium" />
-            <Label Text="{Binding Description}" FontSize="Small"/>
+                <StackLayout>
+                    <Label Text="Opis:" FontSize="25" TextColor="Black" />
+                    <Label Text="{Binding Description}" FontSize="20"/>
+                </StackLayout>
 
-            <Label Text="Cena:" FontSize="Medium" />
-            <Label Text="{Binding Cost}" FontSize="Small"/>
+                <StackLayout>
+                    <Label Text="Cena:" FontSize="25" TextColor="Black" />
+                    <Label Text="{Binding Cost}" FontSize="20"/>
+                </StackLayout>
 
-            <Label Text="Ilość sztuk:" FontSize="Medium" />
-            <Label Text="{Binding Count}" FontSize="Small"/>
-        </StackLayout>
+                <StackLayout>
+                    <Label Text="Ilość sztuk:" FontSize="25" TextColor="Black" />
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding Count}" FontSize="20"/>
+                        <Label Text=" zł" FontSize="20"/>
+                    </StackLayout>
+                </StackLayout>
 
-        <StackLayout Spacing="20" Padding="15" IsVisible="{Binding IsEdit}">
-            <Label Text="Nazwa wyrobu:" FontSize="Medium" />
-            <Entry Text="{Binding Name}" FontSize="Medium"/>
+                <StackLayout>
+                    <Label Text="Fotografia wyrobu" FontSize="25" TextColor="Black" />
+                    <Image Source="{Binding ImageCamera}" />
+                </StackLayout>
 
-            <Label Text="Opis:" FontSize="Medium" />
-            <Entry Text="{Binding Description}" FontSize="Medium"/>
+                <Button Text="Dodaj do zamówienia" HorizontalOptions="FillAndExpand" BackgroundColor="LightGreen" 
+                        IsVisible="{Binding IsClient}" CornerRadius="10" Command="{Binding AddProductToOrderCommand}"/>
 
-            <Label Text="Cena:" FontSize="Medium" />
-            <Entry Text="{Binding Cost}" FontSize="Medium"/>
+                <StackLayout IsVisible="{Binding IsBusiness}" Orientation="Horizontal">
+                    <Button Text="Edytuj" HorizontalOptions="FillAndExpand" BackgroundColor="LightGreen" 
+                        CornerRadius="10" Command="{Binding EditItemCommand}"/>
+                    <Button Text="Usuń wyrób" HorizontalOptions="FillAndExpand" BackgroundColor="#e03131" 
+                        CornerRadius="10" Command="{Binding DeleteItemCommand}"/>
+                </StackLayout>
+                
+            </StackLayout>
+        </ScrollView>
 
-            <Label Text="Ilość sztuk:" FontSize="Medium" />
-            <Entry Text="{Binding Count}" FontSize="Medium"/>
+        <ScrollView IsVisible="{Binding IsEdit}">
+            <StackLayout Spacing="20" Padding="15" >
+                <StackLayout>
+                    <Label Text="Nazwa wyrobu:" FontSize="25" TextColor="Black" />
+                    <Entry Text="{Binding Name}" FontSize="20"/>
+                </StackLayout>
 
-            <Button Text="Zapisz" Command="{Binding SaveDataCommand}" />
+                <StackLayout>
+                    <Label Text="Opis:" FontSize="25" TextColor="Black" />
+                    <Entry Text="{Binding Description}" FontSize="20"/>
+                </StackLayout>
 
-        </StackLayout>
+                <StackLayout>
+                    <Label Text="Cena [zł]:" FontSize="25" TextColor="Black" />
+                    <Entry Text="{Binding Cost}" FontSize="20"/>
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Ilość sztuk:" FontSize="25" TextColor="Black" />
+                    <Entry Text="{Binding Count}" FontSize="20"/>
+                </StackLayout>
+
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Zrób zdjęcie" Command="{Binding TakePhotoCommand}" HorizontalOptions="FillAndExpand" />
+                        <Button Text="Wybierz zdjęcie" Command="{Binding PickPhotoCommand}" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                    <Image Source="{Binding ImageCamera}" />
+                </StackLayout>
+
+                <Button Text="Zapisz" Command="{Binding SaveDataCommand}" />
+
+            </StackLayout>
+        </ScrollView>
         
     </StackLayout>
     

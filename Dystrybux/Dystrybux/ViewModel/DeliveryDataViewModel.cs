@@ -53,16 +53,16 @@ namespace Dystrybux.ViewModel {
                 LatestDateIsNotCorrect = false;
                 await App.Navigation.PushAsync(new OrderSummaryPage());
             }
-            //else
-                //await App.Current.MainPage.DisplayAlert("Result", "Najwcześniejszy termin musi być przymnjmniej 2 dni od złożonego zamówienia", "OK");
         }
 
         void CheckDates() {
-            if (Delivery.EarliestDate.Date <= DateTime.Today.Date)
+            if (Delivery.EarliestDate.Date <= DateTime.Today.Date || (Delivery.EarliestDate.Date - DateTime.Now.Date).TotalDays < 2
+                || Delivery.EarliestDate.DayOfWeek == DayOfWeek.Sunday)
                 EarliestDateIsNotCorrect = true;
             else
                 EarliestDateIsNotCorrect = false;
-            if (Delivery.LatestDate.Date <= DateTime.Today.Date || Delivery.LatestDate.Date <= Delivery.EarliestDate.Date)
+            if (Delivery.LatestDate.Date <= DateTime.Today.Date || Delivery.LatestDate.Date <= Delivery.EarliestDate.Date ||
+                (Delivery.LatestDate.Date - Delivery.EarliestDate.Date).TotalDays < 2 || Delivery.LatestDate.DayOfWeek == DayOfWeek.Sunday)
                 LatestDateIsNotCorrect = true;
             else
                 LatestDateIsNotCorrect = false;

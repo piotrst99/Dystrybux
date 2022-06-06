@@ -18,14 +18,12 @@ namespace Dystrybux.View {
             this.BindingContext = _productDetailViewModel  = new ProductDetailViewModel(product);
         
             if(App.User.Role == "Business"){
-                var deleteProductTollBarItem = new ToolbarItem
-                {
+                var deleteProductTollBarItem = new ToolbarItem{
                     Text = "Usuń",
                     Command = _productDetailViewModel.DeleteItemCommand
                 };
 
-                var editProductTollBarItem = new ToolbarItem
-                {
+                var editProductTollBarItem = new ToolbarItem{
                     Text = "Edytuj",
                     Command = _productDetailViewModel.EditItemCommand
                 };

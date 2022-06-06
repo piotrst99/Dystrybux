@@ -13,7 +13,7 @@ namespace Dystrybux.View {
     public partial class Testowe : Xamarin.Forms.TabbedPage {
         public Testowe() {
             InitializeComponent();
-            On<Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
+            //On<Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
         }
     }
 }

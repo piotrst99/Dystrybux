@@ -9,10 +9,12 @@ using Xamarin.Forms;
 
 namespace Dystrybux.ViewModel {
     public class LoginViewModel: BaseViewModel {
-        string _login = "jan";
+        string _login = "ola";
+        //string _login = "ala";
         string _password = "1234";
         string _loginResult = "";
 
+        //string _selectedRole = "Business";
         string _selectedRole = "Client";
 
         /*List<User> users = new List<User>(){

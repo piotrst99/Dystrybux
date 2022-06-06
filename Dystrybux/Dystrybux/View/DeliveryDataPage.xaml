@@ -42,14 +42,14 @@
                     <Label Text="Najwcześniejszy termin" FontSize="25" HorizontalOptions="Start"/>
                     <DatePicker FontSize="20" HorizontalOptions="StartAndExpand" Date="{Binding Delivery.EarliestDate}" />
                 </StackLayout>
-                <Label Text="Najwcześniejszy termin musi być przymnjmniej 2 dni od złożonego zamówienia" 
+                <Label Text="Najwcześniejszy termin musi być przymnjmniej 2 dni od złożonego zamówienia oraz nie może być wybrany w niedzielę" 
                        FontSize="15" IsVisible="{Binding EarliestDateIsNotCorrect}" TextColor="Red"/>
                 
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Najpóźniejszy termin" FontSize="25" HorizontalOptions="Start"/>
                     <DatePicker FontSize="20" HorizontalOptions="StartAndExpand" Date="{Binding Delivery.LatestDate}" />
                 </StackLayout>
-                <Label Text="Najpóźniejszy termin musi być przymnjmniej 2 dni od najwcześniejszego terminu" 
+                <Label Text="Najpóźniejszy termin musi być przymnjmniej 2 dni od najwcześniejszego terminu oraz nie może być wybrany w niedzielę" 
                        FontSize="15" IsVisible="{Binding LatestDateIsNotCorrect}" TextColor="Red"/>
 
             </StackLayout>

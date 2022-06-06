@@ -3,6 +3,8 @@ using Dystrybux.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -16,6 +18,7 @@ namespace Dystrybux.ViewModel
         private bool _IsSearching = false;
         private string _SearchProductsName = "";
         private bool _IsBusiness = false;
+        List<string> sciezki = new List<string>();
 
         public ObservableCollection<Product> Products { get; }
 
@@ -31,6 +34,15 @@ namespace Dystrybux.ViewModel
             DetailsOrderCommand = new Command(async () => await DetailsOrder());
 
             IsBusiness = App.User.Role == "Business" ? true : false;
+
+            foreach (var fileName in System.IO.Directory.GetFiles("/storage/emulated/0/Pictures/Dystrybux.Android")) {
+                sciezki.Add(fileName);
+            }
+
+            /*Device.BeginInvokeOnMainThread(async () => {
+                await App.Current.MainPage.DisplayAlert("Result", sciezki[0], "OK");
+            });*/
+
         }
 
         public ProductViewModel(bool isSearch, Order order) {
@@ -49,6 +61,11 @@ namespace Dystrybux.ViewModel
             IsBusiness = App.User.Role == "Business" ? true : false;
             _IsSearching = isSearch;
             _selectedOrder = order;
+
+            foreach (var fileName in System.IO.Directory.GetFiles("/storage/emulated/0/Pictures/Dystrybux.Android")) {
+                sciezki.Add(fileName);
+            }
+
         }
 
         async Task ExecuteLoadItemsCommand(){
@@ -57,7 +74,26 @@ namespace Dystrybux.ViewModel
                 Products.Clear();
                 var products = new List<Product>();
                 products = await App.Database.GetProductsAsync();
-                foreach (var p in products){ Products.Add(p); }
+                foreach (var p in products){
+                    string imagePath = sciezki.Where(q => q.Contains(p.ImagePath)).FirstOrDefault();
+
+                    /*if (p.ID == 2) {
+                        Device.BeginInvokeOnMainThread(async () => {
+                            await App.Current.MainPage.DisplayAlert("Result", p.ImagePath, "OK");
+                        });
+                    }*/
+                    
+
+                    if (!string.IsNullOrEmpty(imagePath)) {
+                        p.Image = (Device.RuntimePlatform == Device.Android) ?
+                            ImageSource.FromFile(imagePath) :
+                            ImageSource.FromFile("/storage/emulated/0/Pictures/Dystrybux.Android/productImage_1704_495_20220606_105829.png");
+                    }
+                    Products.Add(p);
+
+                    // "/storage/emulated/0/Pictures/Dystrybux.Android/productImage_6309_9742_20220606_101827.png"
+
+                }
             }
             catch (Exception){ throw; }
             IsRefreshing = false;

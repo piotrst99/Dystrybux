@@ -1,4 +1,5 @@
 ﻿using Dystrybux.Model;
+using NativeMedia;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ namespace Dystrybux.ViewModel {
     public class NewItemViewModel : BaseViewModel {
         string _name = "";
         string _description = "";
+        string _fileName = "";
         int _cost = 0;
         int _count = 0;
         ImageSource _image;
@@ -19,13 +21,14 @@ namespace Dystrybux.ViewModel {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
             TakePhotoCommand = new Command(TakePhoto);
+            PickPhotoCommand = new Command(PickPhoto);
             this.PropertyChanged += (_, __) => SaveCommand.ChangeCanExecute();
         }
 
         private bool ValidateSave() {
             return !String.IsNullOrWhiteSpace(_name)
                 && !String.IsNullOrWhiteSpace(_description)
-                && _cost >= 0 && _count >= 0;
+                && _cost >= 0 && _count >= 0 && ImageCamera != null;
         }
 
         private async void OnCancel() {
@@ -34,13 +37,13 @@ namespace Dystrybux.ViewModel {
 
         private async void OnSave() {
 
-            string file = _name + new Random().Next(1, 10000).ToString() + ".png";
+            /*string file = _name + new Random().Next(1, 10000).ToString() + ".png";
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), file);
 
             using (var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write)) {
                 //ima.CopyTo(fileStream);
                 
-            }
+            }*/
 
 
             Product newProduct = new Product() {
@@ -49,7 +52,7 @@ namespace Dystrybux.ViewModel {
                 Cost = Cost,
                 Count = Count,
                 Description = Description,
-                ImagePath = ""
+                ImagePath = _fileName
             };
 
             await App.Database.SaveProductAsync(newProduct);
@@ -72,6 +75,28 @@ namespace Dystrybux.ViewModel {
                 ImageCamera = ImageSource.FromStream(() => stream);
             }
 
+            if (result != null) {
+                Device.BeginInvokeOnMainThread(async () => {
+
+                    bool choice = await App.Current.MainPage.DisplayAlert("", "Czy dodać zdjęcie?", "Tak", "Nie");
+                    if (choice) {
+
+                        //var photoName = "productImage_" + new Random().Next(1, 10000) + "_" + new Random().Next(1, 10000) + ".png";
+                        var photoName = "productImage_" + new Random().Next(1, 10000) + "_" + new Random().Next(1, 10000);// + ".png";
+                        _fileName = photoName;
+
+                        var stream2 = await result.OpenReadAsync();
+                        await MediaGallery.SaveAsync(MediaFileType.Image, stream2, photoName + ".png");
+                    }
+                });
+
+            }
+            else {
+                Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", "nie wybrano zdj", "OK");
+                });
+            }
+
             /*var photo = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions() { });
 
             if (photo != null)
@@ -90,6 +115,44 @@ namespace Dystrybux.ViewModel {
             if (photo != null) {
                 ImageCamera = ImageSource.FromStream(() => photo.GetStream());
             }*/
+
+        }
+
+        private async void PickPhoto() {
+            var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions {
+                Title = "Wybierz zdjęcie"
+            });
+
+
+            /*Device.BeginInvokeOnMainThread(async () => {
+                await App.Current.MainPage.DisplayAlert("Result", result.FullPath, "OK");
+            });*/
+
+            var stream = await result.OpenReadAsync();
+            ImageCamera = ImageSource.FromStream(() => stream);
+
+            if (result != null) {
+                Device.BeginInvokeOnMainThread(async () => {
+
+                    bool choice = await App.Current.MainPage.DisplayAlert("", "Czy dodać zdjęcie?", "Tak", "Nie");
+                    if (choice) {
+
+                        //var photoName = "productImage_" + new Random().Next(1, 10000) + "_" + new Random().Next(1, 10000) + ".png";
+                        var photoName = "productImage_" + new Random().Next(1, 10000) + "_" + new Random().Next(1, 10000);// + ".png";
+                        _fileName = photoName;
+
+                        var stream2 = await result.OpenReadAsync();
+                        await MediaGallery.SaveAsync(MediaFileType.Image, stream2, photoName + ".png");
+                    }
+                });
+
+            }
+            else {
+                Device.BeginInvokeOnMainThread(async () => {
+                    await App.Current.MainPage.DisplayAlert("Result", "nie wybrano zdj", "OK");
+                });
+            }
+
 
         }
 
@@ -128,7 +191,7 @@ namespace Dystrybux.ViewModel {
         public ImageSource ImageCamera {
             get => _image;
             set {
-                if(_image == null) _image = value;
+                /*if(_image == null)*/ _image = value;
                 OnPropertyChanged();
             }
         }
@@ -136,6 +199,7 @@ namespace Dystrybux.ViewModel {
         public Command SaveCommand { protected set;  get; }
         public Command CancelCommand { protected set; get; }
         public Command TakePhotoCommand { protected set; get; }
+        public Command PickPhotoCommand { protected set; get; }
     }
 }
 

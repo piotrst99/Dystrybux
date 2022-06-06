@@ -80,7 +80,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <BoxView />
-                                        <Image Source="kremowka.jpg" 
+                                        <Image x:DataType="model:OrderProduct" Source="{Binding Product.Image}" 
                                             Grid.Column="0" />
                                         <Frame Grid.Column="1" HasShadow="True" BackgroundColor="LightBlue" Padding="0,0,0,0">
                                             <StackLayout  BackgroundColor="LightCoral" Padding="0, 0, 0, 0">

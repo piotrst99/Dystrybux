@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using SQLite;
+using Xamarin.Forms;
 
 namespace Dystrybux.Model {
     public class Product {
@@ -23,6 +24,8 @@ namespace Dystrybux.Model {
         [Column("ImagePatgh")]
         public string ImagePath { get; set; }
 
+        [SQLite.Ignore]
+        public ImageSource Image { get; set; }
     }
 }
     

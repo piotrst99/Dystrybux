@@ -76,7 +76,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <BoxView />
-                                <Image Source="kremowka.jpg" 
+                                <Image x:DataType="model:OrderProduct" Source="{Binding Product.Image}" 
                                 Grid.Column="0"/>
 
                                 <Frame Grid.Column="1" HasShadow="True" Padding="0,0,0,0">

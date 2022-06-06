@@ -15,6 +15,7 @@ namespace Dystrybux.ViewModel {
         private User _user = null;
         private double _totalCostProduct = 0.0;
         private bool _IsEmployee = false;
+        List<string> sciezki = new List<string>();
 
         public ObservableCollection<OrderProduct> ProductsFromOrder { set; get; }
 
@@ -27,6 +28,11 @@ namespace Dystrybux.ViewModel {
         }
 
         void LoadData() {
+
+            foreach (var fileName in System.IO.Directory.GetFiles("/storage/emulated/0/Pictures/Dystrybux.Android")) {
+                sciezki.Add(fileName);
+            }
+
             User = App.Database.GetUserAsync(Order.UserID).Result;
             Delivery = App.Database.GetDeliveryFromOrderAsync(Order.DeliveryID).Result;
             IsEmployee = App.User.Role != "Client";
@@ -35,7 +41,17 @@ namespace Dystrybux.ViewModel {
         void LoadProducts() {
             ProductsFromOrder = new ObservableCollection<OrderProduct>();
             var items = App.Database.GetOrderProductsAsync(Order.ID).Result;
-            foreach (var p in items) { ProductsFromOrder.Add(p); }
+            foreach (var p in items) {
+                string imagePath = sciezki.Where(q => q.Contains(p.Product.ImagePath)).FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(imagePath)) {
+                    p.Product.Image = (Device.RuntimePlatform == Device.Android) ?
+                        ImageSource.FromFile(imagePath) :
+                        ImageSource.FromFile("/storage/emulated/0/Pictures/Dystrybux.Android/productImage_1704_495_20220606_105829.png");
+                }
+
+                ProductsFromOrder.Add(p); 
+            }
             TotalCostProduct = ProductsFromOrder.Sum(q => q.TotalCostForProduct);
         }
 

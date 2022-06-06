@@ -13,10 +13,15 @@ namespace Dystrybux.ViewModel {
         private Order _order = null;
         private Delivery _delivery = null;
         private double _totalCostProduct = 0.0;
+        List<string> sciezki = new List<string>();
 
         public ObservableCollection<OrderProduct> AddedProductsFromOrder { get; set; }
 
         public OrderSummaryViewModel() {
+            foreach (var fileName in System.IO.Directory.GetFiles("/storage/emulated/0/Pictures/Dystrybux.Android")) {
+                sciezki.Add(fileName);
+            }
+            
             SetData();
             SubmitOrderCommand = new Command(() => SubmitOrder());
         }
@@ -32,6 +37,15 @@ namespace Dystrybux.ViewModel {
 
                 var items = App.Database.GetOrderProductsAsync(Order.ID).Result;
                 foreach (var p in items) {
+
+                    string imagePath = sciezki.Where(q => q.Contains(p.Product.ImagePath)).FirstOrDefault();
+
+                    if (!string.IsNullOrEmpty(imagePath)) {
+                        p.Product.Image = (Device.RuntimePlatform == Device.Android) ?
+                            ImageSource.FromFile(imagePath) :
+                            ImageSource.FromFile("/storage/emulated/0/Pictures/Dystrybux.Android/productImage_1704_495_20220606_105829.png");
+                    }
+
                     AddedProductsFromOrder.Add(p);
                 }
 

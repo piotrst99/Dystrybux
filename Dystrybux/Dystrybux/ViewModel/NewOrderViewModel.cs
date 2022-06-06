@@ -26,6 +26,8 @@ namespace Dystrybux.ViewModel {
         private double _totalCostProduct = 0.0;
         private int _countOfProduct = 0;
 
+        List<string> sciezki = new List<string>();
+
         //private int _countOfProduct = 0;
 
         //public ObservableCollection<Product> AddedProducts { get; }
@@ -113,7 +115,10 @@ namespace Dystrybux.ViewModel {
                 //await App.Current.MainPage.DisplayAlert("Result", FirstDate.ToString(), "OK");
                 await App.Current.MainPage.DisplayAlert("Result", _order.FirstDate, "OK");
             });*/
-
+            
+            foreach (var fileName in System.IO.Directory.GetFiles("/storage/emulated/0/Pictures/Dystrybux.Android")) {
+                sciezki.Add(fileName);
+            }
 
         }
 
@@ -129,6 +134,14 @@ namespace Dystrybux.ViewModel {
                     //AddedProducts.Add(await App.Database.GetProductAsync(p.ProductID));
                     //AddedProducts.Add(p.Product);
                     //p.Product = App.Database.GetProductAsync(p.ProductID).Result;
+                    string imagePath = sciezki.Where(q => q.Contains(p.Product.ImagePath)).FirstOrDefault();
+
+                    if (!string.IsNullOrEmpty(imagePath)) {
+                        p.Product.Image = (Device.RuntimePlatform == Device.Android) ?
+                            ImageSource.FromFile(imagePath) :
+                            ImageSource.FromFile("/storage/emulated/0/Pictures/Dystrybux.Android/productImage_1704_495_20220606_105829.png");
+                    }
+
                     AddedProductsFromOrder.Add(p);
                     //TotalCostProduct = p.CountOfProducts * p.Product.Cost;
                 }

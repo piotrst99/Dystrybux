@@ -50,7 +50,7 @@
                                         <ColumnDefinition Width="4*" />
                                     </Grid.ColumnDefinitions>
                                     <BoxView />
-                                    <Image Source="kremowka.jpg" 
+                                    <Image Source="{Binding Image}" 
                                     Grid.Column="0"/>
                                     <Frame Grid.Column="1" HasShadow="True">
                                         <StackLayout>
