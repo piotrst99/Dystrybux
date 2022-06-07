@@ -37,6 +37,9 @@ namespace Dystrybux.Model {
         [Column("UserID")]
         public int UserID { get; set; }
 
+        [Column("IsDeadLine")]
+        public bool DeadlinePassed { get; set; }
+
         [SQLite.Ignore]
         public virtual User User { get; set; }
 

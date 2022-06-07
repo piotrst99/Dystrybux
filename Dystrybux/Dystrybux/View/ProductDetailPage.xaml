@@ -39,15 +39,15 @@
 
                 <StackLayout>
                     <Label Text="Cena:" FontSize="25" TextColor="Black" />
-                    <Label Text="{Binding Cost}" FontSize="20"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding Cost}" FontSize="20"/>
+                        <Label Text=" zł" FontSize="20"/>
+                    </StackLayout>
                 </StackLayout>
 
                 <StackLayout>
                     <Label Text="Ilość sztuk:" FontSize="25" TextColor="Black" />
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="{Binding Count}" FontSize="20"/>
-                        <Label Text=" zł" FontSize="20"/>
-                    </StackLayout>
+                    <Label Text="{Binding Count}" FontSize="20"/>
                 </StackLayout>
 
                 <StackLayout>

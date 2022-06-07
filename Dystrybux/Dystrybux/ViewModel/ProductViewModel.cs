@@ -181,10 +181,8 @@ namespace Dystrybux.ViewModel
         }
 
 
-        public bool IsRefreshing
-        {
-            set
-            {
+        public bool IsRefreshing{
+            set{
                 _IsRefreshing = value;
                 OnPropertyChanged();
             }

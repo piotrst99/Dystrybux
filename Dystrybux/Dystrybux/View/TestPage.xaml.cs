@@ -8,18 +8,21 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+
 namespace Dystrybux.View {
+
     public partial class TestPage : TabbedPage {
         TestViewModel _testViewModel;
 
         public TestPage() {
             InitializeComponent();
             BindingContext = _testViewModel = new TestViewModel();
-            
-            //test123
-            
         }
 
-        
+        protected override void OnAppearing() {
+            base.OnAppearing();
+            _testViewModel.OnAppearing();
+        }
+
     }
 }

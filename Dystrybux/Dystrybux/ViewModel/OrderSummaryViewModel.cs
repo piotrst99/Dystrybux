@@ -60,6 +60,7 @@ namespace Dystrybux.ViewModel {
             if (choice) {
                    try {
                         Order.Name = $"{new Random().Next(10000, 99999)} + {new Random().Next(10000, 99999)}";
+                        Order.DeadlinePassed = false;
                         Order.Status = "Złożono";
                         Order.OrderedDate = DateTime.Now.ToString();
                         await App.Database.UpdateOrderAsync(_order);

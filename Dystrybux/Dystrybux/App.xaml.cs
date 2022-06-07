@@ -41,6 +41,12 @@ namespace Dystrybux {
             NavigationPage page = new NavigationPage(new LoginPage());
             App.Navigation = page.Navigation;
             MainPage = page;
+
+            var o = App.Database.GetOrderAsync(5).Result;
+            //o.Status = "W realizacji";
+            o.Status = "Złożono";
+            App.Database.UpdateOrderAsync(o);
+
         }
 
         protected override void OnStart() { }

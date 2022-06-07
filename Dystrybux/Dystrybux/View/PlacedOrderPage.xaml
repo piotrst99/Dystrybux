@@ -70,8 +70,16 @@
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="EndAndExpand" 
                 Margin="0, 0, 0, 10" IsVisible="{Binding IsEmployee}">
-                <Button Text="Przyjmij" WidthRequest="150" BackgroundColor="LightGreen" Command="{Binding AcceptOrderCommand}" />
-                <Button Text="Odrzuć" WidthRequest="150" BackgroundColor="Red" Command="{Binding RejectOrderCommand}" />
+                <Button Text="Przyjmij" WidthRequest="150" BackgroundColor="LightGreen" CornerRadius="15"
+                       Command="{Binding AcceptOrderCommand}" IsVisible="{Binding IsOrdered}" />
+                <Button Text="Odrzuć" WidthRequest="150" BackgroundColor="Red" CornerRadius="15"
+                        Command="{Binding RejectOrderCommand}" IsVisible="{Binding IsOrdered}" />
+
+                <Button Text="Wyślij do dostawy" WidthRequest="150" BackgroundColor="LightGreen" CornerRadius="15"
+                        Command="{Binding SendOrderToDeliveryCommand}" IsVisible="{Binding IsProgress}" />
+
+                <Button Text="Dostarczono zamówienie" WidthRequest="150" BackgroundColor="LightGreen" CornerRadius="15"
+                        Command="{Binding DoneOrderCommand}" IsVisible="{Binding IsDelivery}" />
             </StackLayout>
             
         </StackLayout>

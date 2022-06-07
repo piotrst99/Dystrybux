@@ -17,6 +17,11 @@ namespace Dystrybux.ViewModel {
         private bool _IsEmployee = false;
         List<string> sciezki = new List<string>();
 
+        private bool _IsOrdered = false;
+        private bool _IsProgress = false;
+        private bool _IsDelivery = false;
+        private bool _IsEnd = false;
+
         public ObservableCollection<OrderProduct> ProductsFromOrder { set; get; }
 
         public PlacedOrderViewModel(Order order) {
@@ -25,9 +30,25 @@ namespace Dystrybux.ViewModel {
             LoadProducts();
             AcceptOrderCommand = new Command(() => AcceptOrder());
             RejectOrderCommand = new Command(() => RejectOrder());
+            SendOrderToDeliveryCommand = new Command(() => SendOrderToDelivery());
+            DoneOrderCommand = new Command(() => DoneOrder());
         }
 
         void LoadData() {
+
+            //Order.DeadlinePassed = false;
+            //App.Database.UpdateOrderAsync(Order);
+
+            // ID = 5
+            /*Device.BeginInvokeOnMainThread(async () => {
+                await App.Current.MainPage.DisplayAlert("Result", Order.ID.ToString(), "OK");
+            });*/
+
+
+            IsOrdered = Order.Status == "Złożono";
+            IsProgress = Order.Status == "W realizacji";
+            IsDelivery = Order.Status == "W dostawie";
+            //IsEnd = Order.Status == "W dostawie";
 
             foreach (var fileName in System.IO.Directory.GetFiles("/storage/emulated/0/Pictures/Dystrybux.Android")) {
                 sciezki.Add(fileName);
@@ -60,6 +81,10 @@ namespace Dystrybux.ViewModel {
                 bool choice = await App.Current.MainPage.DisplayAlert("", "Czy przyjmujesz zamówienie do realizacji?", "Tak", "Nie");
                 if (choice){
                     Order.Status = "W realizacji";
+
+                    IsOrdered = false;
+                    IsProgress = true;
+
                     await App.Database.UpdateOrderAsync(Order);
                     await App.Navigation.PopAsync();
                 }
@@ -71,6 +96,28 @@ namespace Dystrybux.ViewModel {
                 bool choice = await App.Current.MainPage.DisplayAlert("", "Czy odrzucić zamówienie?", "Tak", "Nie");
                 if (choice){
                     Order.Status = "Anulowane";
+                    await App.Database.UpdateOrderAsync(Order);
+                    await App.Navigation.PopAsync();
+                }
+            });
+        }
+
+        void SendOrderToDelivery() {
+            Device.BeginInvokeOnMainThread(async () => {
+                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy wysłać zamówienie do transportu?", "Tak", "Nie");
+                if (choice) {
+                    Order.Status = "W dostawie";
+                    await App.Database.UpdateOrderAsync(Order);
+                    await App.Navigation.PopAsync();
+                }
+            });
+        }
+
+        void DoneOrder() {
+            Device.BeginInvokeOnMainThread(async () => {
+                bool choice = await App.Current.MainPage.DisplayAlert("", "Czy potwierdzić dostarczenie zamówienia?", "Tak", "Nie");
+                if (choice) {
+                    Order.Status = "Zakończono";
                     await App.Database.UpdateOrderAsync(Order);
                     await App.Navigation.PopAsync();
                 }
@@ -102,8 +149,30 @@ namespace Dystrybux.ViewModel {
             set => _IsEmployee = value;
         }
 
+        public bool IsOrdered {
+            get => _IsOrdered;
+            set => _IsOrdered = value;
+        }
+
+        public bool IsProgress {
+            get => _IsProgress;
+            set => _IsProgress = value;
+        }
+
+        public bool IsDelivery {
+            get => _IsDelivery;
+            set => _IsDelivery = value;
+        }
+
+        public bool IsEnd {
+            get => _IsEnd;
+            set => _IsEnd = value;
+        }
+
         public Command AcceptOrderCommand { protected set; get; }
         public Command RejectOrderCommand { protected set; get; }
+        public Command SendOrderToDeliveryCommand { protected set; get; }
+        public Command DoneOrderCommand { protected set; get; }
 
     }
 }

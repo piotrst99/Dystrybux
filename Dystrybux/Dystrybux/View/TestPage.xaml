@@ -2,11 +2,11 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
             xmlns:model="clr-namespace:Dystrybux.Model"
-            xmlns:local="clr-namespace:Dystrybux.ViewModel"
+            xmlns:local="clr-namespace:Dystrybux.ViewModel" 
             x:Class="Dystrybux.View.TestPage"
+            
             >
-
-
+    <!--  https://dgatto.com/posts/2020/01/hide-searchbar-scroll/ -->
 
     <NavigationPage.TitleView>
         <StackLayout>
@@ -14,17 +14,161 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
-    
-    <ContentPage Title="Złożone" x:Name="test123">
+    <ContentPage Title="Złożone" x:Name="strona1">
 
-        <CollectionView x:Name="ItemsListView"
+        <RefreshView
+            x:DataType="local:TestViewModel"
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding LoadOrdersCommand}"
+            >
+            <CollectionView x:Name="ItemsListView"
                     ItemsSource="{Binding Orders}"
+                    SelectionMode="None" Margin="5,5,5,5"
+
+                            >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="Black"  Padding="10,10,10,10" AbsoluteLayout.LayoutBounds="0.5,0,AutoSize,AutoSize" AbsoluteLayout.LayoutFlags="PositionProportional" CornerRadius="10">
+                            <StackLayout Padding="5"  x:DataType="model:Order"  Margin="5,5,5,5">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Zamówienie: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="20" TextColor="Black" />
+                                    <Label Text="{Binding Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                       TextColor="Black" FontSize="20" />
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Klient: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="{Binding User.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="{Binding User.Surname}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Firma: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="{Binding Delivery.CompanyName}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Termin dostawy: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="{Binding Delivery.EarliestDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                                        LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="{Binding Delivery.LatestDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                                        LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Łączny koszt zamówienia: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="{Binding TotalCost} " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="zł" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}"  FontSize="16" />
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Status: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="{Binding Status} " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                    <Label Text="Po terminie" IsVisible="{Binding DeadlinePassed}" LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" FontSize="16" TextColor="Red" />
+                                </StackLayout>
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                    NumberOfTapsRequired="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:TestViewModel}}, Path=OrderTapped}"		
+                                    CommandParameter="{Binding .}">
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </ContentPage>
+
+    <ContentPage Title="W realizacji" x:Name="strona2">
+        <!--<RefreshView
+            x:DataType="local:TestViewModel"
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding LoadOrdersCommand2}"
+            >-->
+
+            <CollectionView x:Name="ItemsListView2"
+                    ItemsSource="{Binding OrdersInProgress}"
+                    SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" x:DataType="model:Order">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Zamówienie: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                   FontSize="20" TextColor="Black" />
+                                <Label Text="{Binding Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                   TextColor="Black" FontSize="20" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Klient: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="{Binding User.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="{Binding User.Surname}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Firma: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="{Binding Delivery.CompanyName}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Termin dostawy: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="{Binding Delivery.EarliestDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                                    LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="{Binding Delivery.LatestDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                                    LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Łączny koszt zamówienia: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="{Binding TotalCost} " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="zł" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}"  FontSize="16" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Status: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="{Binding Status} " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            </StackLayout>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:TestViewModel}}, Path=OrderTapped}"		
+                                CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        <!--</RefreshView>-->
+
+    </ContentPage>
+
+    <ContentPage Title="W dostawie" x:Name="strona3">
+        <!--<RefreshView
+            x:DataType="local:TestViewModel"
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding LoadOrdersCommand3}"
+            >-->
+            <CollectionView x:Name="ItemsListView3"
+                    ItemsSource="{Binding OrdersInDelivery}"
                     SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10" x:DataType="model:Order">
-                        <Label Text="{Binding Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="20" />
-                        
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Zamówienie: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                   FontSize="20" TextColor="Black" />
+                            <Label Text="{Binding Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                   TextColor="Black" FontSize="20" />
+                        </StackLayout>
+
                         <StackLayout Orientation="Horizontal">
                             <Label Text="Klient: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
                             <Label Text="{Binding User.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
@@ -35,7 +179,7 @@
                             <Label Text="Firma: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
                             <Label Text="{Binding Delivery.CompanyName}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
                         </StackLayout>
-                        
+
                         <StackLayout Orientation="Horizontal">
                             <Label Text="Termin dostawy: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
                             <Label Text="{Binding Delivery.EarliestDate, StringFormat='{0:dd/MM/yyyy}'}" 
@@ -66,97 +210,61 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+            
+        <!--</RefreshView>-->
+
         
     </ContentPage>
 
-    <ContentPage Title="W realizacji">
-
-        <CollectionView x:Name="ItemsListView2"
-                    ItemsSource="{Binding OrdersInProgress}"
-                    SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Order">
-                        <Label Text="{Binding Name}" 
-                                LineBreakMode="NoWrap" 
-                                Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
-                        <Label Text="{Binding OrderedDate}" 
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="13" />
-                        <Label Text="{Binding Status}"
-                               LineBreakMode="NoWrap"
-                               Style="{DynamicResource ListItemDetailTextStyle}"
-                               FontSize="13"/>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                NumberOfTapsRequired="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:TestViewModel}}, Path=OrderTapped}"		
-                                CommandParameter="{Binding .}">
-                            </TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-    </ContentPage>
-
-    <ContentPage Title="W dostawie">
-
-        <CollectionView x:Name="ItemsListView3"
-                    ItemsSource="{Binding OrdersInDelivery}"
-                    SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Order">
-                        <Label Text="{Binding Name}" 
-                                LineBreakMode="NoWrap" 
-                                Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
-                        <Label Text="{Binding OrderedDate}" 
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="13" />
-                        <Label Text="{Binding Status}"
-                               LineBreakMode="NoWrap"
-                               Style="{DynamicResource ListItemDetailTextStyle}"
-                               FontSize="13"/>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                NumberOfTapsRequired="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:TestViewModel}}, Path=OrderTapped}"		
-                                CommandParameter="{Binding .}">
-                            </TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        
-    </ContentPage>
-
-    <ContentPage Title="Zakończone">
-
-        <CollectionView x:Name="ItemsListView4"
+    <ContentPage Title="Zakończone" x:Name="strona4">
+        <!--<RefreshView
+            x:DataType="local:TestViewModel"
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding LoadOrdersCommand4}"
+            >-->
+            <CollectionView x:Name="ItemsListView4"
                     ItemsSource="{Binding OrdersDone}"
                     SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10" x:DataType="model:Order">
-                        <Label Text="{Binding Name}" 
-                                LineBreakMode="NoWrap" 
-                                Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
-                        <Label Text="{Binding OrderedDate}" 
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="13" />
-                        <Label Text="{Binding Status}"
-                               LineBreakMode="NoWrap"
-                               Style="{DynamicResource ListItemDetailTextStyle}"
-                               FontSize="13"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Zamówienie: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                   FontSize="20" TextColor="Black" />
+                            <Label Text="{Binding Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                   TextColor="Black" FontSize="20" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Klient: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding User.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding User.Surname}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Firma: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding Delivery.CompanyName}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Termin dostawy: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding Delivery.EarliestDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                                    LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding Delivery.LatestDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                                    LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Łączny koszt zamówienia: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding TotalCost} " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="zł" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}"  FontSize="16" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Status: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding Status} " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        </StackLayout>
+
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"
@@ -168,29 +276,61 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+            
+            
+        <!--</RefreshView>-->
         
     </ContentPage>
 
-    <ContentPage Title="Anulowane">
-
-        <CollectionView x:Name="ItemsListView5"
+    <ContentPage Title="Anulowane" x:Name="strona5">
+        <!--<RefreshView
+            x:DataType="local:TestViewModel"
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding LoadOrdersCommand5}"
+            >-->
+            <CollectionView x:Name="ItemsListView5"
                     ItemsSource="{Binding OrdersDenied}"
                     SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10" x:DataType="model:Order">
-                        <Label Text="{Binding Name}" 
-                                LineBreakMode="NoWrap" 
-                                Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
-                        <Label Text="{Binding OrderedDate}" 
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="13" />
-                        <Label Text="{Binding Status}"
-                               LineBreakMode="NoWrap"
-                               Style="{DynamicResource ListItemDetailTextStyle}"
-                               FontSize="13"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Zamówienie: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                   FontSize="20" TextColor="Black" />
+                            <Label Text="{Binding Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" 
+                                   TextColor="Black" FontSize="20" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Klient: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding User.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding User.Surname}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Firma: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding Delivery.CompanyName}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Termin dostawy: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding Delivery.EarliestDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                                    LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding Delivery.LatestDate, StringFormat='{0:dd/MM/yyyy}'}" 
+                                    LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Łączny koszt zamówienia: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding TotalCost} " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="zł" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}"  FontSize="16" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Status: " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding Status} " LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        </StackLayout>
+
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"
@@ -202,6 +342,8 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+            
+        <!--</RefreshView>-->
         
     </ContentPage>
 
