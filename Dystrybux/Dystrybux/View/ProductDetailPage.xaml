@@ -56,7 +56,8 @@
                 </StackLayout>
 
                 <Button Text="Dodaj do zamówienia" HorizontalOptions="FillAndExpand" BackgroundColor="LightGreen" 
-                        IsVisible="{Binding IsClient}" CornerRadius="10" Command="{Binding AddProductToOrderCommand}"/>
+                        IsVisible="{Binding IsClient}" CornerRadius="10" Command="{Binding AddProductToOrderCommand}"
+                        IsEnabled="{Binding CountIsMoreThanZero}"/>
 
                 <StackLayout IsVisible="{Binding IsBusiness}" Orientation="Horizontal">
                     <Button Text="Edytuj" HorizontalOptions="FillAndExpand" BackgroundColor="LightGreen" 

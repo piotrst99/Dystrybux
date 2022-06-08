@@ -11,10 +11,13 @@
     </NavigationPage.TitleView>
 
     <StackLayout>
-        <Button Text="Dane osobowe" Command="{Binding UserDataCommand}" />
-        <Button Text="Zmiana hasła" />
-        <Button Text="Powiadomienia"/>
-        <Button Text="Wyloguj" Command="{Binding LogOut}" />
+        <StackLayout>
+            <Button Text="Dane osobowe" Command="{Binding UserDataCommand}" />
+            <Button Text="Dane firmy" Command="{Binding CompanyDataCommand}" IsVisible="{Binding IsClient}" />
+            <Button Text="Zmiana hasła" Command="{Binding PasswordCommand}" />
+            <Button Text="Powiadomienia"/>
+            <Button Text="Wyloguj" Command="{Binding LogOut}" />
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>

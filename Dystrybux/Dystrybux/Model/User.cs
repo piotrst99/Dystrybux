@@ -24,8 +24,14 @@ namespace Dystrybux.Model {
         [Column("Surname")]
         public string Surname { get; set; }
 
+        [Column("Phone")]
+        public string Phone { get; set; }
+
         [Column("Role")]
         public string Role { get; set; }
+        
+        [Column("CompanyID")]
+        public int CompanyID { get; set; }
 
 
     }

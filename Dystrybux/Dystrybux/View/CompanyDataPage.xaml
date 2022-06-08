@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodel="clr-namespace:Dystrybux.ViewModel" 
+             x:DataType="viewmodel:CompanyDataViewModel"
+             x:Class="Dystrybux.View.CompanyDataPage">
+
+    <NavigationPage.TitleView>
+        <Label Text="Dane firmy" FontSize="20" TextColor="White" FontAttributes="Bold" />
+    </NavigationPage.TitleView>
+    
+    <StackLayout>
+        
+        <!--<StackLayout Orientation="Horizontal" HeightRequest="50">
+            <Label Text="Nazwa firmy" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" WidthRequest="150"
+                   TextColor="Black"/>
+            <Label Text="{Binding Company.CompanyName}" IsVisible="{Binding CompanyDataAreShowing}"
+                       FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+            <Entry Text="{Binding Company.CompanyName}" IsVisible="{Binding CompanyDataAreEditing}" 
+                       FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+
+       
+        <StackLayout Orientation="Horizontal" HeightRequest="50">
+            <Label Text="Ulica" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" WidthRequest="150"
+                   TextColor="Black"/>
+            <Label Text="{Binding Company.Street}" IsVisible="{Binding CompanyDataAreShowing}"
+                       FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+            <Entry Text="{Binding Company.Street}" IsVisible="{Binding CompanyDataAreEditing}" 
+                       FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+
+        
+        <StackLayout Orientation="Horizontal" HeightRequest="50">
+            <Label Text="Numer budynku" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" WidthRequest="150"
+                   TextColor="Black"/>
+            <Label Text="{Binding Company.Number}" IsVisible="{Binding CompanyDataAreShowing}"
+                       FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+            <Entry Text="{Binding Company.Number}" IsVisible="{Binding CompanyDataAreEditing}" 
+                       FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+
+        
+        <StackLayout Orientation="Horizontal" HeightRequest="50">
+            <Label Text="Numer Lokalu" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" WidthRequest="150"
+                   TextColor="Black"/>
+            <Label Text="{Binding Company.LocalNumber}" IsVisible="{Binding CompanyDataAreShowing}"
+                       FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+            <Entry Text="{Binding Company.LocalNumber}" IsVisible="{Binding CompanyDataAreEditing}" 
+                       FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" />
+        </StackLayout>-->
+        <StackLayout>
+            <StackLayout>
+                <Label Text="Nazwa firmy" FontSize="30" TextColor="Black"/>
+                <Label Text="{Binding Company.CompanyName}" IsVisible="{Binding CompanyDataAreShowing}" FontSize="26"/>
+                <Entry Text="{Binding Company.CompanyName}" IsVisible="{Binding CompanyDataAreEditing}" FontSize="20"/>
+            </StackLayout>
+
+            <StackLayout>
+                <Label Text="Ulica" FontSize="30" TextColor="Black"/>
+                <Label Text="{Binding Company.Street}" IsVisible="{Binding CompanyDataAreShowing}" FontSize="26"/>
+                <Entry Text="{Binding Company.Street}" IsVisible="{Binding CompanyDataAreEditing}" FontSize="20"/>
+            </StackLayout>
+
+            <StackLayout>
+                <Label Text="Numer budynku" FontSize="30" TextColor="Black" />
+                <Label Text="{Binding Company.Number}" IsVisible="{Binding CompanyDataAreShowing}" FontSize="26"/>
+                <Entry Text="{Binding Company.Number}" IsVisible="{Binding CompanyDataAreEditing}" FontSize="20"/>
+            </StackLayout>
+
+            <StackLayout>
+                <Label Text="Numer lokalu" FontSize="30" TextColor="Black" />
+                <Label Text="{Binding Company.LocalNumber}" IsVisible="{Binding CompanyDataAreShowing}" FontSize="26"/>
+                <Entry Text="{Binding Company.LocalNumber}" IsVisible="{Binding CompanyDataAreEditing}" FontSize="20"/>
+            </StackLayout>
+        </StackLayout>
+        
+        
+    </StackLayout>
+    
+</ContentPage>

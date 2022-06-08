@@ -64,11 +64,11 @@
 
                     <CollectionView x:Name="ItemsListView"
                             ItemsSource="{Binding AddedProductsFromOrder}" 
-                            SelectionMode="None">
+                            SelectionMode="None"  Margin="5,5,5,5">
                         <CollectionView.ItemTemplate >
                             <DataTemplate>
 
-                                <Frame Padding="0,0,0,0" >
+                                <Frame Padding="5,0,5,0" BorderColor="Black" >
                                     <Grid Margin="0,5,0,5">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="110" />
@@ -82,13 +82,14 @@
                                         <BoxView />
                                         <Image x:DataType="model:OrderProduct" Source="{Binding Product.Image}" 
                                             Grid.Column="0" />
-                                        <Frame Grid.Column="1" HasShadow="True" BackgroundColor="LightBlue" Padding="0,0,0,0">
-                                            <StackLayout  BackgroundColor="LightCoral" Padding="0, 0, 0, 0">
+                                        <Frame Grid.Column="1" HasShadow="True" Padding="5,5,5,5"
+                                                >
+                                            <StackLayout  Padding="0, 0, 0, 0">
                                                 <StackLayout Padding="0, 0, 0, 0" Orientation="Horizontal">
                                                     <Label x:DataType="model:OrderProduct"  Text="{Binding Product.Name}" 
                                                         LineBreakMode="NoWrap" 
                                                         Style="{DynamicResource ListItemTextStyle}" 
-                                                        FontSize="20" HorizontalOptions="StartAndExpand" />
+                                                        FontSize="20" HorizontalOptions="StartAndExpand" TextColor="Black" />
                                                     <!--<Image Source="deleteItem.png" HorizontalOptions="End" WidthRequest="20" HeightRequest="20" >
                                                         <Image.GestureRecognizers>
                                                             <TapGestureRecognizer Command="{Binding RemoveItemFromOrderCommand, Source={x:Reference ItemsListView}}"
@@ -112,9 +113,11 @@
                                                     <!--<Button Text="-" WidthRequest="50" HeightRequest="40" Padding="5, 0, 5, 0" HorizontalOptions="CenterAndExpand" 
                                                             Command="{Binding DecrementCountCommand}" CommandParameter="{Binding .}" 
                                                             Clicked="IncrementCount" />-->
-                                                    <Button Text="-" WidthRequest="50" HeightRequest="40" Padding="5, 0, 5, 0" HorizontalOptions="CenterAndExpand" 
+                                                    <Button Text="-" WidthRequest="40" HeightRequest="35" Padding="0, 0, 0, 0" HorizontalOptions="CenterAndExpand" 
                                                             Command="{Binding BindingContext.DecrementCountCommand , Source={x:Reference ItemsListView}}" 
-                                                            x:DataType="model:OrderProduct" CommandParameter="{Binding ID}" />
+                                                            x:DataType="model:OrderProduct" CommandParameter="{Binding ID}" FontSize="30" BackgroundColor="OrangeRed"
+                                                            CornerRadius="20"
+                                                            />
 
                                                     <Label x:DataType="model:OrderProduct" Text="{Binding CountOfProducts}" 
                                                             LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}"
@@ -127,9 +130,10 @@
                                                              
                                                             />-->
 
-                                                    <Button Text="+" WidthRequest="50" HeightRequest="40" Padding="5, 0, 5, 0" HorizontalOptions="CenterAndExpand" 
+                                                    <Button Text="+" WidthRequest="40" HeightRequest="35" Padding="0, 0, 0, 0" HorizontalOptions="CenterAndExpand" 
                                                             Command="{Binding BindingContext.IncrementCountCommand, Source={x:Reference ItemsListView}}" 
-                                                            x:DataType="model:OrderProduct" CommandParameter="{Binding ID}"         
+                                                            x:DataType="model:OrderProduct" CommandParameter="{Binding ID}" FontSize="30" BackgroundColor="LightGreen"
+                                                            CornerRadius="20"
                                                             />
                                                     
                                                     <ImageButton Source="deleteItem.png" HorizontalOptions="End" WidthRequest="30" HeightRequest="30"
@@ -143,13 +147,13 @@
                                                 <StackLayout Orientation="Horizontal" Padding="10,0,10,0">
                                                     <Label x:DataType="model:OrderProduct" Text="{Binding TotalCostForProduct}" 
                                                     LineBreakMode="NoWrap"
-                                                    FontSize="25"
+                                                    FontSize="25" TextColor="Black"
                                                     HorizontalOptions="EndAndExpand"
                                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                                            />
                                                     <Label Text=" zł" 
                                                     LineBreakMode="NoWrap"
-                                                    FontSize="25"
+                                                    FontSize="25" TextColor="Black"
                                                     HorizontalOptions="End"
                                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                                            />
@@ -185,11 +189,11 @@
             </RefreshView>
         </ScrollView>
 
-        <StackLayout Margin="0, 10, 0, 10">
+        <StackLayout Margin="5, 10, 5, 10">
             <StackLayout VerticalOptions="End" Orientation="Horizontal" HeightRequest="25">
-                <Label Text="Łączna wartość zamówienia " FontSize="20" HorizontalOptions="Start"/>
-                <Label Text="{Binding TotalCostProduct}" FontSize="20" HorizontalOptions="EndAndExpand"/>
-                <Label Text="zł" FontSize="20" HorizontalOptions="End" Padding="10,0,10,0"/>
+                <Label Text="Łączna wartość zamówienia " FontSize="20" HorizontalOptions="Start" TextColor="Black"/>
+                <Label Text="{Binding TotalCostProduct}" FontSize="20" HorizontalOptions="EndAndExpand" TextColor="Black"/>
+                <Label Text="zł" FontSize="20" HorizontalOptions="End" Padding="10,0,10,0" TextColor="Black"/>
             </StackLayout>
             <Button BackgroundColor="LightGreen" Text="Złóż zamówienie" CornerRadius="20" WidthRequest="200" HeightRequest="40"
                     HorizontalOptions="Center" Command="{Binding SubmitOrderCommand}" />

@@ -26,7 +26,7 @@
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Telefon: " FontSize="20"  />
-                    <Label Text="123 456 789" FontSize="20"  />
+                    <Label Text="{Binding User.Phone}" FontSize="20"  />
                 </StackLayout>
             </StackLayout>
 
@@ -64,6 +64,7 @@
                     <Label Text="Koszt: " FontSize="20" />
                     <Label Text="{Binding TotalCostProduct} " FontSize="20" />
                     <Label Text="zł" FontSize="20" />
+                    <Label Text="Po terminie" IsVisible="{Binding Order.DeadlinePassed}" TextColor="Red" FontSize="20" />
                 </StackLayout>
                 
             </StackLayout>

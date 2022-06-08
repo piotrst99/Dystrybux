@@ -16,12 +16,14 @@ namespace Dystrybux.DataBase {
             //_database.DropTableAsync<Order>().Wait();
             //_database.DropTableAsync<OrderProduct>().Wait();
             //_database.DropTableAsync<Delivery>().Wait();
+            //_database.DropTableAsync<Company>().Wait();
 
             _database.CreateTableAsync<User>().Wait();
             _database.CreateTableAsync<Product>().Wait();
             _database.CreateTableAsync<Order>().Wait();
             _database.CreateTableAsync<OrderProduct>().Wait();
             _database.CreateTableAsync<Delivery>().Wait();
+            _database.CreateTableAsync<Company>().Wait();
         }
 
         //////
@@ -53,6 +55,10 @@ namespace Dystrybux.DataBase {
 
         public Task<int> GetCountOfUserAsync() {
             return _database.Table<User>().CountAsync();
+        }
+
+        public Task<int> UpdateUserDataAsync(User user) {
+            return _database.UpdateAsync(user);
         }
 
         #endregion
@@ -209,6 +215,27 @@ namespace Dystrybux.DataBase {
 
         public Task<int> UpdateDeliveryAsync(Delivery delivery) {
             return _database.UpdateAsync(delivery);
+        }
+
+        #endregion
+
+        //////
+        /// FIRMA
+        /// COMPANY
+        //////
+
+        #region COMPANY
+
+        public Task<Company> GetCompanyAsync(int userID) {
+            return _database.Table<Company>().Where(q => q.UserID == userID).FirstOrDefaultAsync();
+        }
+
+        public Task<int> SaveCompanyAsync(Company company) {
+            return _database.InsertAsync(company);
+        }
+
+        public Task<int> UpdateCompanyAsync(Company company) {
+            return _database.UpdateAsync(company);
         }
 
         #endregion

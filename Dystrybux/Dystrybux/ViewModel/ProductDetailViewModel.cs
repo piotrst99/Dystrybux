@@ -20,6 +20,7 @@ namespace Dystrybux.ViewModel {
         int _cost = 0;
         int _count = 0;
         ImageSource _image = null;
+        bool _countIsMoreThanZero = true;
 
         bool _isWatching = true;
         bool _isEdit = false;
@@ -45,6 +46,8 @@ namespace Dystrybux.ViewModel {
 
             IsClient = App.User.Role == "Client" ? true : false;
             IsBusiness = App.User.Role == "Client" ? false : true;
+
+            CountIsMoreThanZero = product.Count > 0;
 
             foreach (var fileName in System.IO.Directory.GetFiles("/storage/emulated/0/Pictures/Dystrybux.Android")) {
                 sciezki.Add(fileName);
@@ -148,9 +151,6 @@ namespace Dystrybux.ViewModel {
             Device.BeginInvokeOnMainThread(async () => {
                 //await App.Current.MainPage.DisplayAlert("Result", Path.GetFileName("/storage/emulated/0/Pictures/Dystrybux.Android/"), "OK");
             });
-
-            
-
         }
 
         async Task SaveData() {
@@ -460,6 +460,11 @@ namespace Dystrybux.ViewModel {
                 /*if (_image == null)*/ _image = value;
                 OnPropertyChanged();
             }
+        }
+
+        public bool CountIsMoreThanZero {
+            get => _countIsMoreThanZero;
+            set => _countIsMoreThanZero = value;
         }
 
         public Command DeleteItemCommand { protected set; get; }

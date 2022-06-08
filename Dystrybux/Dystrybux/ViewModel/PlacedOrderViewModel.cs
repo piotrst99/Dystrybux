@@ -73,7 +73,8 @@ namespace Dystrybux.ViewModel {
 
                 ProductsFromOrder.Add(p); 
             }
-            TotalCostProduct = ProductsFromOrder.Sum(q => q.TotalCostForProduct);
+            TotalCostProduct = Order.DeadlinePassed ? 0.7 * ProductsFromOrder.Sum(q => q.TotalCostForProduct) : 
+                ProductsFromOrder.Sum(q => q.TotalCostForProduct);
         }
 
         void AcceptOrder() {

@@ -1,25 +1,22 @@
 ﻿using Dystrybux.ViewModel;
 using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Dystrybux.View
-{
-    public partial class UserDataPage : ContentPage{
-
-        UserDataViewModel _userDataViewModel;
+namespace Dystrybux.View {
+    public partial class CompanyDataPage : ContentPage {
+        CompanyDataViewModel _companyDataViewModel;
         ToolbarItem editBtn = null;
         ToolbarItem saveBtn = null;
 
-        public UserDataPage(){
+        public CompanyDataPage() {
             InitializeComponent();
-            BindingContext = _userDataViewModel = new UserDataViewModel();
-
+            BindingContext = _companyDataViewModel = new CompanyDataViewModel();
             editBtn = new ToolbarItem {
                 IconImageSource = "editIcon.jpg"
             };
@@ -38,14 +35,14 @@ namespace Dystrybux.View
         void EditDataClick(object sender, EventArgs e) {
             this.ToolbarItems.Remove(editBtn);
             //_ = _userDataViewModel.EditUserDataCommand;
-            _userDataViewModel.EditUderData();
+            _companyDataViewModel.EditCompanyData();
             this.ToolbarItems.Add(saveBtn);
         }
 
         void SaveDataClick(object sender, EventArgs e) {
             this.ToolbarItems.Remove(saveBtn);
             //_ = _userDataViewModel.SaveUserDataCommand;
-            _userDataViewModel.SaveUserData();
+            _companyDataViewModel.SaveCompanyData();
             this.ToolbarItems.Add(editBtn);
         }
 

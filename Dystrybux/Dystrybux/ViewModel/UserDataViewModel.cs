@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dystrybux.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -7,23 +8,20 @@ namespace Dystrybux.ViewModel
 {
     public class UserDataViewModel : BaseViewModel{
 
-        string _name = "";
-        string _surname = "";
-
+        User _user = null;
 
         bool _UserDataAreShowing = true;
         bool _UserDataAreEditing = false;
 
-        bool _UserNameIsShow = true;
-        bool _UserNameIsEdit = false;
+        //bool _UserNameIsShow = true;
+        //bool _UserNameIsEdit = false;
 
-        bool _UserSurnameIsShow = true;
-        bool _UserSurnameIsEdit = false;
+        //bool _UserSurnameIsShow = true;
+        //bool _UserSurnameIsEdit = false;
 
         public UserDataViewModel(){
-            Name = App.User.Name;
-            Surname = App.User.Surname;
-
+            User = App.User;
+            
             EditUserDataCommand = new Command(() => {
                 UserDataAreShowing = false;
                 UserDataAreEditing = true;
@@ -34,7 +32,7 @@ namespace Dystrybux.ViewModel
                 UserDataAreEditing = false;
             });
 
-            EditUserNameCommand = new Command(() => {
+            /*EditUserNameCommand = new Command(() => {
                 UserNameIsShow = false;
                 UserNameIsEdit = true;
             });
@@ -52,18 +50,32 @@ namespace Dystrybux.ViewModel
             SaveUserSurnameCommand = new Command(() => {
                 UserSurnameIsShow = true;
                 UserSurnameIsEdit = false;
-            });
+            });*/
 
         }
 
-        public string Name{
-            get => _name;
-            set => _name = value;
+        public void EditUderData() {
+            UserDataAreShowing = false;
+            UserDataAreEditing = true;
         }
 
-        public string Surname{
-            get => _surname;
-            set => _surname = value;
+        public void SaveUserData() {
+
+
+            App.User = User;
+            User = App.User;
+            App.Database.UpdateUserDataAsync(App.User);
+
+            UserDataAreShowing = true;
+            UserDataAreEditing = false;
+        }
+
+        public User User{
+            get => _user;
+            set { 
+                _user = value;
+                //OnPropertyChanged();
+            }
         }
 
         public bool UserDataAreShowing {
@@ -82,7 +94,7 @@ namespace Dystrybux.ViewModel
             }
         }
 
-        public bool UserNameIsShow {
+        /*public bool UserNameIsShow {
             get => _UserNameIsShow;
             set {
                 _UserNameIsShow = value;
@@ -112,7 +124,7 @@ namespace Dystrybux.ViewModel
                 _UserSurnameIsEdit = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
 
         public Command EditUserDataCommand { protected set; get; }
         public Command SaveUserDataCommand { protected set; get; }

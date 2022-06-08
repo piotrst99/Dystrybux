@@ -20,7 +20,8 @@ namespace Dystrybux.ViewModel {
 
         private void SetData() {
             var order = App.Database.GetUndoneOrderAsync("Nie złożono").Result;
-        
+            var companyData = App.Database.GetCompanyAsync(App.User.ID).Result;
+
             if(order.DeliveryID == 0) {
                 Delivery delivery = new Delivery {
                     //CompanyName = "Nika",
@@ -34,6 +35,13 @@ namespace Dystrybux.ViewModel {
             }
             else {
                 Delivery = App.Database.GetDeliveryFromOrderAsync(order.DeliveryID).Result;
+            }
+
+            if (companyData != null) {
+                Delivery.CompanyName = companyData.CompanyName;
+                Delivery.Street = companyData.Street;
+                Delivery.Number = companyData.Number;
+                Delivery.LocalNumber = companyData.LocalNumber;
             }
 
             EarliestDateIsNotCorrect = false;
