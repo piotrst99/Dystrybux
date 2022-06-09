@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Dystrybux.View.LoginPage">
 
-    <StackLayout>
-        
-        <Frame BackgroundColor="#BF043055" HasShadow="False">
+    <StackLayout VerticalOptions="Center">
+
+        <Label Text="DYSTRYBUX" HorizontalOptions="Center" FontSize="50" TextColor="DarkSlateBlue" Margin="0,0,0,25"/>
+
+        <Frame BackgroundColor="#BF043055" HasShadow="False" Margin="10,0,10,0">
             <StackLayout RadioButtonGroup.GroupName="Role"
                          RadioButtonGroup.SelectedValue="{Binding SelectedRole}"
                          Orientation="Horizontal">
@@ -13,12 +15,17 @@
                 <RadioButton Content="Firma" Value="Business" TextColor="White" HorizontalOptions="FillAndExpand" />
             </StackLayout>
         </Frame>
+
+        <StackLayout Margin="10,0,10,0">
+            <Entry Text="{Binding Login}" Placeholder="Login" />
+            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Hasło" />
+            <Label Text="{Binding LoginResult}" TextColor="Red" />
+            <Button Text="Zaloguj" Command="{Binding LoginToAccount}" HorizontalOptions="Center" WidthRequest="150" 
+                    BackgroundColor="LightGreen" CornerRadius="15" HeightRequest="40"/>
+            <Button Text="Załóż konto" Command="{Binding CreateAccount}" HorizontalOptions="Center" WidthRequest="150" 
+                    BackgroundColor="LightYellow" CornerRadius="15" HeightRequest="40" Margin="0,15,0,0"/>
+        </StackLayout>
         
-        <Entry Text="{Binding Login}" Placeholder="Login" />
-        <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Hasło" />
-        <Label Text="{Binding LoginResult}" TextColor="Red" />
-        <Button Text="Zaloguj" Command="{Binding LoginToAccount}" />
-        <Button Text="Załóż konto" Command="{Binding CreateAccount}" />
     </StackLayout>
     
 </ContentPage>

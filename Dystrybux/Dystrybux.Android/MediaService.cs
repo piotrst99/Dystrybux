@@ -12,9 +12,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-[assembly: Xamarin.Forms.Dependency(typeof(MediaService))]
+//[assembly: Xamarin.Forms.Dependency(typeof(MediaService))]
 namespace Dystrybux.Droid {
-    public class MediaService : IMediaService{
+    /*public class MediaService : IMediaService{
         Context CurrentContext => CrossCurrentActivity.Current.Activity;
         public void SaveImageFromByte(byte[] imageByte, string fileName) {
             try {
@@ -46,5 +46,5 @@ namespace Dystrybux.Droid {
 
 
 
-    }
+    }*/
 }

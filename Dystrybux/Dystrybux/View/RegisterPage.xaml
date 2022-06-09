@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Dystrybux.View.RegisterPage">
 
-    <StackLayout>
+    <NavigationPage.TitleView>
+        <Label Text="Rejestracja" FontSize="20" TextColor="White" FontAttributes="Bold" />
+    </NavigationPage.TitleView>
+    
+    <StackLayout Margin="10,0,10,0" VerticalOptions="CenterAndExpand">
 
         <Frame BackgroundColor="#BF043055" HasShadow="False">
             <StackLayout RadioButtonGroup.GroupName="Role"
@@ -14,14 +18,17 @@
             </StackLayout>
         </Frame>
 
-        <Entry Text="{Binding Email}" Placeholder="E-mail" />
-        <Entry Text="{Binding Login}" Placeholder="Login" />
-        <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Hasło" />
-        <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Powtórz hasło" />
-        <Entry Text="{Binding Name}" Placeholder="Imię" />
-        <Entry Text="{Binding Surname}" Placeholder="Nazwisko" />
-        <!--<Label Text="{Binding Result}" TextColor="Red" />-->
-        <Button Text="Załóż konto" Command="{Binding CreateAccount}" />
+        <StackLayout>
+            <Entry Text="{Binding Email}" Placeholder="E-mail" />
+            <Entry Text="{Binding Login}" Placeholder="Login" />
+            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Hasło" />
+            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Powtórz hasło" />
+            <Entry Text="{Binding Name}" Placeholder="Imię" />
+            <Entry Text="{Binding Surname}" Placeholder="Nazwisko" />
+            <!--<Label Text="{Binding Result}" TextColor="Red" />-->
+            <Button Text="Załóż konto" Command="{Binding CreateAccount}" BackgroundColor="LightGreen" 
+                    HorizontalOptions="Center" WidthRequest="150" CornerRadius="15"/>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>

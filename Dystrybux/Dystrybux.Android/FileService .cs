@@ -13,7 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Dystrybux.Droid {
-    public class FileService : IFileService {
+    /*public class FileService : IFileService {
         public void SavePicture(string name, Stream data, string location = "temp") {
             var documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             documentsPath = Path.Combine(documentsPath, "Orders", location);
@@ -30,5 +30,5 @@ namespace Dystrybux.Droid {
                 fs.Write(bArray, 0, length);
             }
         }
-    }
+    }*/
 }

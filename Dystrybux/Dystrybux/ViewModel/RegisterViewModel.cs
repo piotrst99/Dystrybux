@@ -16,9 +16,9 @@ namespace Dystrybux.ViewModel {
 
         public RegisterViewModel() {
             CreateAccount = new Command(async () => {
-                if(_password.Length < 4 || _login.Length < 3) {
+                if(_password.Length < 4 || _login.Length < 3 || string.IsNullOrEmpty(_email) || _name.Length < 3 || _surname.Length < 3) {
                     Device.BeginInvokeOnMainThread(async () => {
-                        await App.Current.MainPage.DisplayAlert("Result", "Niepoprawne dane!", "OK");
+                        await App.Current.MainPage.DisplayAlert("Ostrzeżenie", "Niepoprawne dane!", "OK");
                     });
                 }
                 else {

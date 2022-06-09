@@ -12,11 +12,15 @@
     <ContentPage.ToolbarItems></ContentPage.ToolbarItems>
     
     <StackLayout>
-        <Label FontSize="20" Padding="0,20,0,0" TextColor="Black">Menu główne</Label>
-        <Button Text="Lista produktów" Command="{Binding ProductListCommand}" />
-        <Button Text="Zamówienia" Command="{Binding OrderListCommand}" />
-        <Button Text="Testy" Command="{Binding TestCommand}" />
-        <Button Text="Ustawienia" Command="{Binding SettingsCommand}" />
+        <Label Text="DYSTRYBUX" HorizontalOptions="Center" FontSize="50" TextColor="DarkSlateBlue" Margin="0,25,0,25"/>
+        <Button Text="Lista produktów" Command="{Binding ProductListCommand}" HorizontalOptions="Center" 
+                WidthRequest="200" HeightRequest="90" CornerRadius="15" FontSize="20" BackgroundColor="LightBlue"  />
+        <!--<Button Text="Zamówienia" Command="{Binding OrderListCommand}" HorizontalOptions="Center" 
+                WidthRequest="200" HeightRequest="100" CornerRadius="15" FontSize="20" />-->
+        <Button Text="Zamówienia" Command="{Binding TestCommand}" HorizontalOptions="Center" 
+                WidthRequest="200" HeightRequest="90" CornerRadius="15" FontSize="20" BackgroundColor="LightBlue" />
+        <Button Text="Ustawienia" Command="{Binding SettingsCommand}"  HorizontalOptions="Center" 
+                HeightRequest="90" WidthRequest="200" CornerRadius="15" FontSize="20" BackgroundColor="LightBlue" />
     </StackLayout>
 
 </ContentPage>

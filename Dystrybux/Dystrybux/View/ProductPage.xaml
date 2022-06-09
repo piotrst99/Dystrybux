@@ -15,9 +15,10 @@
     </ContentPage.ToolbarItems>
     
     <StackLayout>
-        <StackLayout>
-            <Entry Text="{Binding SearchProducts}" Placeholder="Wyszukaj wyrób" />
-            <Button Text="Wyszukaj" Command="{Binding SearchProductsCommand}" />
+        <StackLayout Orientation="Horizontal" Padding="10,10,10,0">
+            <Entry Text="{Binding SearchProducts}" Placeholder="Wyszukaj wyrób" HorizontalOptions="StartAndExpand" WidthRequest="200" />
+            <Button Text="Wyszukaj" Command="{Binding SearchProductsCommand}" HorizontalOptions="EndAndExpand" WidthRequest="100"
+                    BackgroundColor="LightGreen" HeightRequest="40" CornerRadius="15"/>
         </StackLayout>
 
         <!--<SearchBar 

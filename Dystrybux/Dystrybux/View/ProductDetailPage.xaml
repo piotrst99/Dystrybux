@@ -93,13 +93,16 @@
 
                 <StackLayout>
                     <StackLayout Orientation="Horizontal">
-                        <Button Text="Zrób zdjęcie" Command="{Binding TakePhotoCommand}" HorizontalOptions="FillAndExpand" />
-                        <Button Text="Wybierz zdjęcie" Command="{Binding PickPhotoCommand}" HorizontalOptions="FillAndExpand" />
+                        <Button Text="Zrób zdjęcie" Command="{Binding TakePhotoCommand}" HorizontalOptions="FillAndExpand" 
+                                BackgroundColor="LightBlue" CornerRadius="15"/>
+                        <Button Text="Wybierz zdjęcie" Command="{Binding PickPhotoCommand}" HorizontalOptions="FillAndExpand" 
+                                BackgroundColor="LightBlue" CornerRadius="15"/>
                     </StackLayout>
                     <Image Source="{Binding ImageCamera}" />
                 </StackLayout>
 
-                <Button Text="Zapisz" Command="{Binding SaveDataCommand}" />
+                <Button Text="Zapisz" Command="{Binding SaveDataCommand}" HorizontalOptions="Center" WidthRequest="180"
+                        BackgroundColor="LightGreen" CornerRadius="15"/>
 
             </StackLayout>
         </ScrollView>

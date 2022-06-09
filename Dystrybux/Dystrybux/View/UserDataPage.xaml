@@ -73,14 +73,14 @@
         <StackLayout >
             <!-- Login -->
             <StackLayout Orientation="Horizontal" HeightRequest="50">
-                <Label Text="Login" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                <Label Text="Login" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" TextColor="Black"/>
                 <Label Text="{Binding User.Login}"
                        FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
             </StackLayout>
             
             <!-- Imie -->
             <StackLayout Orientation="Horizontal" HeightRequest="50">
-                <Label Text="Imię" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                <Label Text="Imię" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" TextColor="Black"/>
                 <Label Text="{Binding User.Name}" IsVisible="{Binding UserDataAreShowing}" 
                        FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
                 <Entry Text="{Binding User.Name}" IsVisible="{Binding UserDataAreEditing}" 
@@ -89,7 +89,7 @@
             
             <!-- Nazwisko -->
             <StackLayout Orientation="Horizontal" HeightRequest="50">
-                <Label Text="Nazwisko" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                <Label Text="Nazwisko" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" TextColor="Black"/>
                 <Label Text="{Binding User.Surname}" IsVisible="{Binding UserDataAreShowing}" 
                        FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
                 <Entry Text="{Binding User.Surname}" IsVisible="{Binding UserDataAreEditing}" 
@@ -98,7 +98,7 @@
 
             <!-- E mail -->
             <StackLayout Orientation="Horizontal" HeightRequest="50">
-                <Label Text="E-mail" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                <Label Text="E-mail" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" TextColor="Black"/>
                 <Label Text="{Binding User.Email}" IsVisible="{Binding UserDataAreShowing}" 
                        FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
                 <Entry Text="{Binding User.Email}" IsVisible="{Binding UserDataAreEditing}" 
@@ -107,7 +107,7 @@
 
             <!-- Telefon -->
             <StackLayout Orientation="Horizontal" HeightRequest="50">
-                <Label Text="Telefon" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                <Label Text="Telefon" FontSize="24" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" TextColor="Black"/>
                 <Label Text="{Binding User.Phone}" IsVisible="{Binding UserDataAreShowing}" 
                        FontSize="24" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
                 <Entry Text="{Binding User.Phone}" Keyboard="Telephone" IsVisible="{Binding UserDataAreEditing}" 
